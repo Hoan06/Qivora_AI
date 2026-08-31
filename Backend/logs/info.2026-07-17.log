@@ -1,0 +1,251 @@
+2026-07-17 11:44:59.823 [restartedMain] INFO  project_backend.BackendApplication - Starting BackendApplication using Java 17.0.18 with PID 29612 (D:\HOC_LAP_TRINH\Qivora\Backend\build\classes\java\main started by HUY HOAN in D:\HOC_LAP_TRINH\Qivora\Backend)
+2026-07-17 11:44:59.828 [restartedMain] INFO  project_backend.BackendApplication - No active profile set, falling back to 1 default profile: "default"
+2026-07-17 11:45:07.913 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-07-17 11:45:08.236 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@6db47a5a
+2026-07-17 11:45:08.237 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-07-17 11:45:13.186 [restartedMain] INFO  project_backend.BackendApplication - Started BackendApplication in 13.94 seconds (process running for 14.834)
+2026-07-17 11:45:16.475 [http-nio-8080-exec-1] INFO  project_backend.aspect.AppAspect - User: anonymousUser | Chức năng: login() | Thời gian thực hiện: 1338 ms
+2026-07-17 11:45:18.058 [http-nio-8080-exec-3] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 1241 ms
+2026-07-17 11:45:18.058 [http-nio-8080-exec-6] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 1241 ms
+2026-07-17 11:45:18.086 [http-nio-8080-exec-3] INFO  project_backend.aspect.AppAspect - User: admin | Chức năng: getCurrentUser() | Thời gian thực hiện: 8 ms
+2026-07-17 11:45:18.099 [http-nio-8080-exec-7] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 0 ms
+2026-07-17 11:45:18.120 [http-nio-8080-exec-7] INFO  project_backend.aspect.AppAspect - User: admin | Chức năng: getCurrentUser() | Thời gian thực hiện: 7 ms
+2026-07-17 11:45:18.190 [http-nio-8080-exec-6] INFO  project_backend.aspect.AppAspect - User: admin | Chức năng: getStatistics() | Thời gian thực hiện: 112 ms
+2026-07-17 11:45:18.221 [http-nio-8080-exec-2] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 4 ms
+2026-07-17 11:45:18.247 [http-nio-8080-exec-2] INFO  project_backend.aspect.AppAspect - User: admin | Chức năng: getStatistics() | Thời gian thực hiện: 16 ms
+2026-07-17 11:45:21.315 [http-nio-8080-exec-4] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 2 ms
+2026-07-17 11:45:21.317 [http-nio-8080-exec-5] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 2 ms
+2026-07-17 11:45:21.317 [http-nio-8080-exec-8] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 2 ms
+2026-07-17 11:45:21.341 [http-nio-8080-exec-4] INFO  project_backend.aspect.AppAspect - User: admin | Chức năng: getCurrentUser() | Thời gian thực hiện: 14 ms
+2026-07-17 11:45:21.362 [http-nio-8080-exec-9] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 0 ms
+2026-07-17 11:45:21.378 [http-nio-8080-exec-9] INFO  project_backend.aspect.AppAspect - User: admin | Chức năng: getCurrentUser() | Thời gian thực hiện: 0 ms
+2026-07-17 11:45:21.398 [http-nio-8080-exec-8] INFO  project_backend.aspect.AppAspect - User: admin | Chức năng: getStatistics() | Thời gian thực hiện: 60 ms
+2026-07-17 11:45:21.412 [http-nio-8080-exec-10] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 0 ms
+2026-07-17 11:45:21.439 [http-nio-8080-exec-5] INFO  project_backend.aspect.AppAspect - User: admin | Chức năng: getUsers() | Thời gian thực hiện: 101 ms
+2026-07-17 11:45:21.446 [http-nio-8080-exec-10] INFO  project_backend.aspect.AppAspect - User: admin | Chức năng: getStatistics() | Thời gian thực hiện: 26 ms
+2026-07-17 11:45:21.466 [http-nio-8080-exec-1] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 13 ms
+2026-07-17 11:45:21.492 [http-nio-8080-exec-1] INFO  project_backend.aspect.AppAspect - User: admin | Chức năng: getUsers() | Thời gian thực hiện: 9 ms
+2026-07-17 11:45:21.987 [http-nio-8080-exec-6] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 0 ms
+2026-07-17 11:45:21.987 [http-nio-8080-exec-3] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 4 ms
+2026-07-17 11:45:21.987 [http-nio-8080-exec-7] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 4 ms
+2026-07-17 11:45:22.005 [http-nio-8080-exec-3] INFO  project_backend.aspect.AppAspect - User: admin | Chức năng: getCurrentUser() | Thời gian thực hiện: 5 ms
+2026-07-17 11:45:22.015 [http-nio-8080-exec-2] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 0 ms
+2026-07-17 11:45:22.028 [http-nio-8080-exec-7] INFO  project_backend.aspect.AppAspect - User: admin | Chức năng: getStatistics() | Thời gian thực hiện: 28 ms
+2026-07-17 11:45:22.029 [http-nio-8080-exec-2] INFO  project_backend.aspect.AppAspect - User: admin | Chức năng: getCurrentUser() | Thời gian thực hiện: 7 ms
+2026-07-17 11:45:22.043 [http-nio-8080-exec-4] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 0 ms
+2026-07-17 11:45:22.079 [http-nio-8080-exec-6] INFO  project_backend.aspect.AppAspect - User: admin | Chức năng: getQuizzes() | Thời gian thực hiện: 79 ms
+2026-07-17 11:45:22.092 [http-nio-8080-exec-4] INFO  project_backend.aspect.AppAspect - User: admin | Chức năng: getStatistics() | Thời gian thực hiện: 42 ms
+2026-07-17 11:45:22.103 [http-nio-8080-exec-9] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 1 ms
+2026-07-17 11:45:22.133 [http-nio-8080-exec-9] INFO  project_backend.aspect.AppAspect - User: admin | Chức năng: getQuizzes() | Thời gian thực hiện: 22 ms
+2026-07-17 11:45:22.768 [http-nio-8080-exec-8] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 0 ms
+2026-07-17 11:45:22.768 [http-nio-8080-exec-10] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 0 ms
+2026-07-17 11:45:22.768 [http-nio-8080-exec-5] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 0 ms
+2026-07-17 11:45:22.778 [http-nio-8080-exec-8] INFO  project_backend.aspect.AppAspect - User: admin | Chức năng: getCurrentUser() | Thời gian thực hiện: 2 ms
+2026-07-17 11:45:22.787 [http-nio-8080-exec-5] INFO  project_backend.aspect.AppAspect - User: admin | Chức năng: getUsers() | Thời gian thực hiện: 11 ms
+2026-07-17 11:45:22.792 [http-nio-8080-exec-1] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 3 ms
+2026-07-17 11:45:22.800 [http-nio-8080-exec-3] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 2 ms
+2026-07-17 11:45:22.802 [http-nio-8080-exec-10] INFO  project_backend.aspect.AppAspect - User: admin | Chức năng: getStatistics() | Thời gian thực hiện: 26 ms
+2026-07-17 11:45:22.802 [http-nio-8080-exec-1] INFO  project_backend.aspect.AppAspect - User: admin | Chức năng: getCurrentUser() | Thời gian thực hiện: 2 ms
+2026-07-17 11:45:22.814 [http-nio-8080-exec-7] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 4 ms
+2026-07-17 11:45:22.818 [http-nio-8080-exec-3] INFO  project_backend.aspect.AppAspect - User: admin | Chức năng: getUsers() | Thời gian thực hiện: 9 ms
+2026-07-17 11:45:22.848 [http-nio-8080-exec-7] INFO  project_backend.aspect.AppAspect - User: admin | Chức năng: getStatistics() | Thời gian thực hiện: 30 ms
+2026-07-17 11:45:24.495 [http-nio-8080-exec-2] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 0 ms
+2026-07-17 11:45:24.495 [http-nio-8080-exec-6] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 0 ms
+2026-07-17 11:45:24.500 [http-nio-8080-exec-4] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 5 ms
+2026-07-17 11:45:24.513 [http-nio-8080-exec-2] INFO  project_backend.aspect.AppAspect - User: admin | Chức năng: getCurrentUser() | Thời gian thực hiện: 12 ms
+2026-07-17 11:45:24.535 [http-nio-8080-exec-9] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 2 ms
+2026-07-17 11:45:24.545 [http-nio-8080-exec-6] INFO  project_backend.aspect.AppAspect - User: admin | Chức năng: getStatistics() | Thời gian thực hiện: 44 ms
+2026-07-17 11:45:24.553 [http-nio-8080-exec-9] INFO  project_backend.aspect.AppAspect - User: admin | Chức năng: getCurrentUser() | Thời gian thực hiện: 16 ms
+2026-07-17 11:45:24.557 [http-nio-8080-exec-4] INFO  project_backend.aspect.AppAspect - User: admin | Chức năng: getQuizzes() | Thời gian thực hiện: 49 ms
+2026-07-17 11:45:24.567 [http-nio-8080-exec-8] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 2 ms
+2026-07-17 11:45:24.581 [http-nio-8080-exec-5] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 2 ms
+2026-07-17 11:45:24.613 [http-nio-8080-exec-8] INFO  project_backend.aspect.AppAspect - User: admin | Chức năng: getStatistics() | Thời gian thực hiện: 32 ms
+2026-07-17 11:45:24.626 [http-nio-8080-exec-5] INFO  project_backend.aspect.AppAspect - User: admin | Chức năng: getQuizzes() | Thời gian thực hiện: 34 ms
+2026-07-17 11:45:24.839 [http-nio-8080-exec-10] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 3 ms
+2026-07-17 11:45:24.839 [http-nio-8080-exec-1] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 3 ms
+2026-07-17 11:45:24.843 [http-nio-8080-exec-3] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 3 ms
+2026-07-17 11:45:24.851 [http-nio-8080-exec-10] INFO  project_backend.aspect.AppAspect - User: admin | Chức năng: getCurrentUser() | Thời gian thực hiện: 4 ms
+2026-07-17 11:45:24.862 [http-nio-8080-exec-7] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 2 ms
+2026-07-17 11:45:24.869 [http-nio-8080-exec-1] INFO  project_backend.aspect.AppAspect - User: admin | Chức năng: getStatistics() | Thời gian thực hiện: 22 ms
+2026-07-17 11:45:24.877 [http-nio-8080-exec-7] INFO  project_backend.aspect.AppAspect - User: admin | Chức năng: getCurrentUser() | Thời gian thực hiện: 8 ms
+2026-07-17 11:45:24.884 [http-nio-8080-exec-2] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 0 ms
+2026-07-17 11:45:24.912 [http-nio-8080-exec-3] INFO  project_backend.aspect.AppAspect - User: admin | Chức năng: getAllFeedback() | Thời gian thực hiện: 61 ms
+2026-07-17 11:45:24.918 [http-nio-8080-exec-2] INFO  project_backend.aspect.AppAspect - User: admin | Chức năng: getStatistics() | Thời gian thực hiện: 22 ms
+2026-07-17 11:45:24.934 [http-nio-8080-exec-6] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 6 ms
+2026-07-17 11:45:24.947 [http-nio-8080-exec-6] INFO  project_backend.aspect.AppAspect - User: admin | Chức năng: getAllFeedback() | Thời gian thực hiện: 6 ms
+2026-07-17 11:45:49.339 [http-nio-8080-exec-9] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 1 ms
+2026-07-17 11:45:49.518 [http-nio-8080-exec-9] INFO  project_backend.aspect.AppAspect - User: admin | Chức năng: blacklistToken() | Thời gian thực hiện: 49 ms
+2026-07-17 11:45:49.518 [http-nio-8080-exec-9] INFO  project_backend.aspect.AppAspect - User: admin | Chức năng: blacklistToken() | Thời gian thực hiện: 0 ms
+2026-07-17 11:45:49.526 [http-nio-8080-exec-9] INFO  project_backend.aspect.AppAspect - User: admin | Chức năng: logout() | Thời gian thực hiện: 117 ms
+2026-07-17 11:46:12.608 [http-nio-8080-exec-4] INFO  project_backend.aspect.AppAspect - User: anonymousUser | Chức năng: login() | Thời gian thực hiện: 181 ms
+2026-07-17 11:46:12.721 [http-nio-8080-exec-5] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 2 ms
+2026-07-17 11:46:12.721 [http-nio-8080-exec-8] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 2 ms
+2026-07-17 11:46:12.729 [http-nio-8080-exec-8] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: getCurrentUser() | Thời gian thực hiện: 2 ms
+2026-07-17 11:46:12.739 [http-nio-8080-exec-10] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 9 ms
+2026-07-17 11:46:12.745 [http-nio-8080-exec-10] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: getCurrentUser() | Thời gian thực hiện: 0 ms
+2026-07-17 11:46:12.750 [http-nio-8080-exec-1] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 0 ms
+2026-07-17 11:53:19.851 [http-nio-8080-exec-7] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 0 ms
+2026-07-17 11:53:19.851 [http-nio-8080-exec-3] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 1 ms
+2026-07-17 11:53:19.863 [http-nio-8080-exec-7] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: getCurrentUser() | Thời gian thực hiện: 4 ms
+2026-07-17 11:53:19.877 [http-nio-8080-exec-2] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 1 ms
+2026-07-17 11:53:19.878 [http-nio-8080-exec-6] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 1 ms
+2026-07-17 11:53:19.886 [http-nio-8080-exec-2] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: getCurrentUser() | Thời gian thực hiện: 4 ms
+2026-07-17 11:53:57.626 [http-nio-8080-exec-4] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 2 ms
+2026-07-17 11:53:57.626 [http-nio-8080-exec-9] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 2 ms
+2026-07-17 11:53:57.636 [http-nio-8080-exec-9] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: getCurrentUser() | Thời gian thực hiện: 3 ms
+2026-07-17 11:53:57.647 [http-nio-8080-exec-8] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 0 ms
+2026-07-17 11:53:57.647 [http-nio-8080-exec-5] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 0 ms
+2026-07-17 11:53:57.653 [http-nio-8080-exec-8] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: getCurrentUser() | Thời gian thực hiện: 4 ms
+2026-07-17 11:54:38.077 [http-nio-8080-exec-10] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 1 ms
+2026-07-17 11:54:38.078 [http-nio-8080-exec-1] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 1 ms
+2026-07-17 11:54:38.090 [http-nio-8080-exec-10] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: getCurrentUser() | Thời gian thực hiện: 5 ms
+2026-07-17 11:55:00.620 [http-nio-8080-exec-7] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 2 ms
+2026-07-17 11:55:00.620 [http-nio-8080-exec-3] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 0 ms
+2026-07-17 11:55:00.629 [http-nio-8080-exec-7] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: getCurrentUser() | Thời gian thực hiện: 3 ms
+2026-07-17 11:55:54.368 [http-nio-8080-exec-6] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 1 ms
+2026-07-17 11:55:54.370 [http-nio-8080-exec-2] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 2 ms
+2026-07-17 11:55:54.379 [http-nio-8080-exec-6] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: getCurrentUser() | Thời gian thực hiện: 4 ms
+2026-07-17 12:04:08.977 [Thread-1] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-07-17 12:04:08.983 [Thread-1] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-07-17 12:04:09.226 [restartedMain] INFO  project_backend.BackendApplication - Starting BackendApplication using Java 17.0.18 with PID 29612 (D:\HOC_LAP_TRINH\Qivora\Backend\build\classes\java\main started by HUY HOAN in D:\HOC_LAP_TRINH\Qivora\Backend)
+2026-07-17 12:04:09.228 [restartedMain] INFO  project_backend.BackendApplication - No active profile set, falling back to 1 default profile: "default"
+2026-07-17 12:04:11.407 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Starting...
+2026-07-17 12:04:11.505 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-2 - Added connection org.postgresql.jdbc.PgConnection@62693cd
+2026-07-17 12:04:11.506 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Start completed.
+2026-07-17 12:04:12.866 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown initiated...
+2026-07-17 12:04:13.091 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown completed.
+2026-07-17 12:04:16.329 [restartedMain] INFO  project_backend.BackendApplication - Starting BackendApplication using Java 17.0.18 with PID 29612 (D:\HOC_LAP_TRINH\Qivora\Backend\build\classes\java\main started by HUY HOAN in D:\HOC_LAP_TRINH\Qivora\Backend)
+2026-07-17 12:04:16.330 [restartedMain] INFO  project_backend.BackendApplication - No active profile set, falling back to 1 default profile: "default"
+2026-07-17 12:04:18.086 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Starting...
+2026-07-17 12:04:18.184 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-3 - Added connection org.postgresql.jdbc.PgConnection@17acf295
+2026-07-17 12:04:18.184 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Start completed.
+2026-07-17 12:04:21.413 [restartedMain] INFO  project_backend.BackendApplication - Started BackendApplication in 5.208 seconds (process running for 1163.061)
+2026-07-17 12:04:46.853 [http-nio-8080-exec-1] INFO  project_backend.aspect.AppAspect - User: anonymousUser | Chức năng: login() | Thời gian thực hiện: 306 ms
+2026-07-17 12:04:46.977 [http-nio-8080-exec-4] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 47 ms
+2026-07-17 12:04:46.977 [http-nio-8080-exec-3] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 49 ms
+2026-07-17 12:04:46.977 [http-nio-8080-exec-2] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 55 ms
+2026-07-17 12:04:46.986 [http-nio-8080-exec-2] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: getCurrentUser() | Thời gian thực hiện: 0 ms
+2026-07-17 12:04:46.999 [http-nio-8080-exec-5] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 2 ms
+2026-07-17 12:04:47.005 [http-nio-8080-exec-5] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: getCurrentUser() | Thời gian thực hiện: 2 ms
+2026-07-17 12:04:47.009 [http-nio-8080-exec-3] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: getMyAttemptHistory() | Thời gian thực hiện: 17 ms
+2026-07-17 12:04:47.016 [http-nio-8080-exec-4] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: getTopRankings() | Thời gian thực hiện: 23 ms
+2026-07-17 12:04:47.030 [http-nio-8080-exec-7] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 0 ms
+2026-07-17 12:04:47.030 [http-nio-8080-exec-6] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 0 ms
+2026-07-17 12:04:47.047 [http-nio-8080-exec-7] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: getTopRankings() | Thời gian thực hiện: 7 ms
+2026-07-17 12:04:47.047 [http-nio-8080-exec-6] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: getMyAttemptHistory() | Thời gian thực hiện: 7 ms
+2026-07-17 12:05:07.774 [http-nio-8080-exec-8] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 0 ms
+2026-07-17 12:05:07.798 [http-nio-8080-exec-8] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: blacklistToken() | Thời gian thực hiện: 3 ms
+2026-07-17 12:05:07.803 [http-nio-8080-exec-8] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: blacklistToken() | Thời gian thực hiện: 2 ms
+2026-07-17 12:05:07.803 [http-nio-8080-exec-8] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: logout() | Thời gian thực hiện: 18 ms
+2026-07-17 12:05:32.025 [http-nio-8080-exec-9] INFO  project_backend.aspect.AppAspect - User: anonymousUser | Chức năng: register() | Thời gian thực hiện: 201 ms
+2026-07-17 12:05:36.720 [http-nio-8080-exec-10] INFO  project_backend.aspect.AppAspect - User: anonymousUser | Chức năng: login() | Thời gian thực hiện: 180 ms
+2026-07-17 12:05:36.771 [http-nio-8080-exec-1] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 3 ms
+2026-07-17 12:05:36.771 [http-nio-8080-exec-2] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 3 ms
+2026-07-17 12:05:36.771 [http-nio-8080-exec-5] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 3 ms
+2026-07-17 12:05:36.786 [http-nio-8080-exec-1] INFO  project_backend.aspect.AppAspect - User: huy | Chức năng: getCurrentUser() | Thời gian thực hiện: 2 ms
+2026-07-17 12:05:36.790 [http-nio-8080-exec-5] INFO  project_backend.aspect.AppAspect - User: huy | Chức năng: getTopRankings() | Thời gian thực hiện: 7 ms
+2026-07-17 12:05:36.792 [http-nio-8080-exec-2] INFO  project_backend.aspect.AppAspect - User: huy | Chức năng: getMyAttemptHistory() | Thời gian thực hiện: 9 ms
+2026-07-17 12:05:36.805 [http-nio-8080-exec-4] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 1 ms
+2026-07-17 12:05:36.805 [http-nio-8080-exec-3] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 1 ms
+2026-07-17 12:05:36.805 [http-nio-8080-exec-7] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 1 ms
+2026-07-17 12:05:36.812 [http-nio-8080-exec-4] INFO  project_backend.aspect.AppAspect - User: huy | Chức năng: getCurrentUser() | Thời gian thực hiện: 3 ms
+2026-07-17 12:05:36.812 [http-nio-8080-exec-7] INFO  project_backend.aspect.AppAspect - User: huy | Chức năng: getMyAttemptHistory() | Thời gian thực hiện: 3 ms
+2026-07-17 12:05:36.813 [http-nio-8080-exec-3] INFO  project_backend.aspect.AppAspect - User: huy | Chức năng: getTopRankings() | Thời gian thực hiện: 4 ms
+2026-07-17 12:17:33.685 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Shutdown initiated...
+2026-07-17 12:17:33.688 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Shutdown completed.
+2026-07-17 12:20:21.521 [restartedMain] INFO  project_backend.BackendApplication - Starting BackendApplication using Java 17.0.18 with PID 25284 (D:\HOC_LAP_TRINH\Qivora\Backend\build\classes\java\main started by HUY HOAN in D:\HOC_LAP_TRINH\Qivora\Backend)
+2026-07-17 12:20:21.525 [restartedMain] INFO  project_backend.BackendApplication - No active profile set, falling back to 1 default profile: "default"
+2026-07-17 12:20:26.056 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-07-17 12:20:26.304 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@4f256798
+2026-07-17 12:20:26.306 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-07-17 12:20:35.042 [restartedMain] INFO  project_backend.BackendApplication - Started BackendApplication in 14.111 seconds (process running for 15.019)
+2026-07-17 12:21:30.160 [http-nio-8080-exec-5] INFO  project_backend.aspect.AppAspect - User: anonymousUser | Chức năng: login() | Thời gian thực hiện: 980 ms
+2026-07-17 12:21:31.656 [http-nio-8080-exec-8] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 1234 ms
+2026-07-17 12:21:31.656 [http-nio-8080-exec-6] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 1242 ms
+2026-07-17 12:21:31.656 [http-nio-8080-exec-7] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 1234 ms
+2026-07-17 12:21:31.683 [http-nio-8080-exec-6] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: getCurrentUser() | Thời gian thực hiện: 8 ms
+2026-07-17 12:21:31.700 [http-nio-8080-exec-9] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 1 ms
+2026-07-17 12:21:31.720 [http-nio-8080-exec-9] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: getCurrentUser() | Thời gian thực hiện: 6 ms
+2026-07-17 12:21:31.760 [http-nio-8080-exec-8] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: getMyAttemptHistory() | Thời gian thực hiện: 89 ms
+2026-07-17 12:21:31.764 [http-nio-8080-exec-7] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: getTopRankings() | Thời gian thực hiện: 87 ms
+2026-07-17 12:21:31.789 [http-nio-8080-exec-1] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 3 ms
+2026-07-17 12:21:31.789 [http-nio-8080-exec-10] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 3 ms
+2026-07-17 12:21:31.810 [http-nio-8080-exec-10] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: getTopRankings() | Thời gian thực hiện: 9 ms
+2026-07-17 12:21:31.815 [http-nio-8080-exec-1] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: getMyAttemptHistory() | Thời gian thực hiện: 13 ms
+2026-07-17 12:21:35.633 [http-nio-8080-exec-2] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 2 ms
+2026-07-17 12:21:35.655 [http-nio-8080-exec-2] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: getCurrentUser() | Thời gian thực hiện: 7 ms
+2026-07-17 12:21:35.667 [http-nio-8080-exec-3] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 1 ms
+2026-07-17 12:21:35.679 [http-nio-8080-exec-3] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: getCurrentUser() | Thời gian thực hiện: 4 ms
+2026-07-17 12:21:37.122 [http-nio-8080-exec-4] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 4 ms
+2026-07-17 12:21:37.137 [http-nio-8080-exec-4] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: getCurrentUser() | Thời gian thực hiện: 4 ms
+2026-07-17 12:21:37.146 [http-nio-8080-exec-5] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 1 ms
+2026-07-17 12:21:37.156 [http-nio-8080-exec-5] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: getCurrentUser() | Thời gian thực hiện: 3 ms
+2026-07-17 12:21:38.092 [http-nio-8080-exec-6] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 2 ms
+2026-07-17 12:21:38.094 [http-nio-8080-exec-9] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 2 ms
+2026-07-17 12:21:38.106 [http-nio-8080-exec-6] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: getCurrentUser() | Thời gian thực hiện: 3 ms
+2026-07-17 12:21:38.122 [http-nio-8080-exec-8] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 3 ms
+2026-07-17 12:21:38.135 [http-nio-8080-exec-8] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: getCurrentUser() | Thời gian thực hiện: 3 ms
+2026-07-17 12:21:38.164 [http-nio-8080-exec-9] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: findMyQuizzes() | Thời gian thực hiện: 60 ms
+2026-07-17 12:21:38.189 [http-nio-8080-exec-7] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 2 ms
+2026-07-17 12:21:38.218 [http-nio-8080-exec-7] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: findMyQuizzes() | Thời gian thực hiện: 18 ms
+2026-07-17 12:21:39.162 [http-nio-8080-exec-10] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 2 ms
+2026-07-17 12:21:39.174 [http-nio-8080-exec-10] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: getCurrentUser() | Thời gian thực hiện: 3 ms
+2026-07-17 12:21:39.188 [http-nio-8080-exec-1] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 2 ms
+2026-07-17 12:21:39.199 [http-nio-8080-exec-1] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: getCurrentUser() | Thời gian thực hiện: 3 ms
+2026-07-17 12:21:40.596 [http-nio-8080-exec-2] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 2 ms
+2026-07-17 12:21:40.596 [http-nio-8080-exec-3] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 2 ms
+2026-07-17 12:21:40.608 [http-nio-8080-exec-2] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: getCurrentUser() | Thời gian thực hiện: 4 ms
+2026-07-17 12:21:40.614 [http-nio-8080-exec-3] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: findMyQuizzes() | Thời gian thực hiện: 10 ms
+2026-07-17 12:21:40.618 [http-nio-8080-exec-4] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 0 ms
+2026-07-17 12:21:40.622 [http-nio-8080-exec-5] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 1 ms
+2026-07-17 12:21:40.626 [http-nio-8080-exec-4] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: getCurrentUser() | Thời gian thực hiện: 2 ms
+2026-07-17 12:21:40.635 [http-nio-8080-exec-5] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: findMyQuizzes() | Thời gian thực hiện: 8 ms
+2026-07-17 12:21:40.900 [http-nio-8080-exec-6] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 2 ms
+2026-07-17 12:21:40.916 [http-nio-8080-exec-6] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: getCurrentUser() | Thời gian thực hiện: 3 ms
+2026-07-17 12:21:40.925 [http-nio-8080-exec-8] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 0 ms
+2026-07-17 12:21:40.945 [http-nio-8080-exec-8] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: getCurrentUser() | Thời gian thực hiện: 8 ms
+2026-07-17 12:21:41.231 [http-nio-8080-exec-9] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 2 ms
+2026-07-17 12:21:41.245 [http-nio-8080-exec-9] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: getCurrentUser() | Thời gian thực hiện: 7 ms
+2026-07-17 12:21:41.255 [http-nio-8080-exec-7] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 1 ms
+2026-07-17 12:21:41.264 [http-nio-8080-exec-7] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: getCurrentUser() | Thời gian thực hiện: 3 ms
+2026-07-17 12:21:41.605 [http-nio-8080-exec-10] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 1 ms
+2026-07-17 12:21:41.610 [http-nio-8080-exec-2] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 5 ms
+2026-07-17 12:21:41.610 [http-nio-8080-exec-1] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 5 ms
+2026-07-17 12:21:41.620 [http-nio-8080-exec-10] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: getCurrentUser() | Thời gian thực hiện: 2 ms
+2026-07-17 12:21:41.624 [http-nio-8080-exec-1] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: getMyAttemptHistory() | Thời gian thực hiện: 6 ms
+2026-07-17 12:21:41.626 [http-nio-8080-exec-2] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: getTopRankings() | Thời gian thực hiện: 6 ms
+2026-07-17 12:21:41.631 [http-nio-8080-exec-3] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 1 ms
+2026-07-17 12:21:41.636 [http-nio-8080-exec-4] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 1 ms
+2026-07-17 12:21:41.636 [http-nio-8080-exec-5] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 0 ms
+2026-07-17 12:21:41.639 [http-nio-8080-exec-3] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: getCurrentUser() | Thời gian thực hiện: 2 ms
+2026-07-17 12:21:41.646 [http-nio-8080-exec-4] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: getMyAttemptHistory() | Thời gian thực hiện: 6 ms
+2026-07-17 12:21:41.647 [http-nio-8080-exec-5] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: getTopRankings() | Thời gian thực hiện: 6 ms
+2026-07-17 12:21:54.986 [http-nio-8080-exec-6] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 1 ms
+2026-07-17 12:21:55.001 [http-nio-8080-exec-6] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: getCurrentUser() | Thời gian thực hiện: 6 ms
+2026-07-17 12:21:55.010 [http-nio-8080-exec-8] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 1 ms
+2026-07-17 12:21:55.019 [http-nio-8080-exec-8] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: getCurrentUser() | Thời gian thực hiện: 4 ms
+2026-07-17 12:21:56.293 [http-nio-8080-exec-9] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 0 ms
+2026-07-17 12:21:56.310 [http-nio-8080-exec-9] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: getCurrentUser() | Thời gian thực hiện: 4 ms
+2026-07-17 12:21:56.319 [http-nio-8080-exec-7] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 1 ms
+2026-07-17 12:21:56.326 [http-nio-8080-exec-7] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: getCurrentUser() | Thời gian thực hiện: 2 ms
+2026-07-17 12:22:11.120 [http-nio-8080-exec-10] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 2 ms
+2026-07-17 12:22:39.025 [http-nio-8080-exec-1] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 3 ms
+2026-07-17 12:22:39.045 [http-nio-8080-exec-1] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: getCurrentUser() | Thời gian thực hiện: 7 ms
+2026-07-17 12:22:39.068 [http-nio-8080-exec-2] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 1 ms
+2026-07-17 12:22:39.075 [http-nio-8080-exec-2] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: getCurrentUser() | Thời gian thực hiện: 3 ms
+2026-07-17 12:23:20.116 [http-nio-8080-exec-3] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 1 ms
+2026-07-17 12:23:20.453 [http-nio-8080-exec-3] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: createManualQuiz() | Thời gian thực hiện: 211 ms
+2026-07-17 12:23:26.208 [http-nio-8080-exec-4] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 3 ms
+2026-07-17 12:23:26.221 [http-nio-8080-exec-4] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: getCurrentUser() | Thời gian thực hiện: 2 ms
+2026-07-17 12:23:26.228 [http-nio-8080-exec-5] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 1 ms
+2026-07-17 12:23:26.245 [http-nio-8080-exec-5] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: getCurrentUser() | Thời gian thực hiện: 3 ms
+2026-07-17 12:23:27.849 [http-nio-8080-exec-6] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 1 ms
+2026-07-17 12:23:27.905 [http-nio-8080-exec-6] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: findQuizSummaryByCode() | Thời gian thực hiện: 36 ms
+2026-07-17 12:23:27.917 [http-nio-8080-exec-8] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 2 ms
+2026-07-17 12:23:27.922 [http-nio-8080-exec-9] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 2 ms
+2026-07-17 12:23:27.933 [http-nio-8080-exec-8] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: findQuizSummaryByCode() | Thời gian thực hiện: 8 ms
+2026-07-17 12:23:27.976 [http-nio-8080-exec-9] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: startQuizByCode() | Thời gian thực hiện: 43 ms
+2026-07-17 12:23:43.077 [http-nio-8080-exec-7] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 2 ms
+2026-07-17 12:23:43.239 [http-nio-8080-exec-7] INFO  project_backend.aspect.AppAspect - User: huyhoan13032006 | Chức năng: submitQuiz() | Thời gian thực hiện: 136 ms
+2026-07-17 12:24:06.144 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-07-17 12:24:06.152 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.

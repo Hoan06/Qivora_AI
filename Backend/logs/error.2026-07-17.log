@@ -1,0 +1,15 @@
+2026-07-17 12:04:13.254 [restartedMain] ERROR o.s.b.diagnostics.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in project_backend.controller.AdminController required a bean of type 'project_backend.service.AdminService' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'project_backend.service.AdminService' in your configuration.
+

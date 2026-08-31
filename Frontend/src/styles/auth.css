@@ -1,0 +1,816 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap");
+
+:root {
+  --qv-auth-purple: #6c63ff;
+  --qv-auth-pink: #ff6584;
+  --qv-auth-orange: #ffbd59;
+  --qv-auth-cyan: #4de2ff;
+  --qv-auth-green: #39e58c;
+  --qv-auth-red: #ff4d6d;
+  --qv-auth-text: #ffffff;
+  --qv-auth-muted: rgba(255, 255, 255, 0.68);
+  --qv-auth-border: rgba(255, 255, 255, 0.16);
+  --qv-auth-shadow: 0 30px 90px rgba(0, 0, 0, 0.42);
+  --qv-auth-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+body:has(.qv-auth-page) {
+  margin: 0;
+  overflow-x: hidden;
+  background: #070612;
+}
+
+body:has(.qv-auth-page) #root {
+  width: 100%;
+  max-width: none;
+  min-height: 100vh;
+  margin: 0;
+  border: 0;
+  text-align: left;
+}
+
+.qv-auth-page,
+.qv-auth-page * {
+  box-sizing: border-box;
+}
+
+.qv-auth-page {
+  position: relative;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 28px;
+  overflow: hidden;
+  color: var(--qv-auth-text);
+  font-family: Poppins, system-ui, sans-serif;
+  perspective: 1400px;
+  background:
+    radial-gradient(circle at 18% 12%, rgba(108, 99, 255, 0.45), transparent 30%),
+    radial-gradient(circle at 82% 20%, rgba(255, 101, 132, 0.34), transparent 34%),
+    radial-gradient(circle at 50% 92%, rgba(255, 189, 89, 0.16), transparent 30%),
+    linear-gradient(135deg, #160728 0%, #090820 58%, #05050f 100%);
+}
+
+.qv-auth-page button,
+.qv-auth-page input {
+  font: inherit;
+}
+
+.qv-auth-page button {
+  cursor: pointer;
+}
+
+.qv-auth-particles {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.qv-auth-orb {
+  position: fixed;
+  z-index: 1;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  opacity: 0.35;
+  filter: blur(22px);
+  pointer-events: none;
+  transform-style: preserve-3d;
+  animation: qvAuthFloatOrb 12s ease-in-out infinite alternate;
+}
+
+.qv-auth-orb-1 {
+  top: 8%;
+  left: 8%;
+  background: radial-gradient(circle at 35% 28%, #fff, var(--qv-auth-purple) 26%, transparent 68%);
+}
+
+.qv-auth-orb-2 {
+  top: 14%;
+  right: 7%;
+  width: 340px;
+  height: 340px;
+  background: radial-gradient(circle at 35% 28%, #fff, var(--qv-auth-pink) 26%, transparent 68%);
+  animation-duration: 14s;
+}
+
+.qv-auth-orb-3 {
+  bottom: -120px;
+  left: 45%;
+  width: 380px;
+  height: 380px;
+  background: radial-gradient(circle at 35% 28%, #fff, var(--qv-auth-orange) 26%, transparent 70%);
+  animation-duration: 16s;
+}
+
+.qv-auth-shell {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  width: min(1180px, 100%);
+  min-height: 690px;
+  grid-template-columns: 0.95fr 1.05fr;
+  overflow: hidden;
+  border: 1px solid var(--qv-auth-border);
+  border-radius: 34px;
+  background: rgba(255, 255, 255, 0.055);
+  box-shadow:
+    var(--qv-auth-shadow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(20px);
+  transform-style: preserve-3d;
+}
+
+.qv-auth-scene {
+  position: relative;
+  display: flex;
+  min-height: 690px;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 42px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 28%, rgba(255, 101, 132, 0.24), transparent 34%),
+    linear-gradient(160deg, rgba(108, 99, 255, 0.16), rgba(255, 189, 89, 0.06));
+}
+
+.qv-auth-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: 0.2px;
+}
+
+.qv-auth-logo {
+  display: grid;
+  width: 52px;
+  height: 52px;
+  place-items: center;
+  border-radius: 17px;
+  background: linear-gradient(135deg, var(--qv-auth-purple), var(--qv-auth-pink), var(--qv-auth-orange));
+  box-shadow: 0 0 40px rgba(255, 101, 132, 0.44);
+  transform-style: preserve-3d;
+  animation:
+    qvAuthLogoSpin 1.25s var(--qv-auth-ease) both,
+    qvAuthLogoGlow 2.6s ease-in-out infinite;
+}
+
+.qv-auth-copy h1 {
+  max-width: 440px;
+  margin: 0 0 18px;
+  color: white;
+  font-size: clamp(42px, 5vw, 72px);
+  font-weight: 900;
+  line-height: 0.96;
+  letter-spacing: 0;
+}
+
+.qv-auth-copy span {
+  color: transparent;
+  background: linear-gradient(90deg, var(--qv-auth-purple), var(--qv-auth-pink), var(--qv-auth-orange));
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+
+.qv-auth-copy p {
+  max-width: 430px;
+  margin: 0;
+  color: var(--qv-auth-muted);
+  font-weight: 500;
+  line-height: 1.8;
+}
+
+.qv-auth-floating-card {
+  width: min(350px, 100%);
+  padding: 24px;
+  border: 1px solid var(--qv-auth-border);
+  border-radius: 26px;
+  background: rgba(255, 255, 255, 0.09);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.22);
+  backdrop-filter: blur(18px);
+  transform: rotateY(-12deg) rotateX(8deg);
+  animation: qvAuthCardFloat 5s ease-in-out infinite;
+}
+
+.qv-auth-floating-card strong {
+  display: block;
+  margin-bottom: 8px;
+  color: white;
+  font-size: 22px;
+}
+
+.qv-auth-floating-card p {
+  margin: 0 0 18px;
+  color: var(--qv-auth-muted);
+  font-size: 14px;
+}
+
+.qv-auth-floating-card div {
+  height: 10px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.qv-auth-floating-card i {
+  display: block;
+  width: 68%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--qv-auth-cyan), var(--qv-auth-pink), var(--qv-auth-orange));
+  animation: qvAuthShimmerBar 2.8s ease-in-out infinite;
+}
+
+.qv-auth-form-zone {
+  display: grid;
+  min-height: 690px;
+  place-items: center;
+  padding: 42px;
+}
+
+.qv-auth-flip-wrap {
+  position: relative;
+  width: min(470px, 100%);
+  min-height: 610px;
+  perspective: 1400px;
+}
+
+.qv-auth-flip-card {
+  position: relative;
+  width: 100%;
+  min-height: 610px;
+  transform-style: preserve-3d;
+  transition: transform 0.8s var(--qv-auth-ease);
+}
+
+.qv-auth-page.is-register .qv-auth-flip-card {
+  transform: rotateY(180deg);
+}
+
+.qv-auth-card {
+  position: absolute;
+  inset: 0;
+  padding: 32px;
+  overflow: hidden;
+  border: 1px solid var(--qv-auth-border);
+  border-radius: 24px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.055)),
+    rgba(10, 8, 32, 0.58);
+  box-shadow:
+    0 32px 90px rgba(0, 0, 0, 0.38),
+    inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(20px);
+  backface-visibility: hidden;
+  scrollbar-color: rgba(255, 101, 132, 0.85) rgba(255, 255, 255, 0.08);
+  scrollbar-width: thin;
+  transform-style: preserve-3d;
+}
+
+.qv-auth-card::-webkit-scrollbar {
+  width: 10px;
+}
+
+.qv-auth-card::-webkit-scrollbar-track {
+  margin: 18px 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.qv-auth-card::-webkit-scrollbar-thumb {
+  border: 2px solid rgba(18, 14, 38, 0.8);
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--qv-auth-purple), var(--qv-auth-pink), var(--qv-auth-orange));
+  box-shadow: 0 0 18px rgba(255, 101, 132, 0.35);
+}
+
+.qv-auth-card::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #817aff, #ff7c98, #ffc978);
+}
+
+.qv-auth-card::before {
+  position: absolute;
+  inset: -2px;
+  content: "";
+  opacity: 0;
+  background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.24), transparent);
+  transform: translateX(-120%);
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+
+.qv-auth-card:hover::before {
+  opacity: 1;
+  animation: qvAuthSweep 1.1s ease;
+}
+
+.qv-register-card {
+  transform: rotateY(180deg);
+}
+
+.qv-auth-card-head {
+  display: grid;
+  justify-items: center;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.qv-auth-avatar {
+  display: grid;
+  width: 78px;
+  height: 78px;
+  margin-bottom: 16px;
+  place-items: center;
+  border-radius: 24px;
+  background: linear-gradient(135deg, var(--qv-auth-purple), var(--qv-auth-pink));
+  box-shadow: 0 0 42px rgba(255, 101, 132, 0.5);
+  animation: qvAuthAvatarGlow 2.4s ease-in-out infinite;
+}
+
+.qv-auth-avatar svg {
+  width: 34px;
+  height: 34px;
+}
+
+.qv-auth-avatar-alt span {
+  font-size: 34px;
+  line-height: 1;
+}
+
+.qv-auth-card-head h2 {
+  margin: 0 0 8px;
+  color: white;
+  font-size: 32px;
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: 0;
+}
+
+.qv-auth-card-head p {
+  margin: 0;
+  color: var(--qv-auth-muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.qv-auth-form {
+  display: grid;
+  gap: 16px;
+}
+
+.qv-auth-field {
+  position: relative;
+  display: block;
+}
+
+.qv-auth-field input {
+  width: 100%;
+  height: 54px;
+  padding: 20px 58px 8px 48px;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 16px;
+  color: white;
+  outline: none;
+  background: rgba(255, 255, 255, 0.075);
+  transition:
+    border 0.22s ease,
+    box-shadow 0.22s ease,
+    background 0.22s ease;
+}
+
+.qv-auth-label {
+  position: absolute;
+  top: 16px;
+  left: 48px;
+  color: rgba(255, 255, 255, 0.56);
+  font-size: 14px;
+  font-weight: 600;
+  pointer-events: none;
+  transition:
+    transform 0.22s ease,
+    font-size 0.22s ease,
+    color 0.22s ease;
+}
+
+.qv-auth-field input:focus,
+.qv-auth-field input:not(:placeholder-shown) {
+  border-color: rgba(77, 226, 255, 0.62);
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow:
+    0 0 0 4px rgba(77, 226, 255, 0.12),
+    0 0 24px rgba(108, 99, 255, 0.2);
+}
+
+.qv-auth-field input:focus ~ .qv-auth-label,
+.qv-auth-field input:not(:placeholder-shown) ~ .qv-auth-label {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 11px;
+  transform: translateY(-10px);
+}
+
+.qv-auth-icon {
+  position: absolute;
+  top: 17px;
+  left: 17px;
+  color: rgba(255, 255, 255, 0.72);
+  pointer-events: none;
+}
+
+.qv-auth-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.qv-auth-toggle {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 44px;
+  height: 34px;
+  border: 0;
+  border-radius: 12px;
+  color: white;
+  background: rgba(255, 255, 255, 0.1);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.qv-auth-state {
+  position: absolute;
+  top: 17px;
+  right: 16px;
+  color: var(--qv-auth-green);
+  font-weight: 900;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.qv-auth-field.is-success input {
+  border-color: rgba(57, 229, 140, 0.72);
+  box-shadow: 0 0 0 4px rgba(57, 229, 140, 0.1);
+}
+
+.qv-auth-field.is-success .qv-auth-state {
+  opacity: 1;
+}
+
+.qv-auth-field.is-error input {
+  border-color: rgba(255, 77, 109, 0.72);
+  animation: qvAuthShake 0.34s ease;
+}
+
+.qv-auth-field small {
+  display: block;
+  max-height: 0;
+  margin: 0;
+  overflow: hidden;
+  color: #ffb3c1;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.4;
+  transition:
+    max-height 0.28s ease,
+    margin 0.28s ease;
+}
+
+.qv-auth-field.is-error small {
+  max-height: 34px;
+  margin-top: 7px;
+}
+
+.qv-auth-meta,
+.qv-auth-terms {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: var(--qv-auth-muted);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.qv-auth-meta {
+  justify-content: space-between;
+}
+
+.qv-auth-meta label,
+.qv-auth-terms {
+  display: inline-flex;
+  gap: 8px;
+}
+
+.qv-auth-meta input,
+.qv-auth-terms input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--qv-auth-pink);
+}
+
+.qv-auth-terms.is-error {
+  color: #ffb3c1;
+  animation: qvAuthShake 0.34s ease;
+}
+
+.qv-auth-page a {
+  color: #88f0ff;
+  text-decoration: none;
+}
+
+.qv-auth-strength {
+  display: grid;
+  gap: 7px;
+  margin-top: -6px;
+}
+
+.qv-auth-strength div {
+  height: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.qv-auth-strength i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  transition:
+    width 0.3s ease,
+    background 0.3s ease;
+}
+
+.qv-auth-strength span {
+  min-height: 16px;
+  color: var(--qv-auth-muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.qv-auth-btn {
+  position: relative;
+  display: inline-flex;
+  height: 54px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  overflow: hidden;
+  border: 0;
+  border-radius: 999px;
+  color: white;
+  font-weight: 900;
+  transform-style: preserve-3d;
+  transition:
+    transform 0.22s var(--qv-auth-ease),
+    box-shadow 0.22s ease;
+}
+
+.qv-auth-btn:hover {
+  transform: translateY(-2px) scale(1.02);
+}
+
+.qv-auth-btn:disabled {
+  cursor: wait;
+  opacity: 0.78;
+}
+
+.qv-auth-btn:disabled:hover {
+  transform: none;
+}
+
+.qv-auth-primary {
+  margin-top: 4px;
+  background: linear-gradient(100deg, var(--qv-auth-purple), var(--qv-auth-pink), var(--qv-auth-orange));
+  box-shadow: 0 18px 38px rgba(255, 101, 132, 0.28);
+}
+
+.qv-auth-primary:hover {
+  box-shadow: 0 24px 56px rgba(255, 101, 132, 0.38);
+}
+
+.qv-auth-primary i {
+  display: none;
+  width: 22px;
+  height: 22px;
+  border: 3px solid rgba(255, 255, 255, 0.28);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: qvAuthSpin3d 0.8s linear infinite;
+}
+
+.qv-auth-primary.is-loading span {
+  display: none;
+}
+
+.qv-auth-primary.is-loading i {
+  display: block;
+}
+
+.qv-auth-message {
+  margin: -4px 0 0;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.qv-auth-message.is-error {
+  color: #ffb3c1;
+}
+
+.qv-auth-message.is-success {
+  color: #a8ffd0;
+}
+
+.qv-auth-switch {
+  margin: 0;
+  color: var(--qv-auth-muted);
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.qv-auth-switch button {
+  border: 0;
+  color: #88f0ff;
+  background: transparent;
+  font: inherit;
+  font-weight: 800;
+}
+
+.qv-auth-scroll-indicator {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  display: none;
+  width: 24px;
+  height: 36px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 999px;
+}
+
+.qv-auth-scroll-indicator::after {
+  position: absolute;
+  top: 7px;
+  left: 50%;
+  width: 4px;
+  height: 7px;
+  content: "";
+  border-radius: 999px;
+  background: white;
+  transform: translateX(-50%);
+  animation: qvAuthScrollDot 1.4s ease-in-out infinite;
+}
+
+@media (max-height: 760px) and (min-width: 861px) {
+  .qv-auth-card {
+    overflow-y: auto;
+  }
+
+  .qv-auth-scroll-indicator {
+    display: block;
+  }
+}
+
+@media (max-width: 900px) {
+  .qv-auth-page {
+    padding: 18px;
+  }
+
+  .qv-auth-shell {
+    min-height: auto;
+    grid-template-columns: 1fr;
+  }
+
+  .qv-auth-scene {
+    display: none;
+  }
+
+  .qv-auth-form-zone {
+    min-height: 100vh;
+    padding: 20px;
+  }
+
+  .qv-auth-flip-wrap,
+  .qv-auth-flip-card {
+    min-height: 650px;
+  }
+
+  .qv-auth-card {
+    padding: 24px;
+  }
+
+  .qv-auth-card-head h2 {
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 460px) {
+  .qv-auth-page {
+    padding: 0;
+  }
+
+  .qv-auth-shell {
+    min-height: 100vh;
+    border: 0;
+    border-radius: 0;
+  }
+
+  .qv-auth-form-zone {
+    padding: 18px;
+  }
+
+  .qv-auth-card {
+    border-radius: 22px;
+  }
+
+  .qv-auth-meta {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .qv-auth-flip-wrap,
+  .qv-auth-flip-card {
+    min-height: 690px;
+  }
+}
+
+@keyframes qvAuthFloatOrb {
+  0% {
+    transform: translate3d(0, 0, -40px) rotateX(0deg) rotateY(0deg) scale(1);
+  }
+
+  100% {
+    transform: translate3d(28px, -34px, 80px) rotateX(24deg) rotateY(38deg) scale(1.08);
+  }
+}
+
+@keyframes qvAuthLogoSpin {
+  from {
+    opacity: 0;
+    transform: rotateY(0deg) scale(0.8);
+  }
+
+  to {
+    opacity: 1;
+    transform: rotateY(360deg) scale(1);
+  }
+}
+
+@keyframes qvAuthLogoGlow {
+  50% {
+    box-shadow: 0 0 60px rgba(255, 101, 132, 0.7);
+  }
+}
+
+@keyframes qvAuthCardFloat {
+  50% {
+    transform: rotateY(-8deg) rotateX(11deg) translateY(-16px);
+  }
+}
+
+@keyframes qvAuthShimmerBar {
+  50% {
+    filter: hue-rotate(45deg);
+  }
+}
+
+@keyframes qvAuthAvatarGlow {
+  50% {
+    transform: translateY(-3px) rotateY(18deg);
+    box-shadow: 0 0 58px rgba(108, 99, 255, 0.58);
+  }
+}
+
+@keyframes qvAuthSweep {
+  to {
+    transform: translateX(120%);
+  }
+}
+
+@keyframes qvAuthSpin3d {
+  to {
+    transform: rotateZ(360deg) rotateY(360deg);
+  }
+}
+
+@keyframes qvAuthShake {
+  25% {
+    transform: translateX(-6px);
+  }
+
+  50% {
+    transform: translateX(6px);
+  }
+
+  75% {
+    transform: translateX(-3px);
+  }
+}
+
+@keyframes qvAuthScrollDot {
+  50% {
+    opacity: 0.35;
+    transform: translate(-50%, 12px);
+  }
+}

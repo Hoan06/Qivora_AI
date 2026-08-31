@@ -1,0 +1,103 @@
+2026-07-16 09:40:27.087 [restartedMain] ERROR o.s.b.diagnostics.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in project_backend.controller.QuizAttemptController required a bean of type 'project_backend.service.QuizAttemptService' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'project_backend.service.QuizAttemptService' in your configuration.
+
+2026-07-16 09:51:57.866 [restartedMain] ERROR o.s.b.diagnostics.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in project_backend.controller.AdminController required a bean of type 'project_backend.service.AdminService' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'project_backend.service.AdminService' in your configuration.
+
+2026-07-16 10:09:12.360 [restartedMain] ERROR o.s.b.diagnostics.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 3 of constructor in project_backend.service.impl.AuthServiceImpl required a bean of type 'org.springframework.security.authentication.AuthenticationManager' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'org.springframework.security.authentication.AuthenticationManager' in your configuration.
+
+2026-07-16 14:30:56.700 [restartedMain] ERROR o.s.b.diagnostics.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in project_backend.controller.AdminQuizController required a bean of type 'project_backend.service.QuizService' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'project_backend.service.QuizService' in your configuration.
+
+2026-07-16 14:49:37.618 [http-nio-8080-exec-3] ERROR project_backend.aspect.AppAspect - Phương thức login thất bại sau 181 ms với lỗi: Username hoặc mật khẩu không chính xác
+2026-07-16 15:07:09.780 [restartedMain] ERROR o.s.b.diagnostics.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 3 of constructor in project_backend.service.impl.AuthServiceImpl required a bean of type 'org.springframework.security.authentication.AuthenticationManager' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'org.springframework.security.authentication.AuthenticationManager' in your configuration.
+
+2026-07-16 15:07:48.021 [http-nio-8080-exec-1] ERROR project_backend.aspect.AppAspect - Phương thức createFeedback thất bại sau 29 ms với lỗi: could not execute statement [ERROR: null value in column "user_id" of relation "feedbacks" violates not-null constraint
+  Detail: Failing row contains (1, Web đẹp quá, 2026-07-16 15:07:47.994405, f, SYSTEM, null, null, Hoàn đẹp zai).] [insert into feedbacks (content,created_at,is_read,quiz_id,sender_name,type,user_id) values (?,?,?,?,?,?,?)]; SQL [insert into feedbacks (content,created_at,is_read,quiz_id,sender_name,type,user_id) values (?,?,?,?,?,?,?)]; constraint [user_id]
+2026-07-16 15:07:59.294 [http-nio-8080-exec-2] ERROR project_backend.aspect.AppAspect - Phương thức createFeedback thất bại sau 4 ms với lỗi: could not execute statement [ERROR: null value in column "user_id" of relation "feedbacks" violates not-null constraint
+  Detail: Failing row contains (2, Web đẹp quá, 2026-07-16 15:07:59.290474, f, SYSTEM, null, null, Hoàn đẹp zai).] [insert into feedbacks (content,created_at,is_read,quiz_id,sender_name,type,user_id) values (?,?,?,?,?,?,?)]; SQL [insert into feedbacks (content,created_at,is_read,quiz_id,sender_name,type,user_id) values (?,?,?,?,?,?,?)]; constraint [user_id]
+2026-07-16 15:08:05.456 [http-nio-8080-exec-3] ERROR project_backend.aspect.AppAspect - Phương thức createFeedback thất bại sau 4 ms với lỗi: could not execute statement [ERROR: null value in column "user_id" of relation "feedbacks" violates not-null constraint
+  Detail: Failing row contains (3, sdsd, 2026-07-16 15:08:05.453608, f, SYSTEM, null, null, sdsd).] [insert into feedbacks (content,created_at,is_read,quiz_id,sender_name,type,user_id) values (?,?,?,?,?,?,?)]; SQL [insert into feedbacks (content,created_at,is_read,quiz_id,sender_name,type,user_id) values (?,?,?,?,?,?,?)]; constraint [user_id]
+2026-07-16 15:08:06.907 [http-nio-8080-exec-4] ERROR project_backend.aspect.AppAspect - Phương thức createFeedback thất bại sau 3 ms với lỗi: could not execute statement [ERROR: null value in column "user_id" of relation "feedbacks" violates not-null constraint
+  Detail: Failing row contains (4, sdsd, 2026-07-16 15:08:06.904422, f, SYSTEM, null, null, sdsd).] [insert into feedbacks (content,created_at,is_read,quiz_id,sender_name,type,user_id) values (?,?,?,?,?,?,?)]; SQL [insert into feedbacks (content,created_at,is_read,quiz_id,sender_name,type,user_id) values (?,?,?,?,?,?,?)]; constraint [user_id]
+2026-07-16 15:12:13.231 [http-nio-8080-exec-2] ERROR project_backend.aspect.AppAspect - Phương thức findQuizSummaryByCode thất bại sau 14 ms với lỗi: Không tìm thấy quiz với mã: s
+2026-07-16 15:12:13.243 [http-nio-8080-exec-5] ERROR project_backend.aspect.AppAspect - Phương thức findQuizSummaryByCode thất bại sau 0 ms với lỗi: Không tìm thấy quiz với mã: s
+2026-07-16 15:29:18.015 [http-nio-8080-exec-1] ERROR project_backend.aspect.AppAspect - Phương thức login thất bại sau 310 ms với lỗi: Username hoặc mật khẩu không chính xác
+2026-07-16 18:28:28.212 [http-nio-8080-exec-3] ERROR project_backend.aspect.AppAspect - Phương thức login thất bại sau 0 ms với lỗi: Tài khoản đã bị khóa, vui lòng liên hệ Admin
+2026-07-16 18:48:32.672 [restartedMain] ERROR o.s.b.diagnostics.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in project_backend.controller.AdminController required a bean of type 'project_backend.service.AdminService' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'project_backend.service.AdminService' in your configuration.
+

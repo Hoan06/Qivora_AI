@@ -1,0 +1,36 @@
+2026-07-22 16:11:51.373 [restartedMain] INFO  project_backend.BackendApplication - Starting BackendApplication using Java 17.0.18 with PID 31884 (D:\HOC_LAP_TRINH\AI_Application\2. Project Example Holiday\Example Project Holiday\qivora\Backend\build\classes\java\main started by HUY HOAN in D:\HOC_LAP_TRINH\AI_Application\2. Project Example Holiday\Example Project Holiday\qivora\Backend)
+2026-07-22 16:11:51.376 [restartedMain] INFO  project_backend.BackendApplication - No active profile set, falling back to 1 default profile: "default"
+2026-07-22 16:22:07.600 [restartedMain] INFO  project_backend.BackendApplication - Starting BackendApplication using Java 17.0.18 with PID 31672 (D:\HOC_LAP_TRINH\AI_Application\2. Project Example Holiday\Example Project Holiday\qivora\Backend\build\classes\java\main started by HUY HOAN in D:\HOC_LAP_TRINH\AI_Application\2. Project Example Holiday\Example Project Holiday\qivora\Backend)
+2026-07-22 16:22:07.610 [restartedMain] INFO  project_backend.BackendApplication - No active profile set, falling back to 1 default profile: "default"
+2026-07-22 16:22:13.757 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-07-22 16:22:15.797 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@5aa4f934
+2026-07-22 16:22:15.801 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-07-22 16:22:28.029 [restartedMain] INFO  project_backend.BackendApplication - Started BackendApplication in 21.395 seconds (process running for 23.435)
+2026-07-22 16:23:22.076 [http-nio-8080-exec-4] INFO  project_backend.aspect.AppAspect - User: anonymousUser | Chức năng: register() | Thời gian thực hiện: 7666 ms
+2026-07-22 16:24:05.958 [http-nio-8080-exec-8] INFO  project_backend.aspect.AppAspect - User: anonymousUser | Chức năng: login() | Thời gian thực hiện: 13262 ms
+2026-07-22 16:24:45.325 [http-nio-8080-exec-9] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 9965 ms
+2026-07-22 16:24:45.692 [http-nio-8080-exec-9] INFO  project_backend.aspect.AppAspect - User: qivora_test | Chức năng: createManualQuiz() | Thời gian thực hiện: 235 ms
+2026-07-22 16:25:02.733 [http-nio-8080-exec-7] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 334 ms
+2026-07-22 16:25:46.592 [http-nio-8080-exec-7] INFO  project_backend.aspect.AppAspect - User: qivora_test | Chức năng: createQuizByAi() | Thời gian thực hiện: 39350 ms
+2026-07-22 16:26:23.041 [http-nio-8080-exec-5] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 0 ms
+2026-07-22 16:26:23.632 [http-nio-8080-exec-5] INFO  project_backend.aspect.AppAspect - User: qivora_test | Chức năng: findQuizSummaryById() | Thời gian thực hiện: 508 ms
+2026-07-22 16:26:36.847 [http-nio-8080-exec-10] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 0 ms
+2026-07-22 16:26:37.133 [http-nio-8080-exec-10] INFO  project_backend.aspect.AppAspect - User: qivora_test | Chức năng: getQuizForTaking() | Thời gian thực hiện: 196 ms
+2026-07-22 16:27:20.216 [http-nio-8080-exec-1] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 2 ms
+2026-07-22 16:27:36.512 [http-nio-8080-exec-3] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 0 ms
+2026-07-22 16:28:24.909 [http-nio-8080-exec-9] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 0 ms
+2026-07-22 16:28:24.938 [http-nio-8080-exec-9] INFO  project_backend.aspect.AppAspect - User: qivora_test | Chức năng: createFeedback() | Thời gian thực hiện: 17 ms
+2026-07-22 16:28:43.629 [http-nio-8080-exec-7] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 4 ms
+2026-07-22 16:29:26.316 [http-nio-8080-exec-6] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 0 ms
+2026-07-22 16:29:26.570 [http-nio-8080-exec-6] INFO  project_backend.aspect.AppAspect - User: qivora_test | Chức năng: login() | Thời gian thực hiện: 233 ms
+2026-07-22 16:29:31.376 [http-nio-8080-exec-5] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 2 ms
+2026-07-22 16:29:31.462 [http-nio-8080-exec-5] INFO  project_backend.aspect.AppAspect - User: admin | Chức năng: getStatistics() | Thời gian thực hiện: 75 ms
+2026-07-22 16:29:47.737 [http-nio-8080-exec-10] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 4 ms
+2026-07-22 16:29:47.810 [http-nio-8080-exec-10] INFO  project_backend.aspect.AppAspect - User: admin | Chức năng: getAllFeedback() | Thời gian thực hiện: 63 ms
+2026-07-22 16:30:02.902 [http-nio-8080-exec-2] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 0 ms
+2026-07-22 16:30:02.927 [http-nio-8080-exec-2] INFO  project_backend.aspect.AppAspect - User: admin | Chức năng: getFeedbackById() | Thời gian thực hiện: 11 ms
+2026-07-22 16:30:24.947 [http-nio-8080-exec-1] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 6 ms
+2026-07-22 16:30:24.985 [http-nio-8080-exec-1] INFO  project_backend.aspect.AppAspect - User: admin | Chức năng: getQuizDetailForAdmin() | Thời gian thực hiện: 29 ms
+2026-07-22 16:30:37.807 [http-nio-8080-exec-4] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 2 ms
+2026-07-22 16:31:53.192 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-07-22 16:31:53.204 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.

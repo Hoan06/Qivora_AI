@@ -1,0 +1,1244 @@
+{
+  "info": {
+    "_postman_id": "54d4d32d-42a7-4b2d-91a2-qivora-backend",
+    "name": "Qivora Backend API",
+    "description": "Postman collection for testing all currently implemented Qivora Backend endpoints. Set baseUrl and credentials in collection variables before running.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"{{testUsername}}\",\n  \"password\": \"{{testPassword}}\",\n  \"email\": \"{{testEmail}}\",\n  \"fullName\": \"{{testFullName}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/auth/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "register"
+              ]
+            },
+            "description": "Creates a USER account. If you run this multiple times, change testUsername and testEmail to avoid conflict."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"status is 201 or conflict if user already exists\", function () {",
+                  "  pm.expect([201, 409]).to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "if (pm.response.code === 201) {",
+                  "  const json = pm.response.json();",
+                  "  pm.test(\"register returns user data\", function () {",
+                  "    pm.expect(json).to.have.property(\"success\", true);",
+                  "    pm.expect(json.data).to.have.property(\"username\");",
+                  "  });",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Login",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"{{testUsername}}\",\n  \"password\": \"{{testPassword}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "login"
+              ]
+            },
+            "description": "Logs in and saves accessToken, refreshToken, expiresIn, and roles to collection variables."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"status is 200\", function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "const json = pm.response.json();",
+                  "pm.test(\"login returns JWT data\", function () {",
+                  "  pm.expect(json).to.have.property(\"success\", true);",
+                  "  pm.expect(json.data).to.have.property(\"accessToken\");",
+                  "  pm.expect(json.data).to.have.property(\"refreshToken\");",
+                  "});",
+                  "",
+                  "if (json.data) {",
+                  "  pm.collectionVariables.set(\"accessToken\", json.data.accessToken || \"\");",
+                  "  pm.collectionVariables.set(\"refreshToken\", json.data.refreshToken || \"\");",
+                  "  pm.collectionVariables.set(\"expiresIn\", String(json.data.expiresIn || \"\"));",
+                  "  pm.collectionVariables.set(\"roles\", JSON.stringify(json.data.roles || []));",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Refresh Token",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refreshToken\": \"{{refreshToken}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/auth/refresh-token",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "refresh-token"
+              ]
+            },
+            "description": "Refreshes JWT tokens and saves the new values to collection variables."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"status is 200\", function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "const json = pm.response.json();",
+                  "if (json.data) {",
+                  "  pm.collectionVariables.set(\"accessToken\", json.data.accessToken || \"\");",
+                  "  pm.collectionVariables.set(\"refreshToken\", json.data.refreshToken || \"\");",
+                  "  pm.collectionVariables.set(\"expiresIn\", String(json.data.expiresIn || \"\"));",
+                  "  pm.collectionVariables.set(\"roles\", JSON.stringify(json.data.roles || []));",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Change Password",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"oldPassword\": \"{{testPassword}}\",\n  \"newPassword\": \"{{newPassword}}\",\n  \"confirmNewPassword\": \"{{newPassword}}\",\n  \"refreshToken\": \"{{refreshToken}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/auth/change-password",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "change-password"
+              ]
+            },
+            "description": "Requires Bearer accessToken. This endpoint invalidates the current access and refresh tokens after changing password."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"status is 200\", function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "if (pm.response.code === 200) {",
+                  "  pm.collectionVariables.set(\"testPassword\", pm.collectionVariables.get(\"newPassword\"));",
+                  "  pm.collectionVariables.set(\"accessToken\", \"\");",
+                  "  pm.collectionVariables.set(\"refreshToken\", \"\");",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refreshToken\": \"{{refreshToken}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/auth/logout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "logout"
+              ]
+            },
+            "description": "Requires Bearer accessToken. This endpoint blacklists the current access and refresh tokens."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"status is 204\", function () {",
+                  "  pm.response.to.have.status(204);",
+                  "});",
+                  "",
+                  "if (pm.response.code === 204) {",
+                  "  pm.collectionVariables.set(\"accessToken\", \"\");",
+                  "  pm.collectionVariables.set(\"refreshToken\", \"\");",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Quiz",
+      "item": [
+        {
+          "name": "Create Manual Quiz",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Sample Java Quiz\",\n  \"description\": \"Quiz created from Postman collection\",\n  \"timeLimit\": 15,\n  \"password\": \"\",\n  \"startedAt\": null,\n  \"endedAt\": null,\n  \"questions\": [\n    {\n      \"content\": \"Which keyword is used to inherit a class in Java?\",\n      \"score\": 1,\n      \"explanation\": \"Java classes use extends for inheritance.\",\n      \"answers\": [\n        {\n          \"content\": \"extends\",\n          \"isCorrect\": true\n        },\n        {\n          \"content\": \"implements\",\n          \"isCorrect\": false\n        },\n        {\n          \"content\": \"inherits\",\n          \"isCorrect\": false\n        }\n      ]\n    },\n    {\n      \"content\": \"Which HTTP status does a successful create usually return?\",\n      \"score\": 1,\n      \"explanation\": \"Created resources usually return 201 Created.\",\n      \"answers\": [\n        {\n          \"content\": \"200 OK\",\n          \"isCorrect\": false\n        },\n        {\n          \"content\": \"201 Created\",\n          \"isCorrect\": true\n        }\n      ]\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/quizzes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "quizzes"
+              ]
+            },
+            "description": "Requires Bearer accessToken. Saves quizId and quizCode from response.data."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"status is 201\", function () {",
+                  "  pm.response.to.have.status(201);",
+                  "});",
+                  "",
+                  "const json = pm.response.json();",
+                  "pm.test(\"create quiz returns quiz data\", function () {",
+                  "  pm.expect(json).to.have.property(\"success\", true);",
+                  "  pm.expect(json.data).to.have.property(\"id\");",
+                  "});",
+                  "",
+                  "if (json.data) {",
+                  "  pm.collectionVariables.set(\"quizId\", String(json.data.id || \"\"));",
+                  "  pm.collectionVariables.set(\"quizCode\", json.data.code || \"\");",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Create Quiz By AI",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"topic\": \"{{aiQuizTopic}}\",\n  \"description\": \"{{aiQuizDescription}}\",\n  \"difficulty\": \"{{aiQuizDifficulty}}\",\n  \"questionCount\": {{aiQuestionCount}},\n  \"answerCount\": {{aiAnswerCount}},\n  \"timeLimit\": {{aiTimeLimit}}\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/quizzes/ai",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "quizzes",
+                "ai"
+              ]
+            },
+            "description": "Requires Bearer accessToken. Uses Google GenAI config from application.properties, creates a quiz, and saves quizId and quizCode from response.data."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"status is 201\", function () {",
+                  "  pm.response.to.have.status(201);",
+                  "});",
+                  "",
+                  "const json = pm.response.json();",
+                  "pm.test(\"AI create quiz returns quiz data\", function () {",
+                  "  pm.expect(json).to.have.property(\"success\", true);",
+                  "  pm.expect(json.data).to.have.property(\"id\");",
+                  "  pm.expect(json.data).to.have.property(\"questions\");",
+                  "});",
+                  "",
+                  "if (json.data) {",
+                  "  pm.collectionVariables.set(\"quizId\", String(json.data.id || \"\"));",
+                  "  pm.collectionVariables.set(\"quizCode\", json.data.code || \"\");",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get Quiz Summary By Id",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/quizzes/{{quizId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "quizzes",
+                "{{quizId}}"
+              ]
+            },
+            "description": "Public endpoint. Uses quizId saved by Create Manual Quiz."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"status is 200\", function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "const json = pm.response.json();",
+                  "pm.test(\"response is successful\", function () {",
+                  "  pm.expect(json).to.have.property(\"success\", true);",
+                  "  pm.expect(json.data).to.have.property(\"id\");",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get Quiz For Taking",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/quizzes/{{quizId}}/take",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "quizzes",
+                "{{quizId}}",
+                "take"
+              ]
+            },
+            "description": "Public endpoint for quiz-taking data."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"status is 200\", function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "const json = pm.response.json();",
+                  "pm.test(\"response is successful\", function () {",
+                  "  pm.expect(json).to.have.property(\"success\", true);",
+                  "  pm.expect(json.data).to.have.property(\"id\");",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Update Quiz",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Updated Java Quiz\",\n  \"description\": \"Updated from Postman collection\",\n  \"timeLimit\": 20,\n  \"password\": \"\",\n  \"startedAt\": null,\n  \"endedAt\": null,\n  \"isActive\": true,\n  \"questions\": [\n    {\n      \"content\": \"Which annotation maps a REST controller in Spring?\",\n      \"score\": 1,\n      \"explanation\": \"@RestController combines @Controller and @ResponseBody.\",\n      \"answers\": [\n        {\n          \"content\": \"@RestController\",\n          \"isCorrect\": true\n        },\n        {\n          \"content\": \"@Entity\",\n          \"isCorrect\": false\n        }\n      ]\n    },\n    {\n      \"content\": \"Which method updates a resource in this API?\",\n      \"score\": 1,\n      \"explanation\": \"QuizController uses PUT /api/v1/quizzes/{id}.\",\n      \"answers\": [\n        {\n          \"content\": \"GET\",\n          \"isCorrect\": false\n        },\n        {\n          \"content\": \"PUT\",\n          \"isCorrect\": true\n        }\n      ]\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/quizzes/{{quizId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "quizzes",
+                "{{quizId}}"
+              ]
+            },
+            "description": "Requires Bearer accessToken. User must be quiz owner or ADMIN."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"status is 200\", function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "const json = pm.response.json();",
+                  "pm.test(\"update quiz returns quiz data\", function () {",
+                  "  pm.expect(json).to.have.property(\"success\", true);",
+                  "  pm.expect(json.data).to.have.property(\"id\");",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Delete Quiz",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/quizzes/{{quizId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "quizzes",
+                "{{quizId}}"
+              ]
+            },
+            "description": "Requires Bearer accessToken. User must be quiz owner or ADMIN. Run this at the end because it deletes the quiz."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"status is 204\", function () {",
+                  "  pm.response.to.have.status(204);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Feedback",
+      "item": [
+        {
+          "name": "Create System Feedback",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"SYSTEM\",\n  \"content\": \"{{systemFeedbackContent}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/feedback",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "feedback"
+              ]
+            },
+            "description": "Requires Bearer accessToken. Sends feedback about the system."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"status is 201\", function () {",
+                  "  pm.response.to.have.status(201);",
+                  "});",
+                  "",
+                  "const json = pm.response.json();",
+                  "if (json.data) {",
+                  "  pm.collectionVariables.set(\"feedbackId\", String(json.data.id || \"\"));",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Create Quiz Feedback",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"QUIZ\",\n  \"quizId\": {{quizId}},\n  \"content\": \"{{quizFeedbackContent}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/feedback",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "feedback"
+              ]
+            },
+            "description": "Requires Bearer accessToken. Sends feedback about a specific quiz using quizId."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"status is 201\", function () {",
+                  "  pm.response.to.have.status(201);",
+                  "});",
+                  "",
+                  "const json = pm.response.json();",
+                  "if (json.data) {",
+                  "  pm.collectionVariables.set(\"feedbackId\", String(json.data.id || \"\"));",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Admin",
+      "item": [
+        {
+          "name": "Get System Statistics",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/admin/statistics",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "admin",
+                "statistics"
+              ]
+            },
+            "description": "Requires Bearer accessToken with ADMIN role. Returns system statistics for users, quizzes, and attempts."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"status is 200 for ADMIN or 403 for non-admin\", function () {",
+                  "  pm.expect([200, 403]).to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "if (pm.response.code === 200) {",
+                  "  const json = pm.response.json();",
+                  "  pm.test(\"statistics response is successful\", function () {",
+                  "    pm.expect(json).to.have.property(\"success\", true);",
+                  "    pm.expect(json.data).to.have.property(\"totalUsers\");",
+                  "    pm.expect(json.data).to.have.property(\"totalQuizzes\");",
+                  "    pm.expect(json.data).to.have.property(\"totalAttempts\");",
+                  "  });",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Lock User",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/admin/users/{{adminTargetUserId}}/lock",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "admin",
+                "users",
+                "{{adminTargetUserId}}",
+                "lock"
+              ]
+            },
+            "description": "Requires Bearer accessToken with ADMIN role. Locks the target user account by setting isActive=false."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"status is 200 for ADMIN or 403 for non-admin\", function () {",
+                  "  pm.expect([200, 403, 400, 404]).to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "if (pm.response.code === 200) {",
+                  "  const json = pm.response.json();",
+                  "  pm.test(\"user is locked\", function () {",
+                  "    pm.expect(json).to.have.property(\"success\", true);",
+                  "    pm.expect(json.data).to.have.property(\"isActive\", false);",
+                  "  });",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Unlock User",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/admin/users/{{adminTargetUserId}}/unlock",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "admin",
+                "users",
+                "{{adminTargetUserId}}",
+                "unlock"
+              ]
+            },
+            "description": "Requires Bearer accessToken with ADMIN role. Unlocks the target user account by setting isActive=true."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"status is 200 for ADMIN or 403 for non-admin\", function () {",
+                  "  pm.expect([200, 403, 404]).to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "if (pm.response.code === 200) {",
+                  "  const json = pm.response.json();",
+                  "  pm.test(\"user is unlocked\", function () {",
+                  "    pm.expect(json).to.have.property(\"success\", true);",
+                  "    pm.expect(json.data).to.have.property(\"isActive\", true);",
+                  "  });",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Soft Delete Violation Quiz",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Quiz vi phạm tiêu chuẩn cộng đồng\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/admin/quizzes/{{quizId}}/violation",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "admin",
+                "quizzes",
+                "{{quizId}}",
+                "violation"
+              ]
+            },
+            "description": "Requires Bearer accessToken with ADMIN role. Soft deletes the quiz by setting isDeleted=true and saving deletedReason/deletedAt."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"status is 204 for ADMIN or 403 for non-admin\", function () {",
+                  "  pm.expect([204, 403, 404]).to.include(pm.response.code);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get All Feedback",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/admin/feedback",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "admin",
+                "feedback"
+              ]
+            },
+            "description": "Requires Bearer accessToken with ADMIN role. Returns all feedback newest first."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"status is 200 for ADMIN or 403 for non-admin\", function () {",
+                  "  pm.expect([200, 403]).to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "if (pm.response.code === 200) {",
+                  "  const json = pm.response.json();",
+                  "  pm.test(\"feedback list response is successful\", function () {",
+                  "    pm.expect(json).to.have.property(\"success\", true);",
+                  "    pm.expect(json.data).to.be.an(\"array\");",
+                  "  });",
+                  "  if (json.data && json.data.length > 0) {",
+                  "    pm.collectionVariables.set(\"feedbackId\", String(json.data[0].id || \"\"));",
+                  "  }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get Feedback Detail",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/admin/feedback/{{feedbackId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "admin",
+                "feedback",
+                "{{feedbackId}}"
+              ]
+            },
+            "description": "Requires Bearer accessToken with ADMIN role. Uses feedbackId from create/list feedback."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"status is 200 for ADMIN or 403 for non-admin\", function () {",
+                  "  pm.expect([200, 403, 404]).to.include(pm.response.code);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Mark Feedback As Read",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/admin/feedback/{{feedbackId}}/read",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "admin",
+                "feedback",
+                "{{feedbackId}}",
+                "read"
+              ]
+            },
+            "description": "Requires Bearer accessToken with ADMIN role. Marks a feedback item as read."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"status is 200 for ADMIN or 403 for non-admin\", function () {",
+                  "  pm.expect([200, 403, 404]).to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "if (pm.response.code === 200) {",
+                  "  const json = pm.response.json();",
+                  "  pm.test(\"feedback is read\", function () {",
+                  "    pm.expect(json.data).to.have.property(\"isRead\", true);",
+                  "  });",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Admin Quiz",
+      "item": [
+        {
+          "name": "Get Quiz Detail For Admin",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/admin/quizzes/{{quizId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "admin",
+                "quizzes",
+                "{{quizId}}"
+              ]
+            },
+            "description": "Requires Bearer accessToken with ADMIN role."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"status is 200 for ADMIN or 403 for non-admin\", function () {",
+                  "  pm.expect([200, 403]).to.include(pm.response.code);",
+                  "});",
+                  "",
+                  "if (pm.response.code === 200) {",
+                  "  const json = pm.response.json();",
+                  "  pm.test(\"admin response is successful\", function () {",
+                  "    pm.expect(json).to.have.property(\"success\", true);",
+                  "    pm.expect(json.data).to.have.property(\"id\");",
+                  "  });",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "testUsername",
+      "value": "qivora_test_user"
+    },
+    {
+      "key": "testPassword",
+      "value": "Password123!"
+    },
+    {
+      "key": "newPassword",
+      "value": "Password456!"
+    },
+    {
+      "key": "testEmail",
+      "value": "qivora_test_user@example.com"
+    },
+    {
+      "key": "testFullName",
+      "value": "Qivora Test User"
+    },
+    {
+      "key": "accessToken",
+      "value": ""
+    },
+    {
+      "key": "refreshToken",
+      "value": ""
+    },
+    {
+      "key": "expiresIn",
+      "value": ""
+    },
+    {
+      "key": "roles",
+      "value": ""
+    },
+    {
+      "key": "quizId",
+      "value": "1"
+    },
+    {
+      "key": "quizCode",
+      "value": ""
+    },
+    {
+      "key": "aiQuizTopic",
+      "value": "Lập trình Java cơ bản"
+    },
+    {
+      "key": "aiQuizDescription",
+      "value": "Tạo quiz cho sinh viên mới học Java"
+    },
+    {
+      "key": "aiQuizDifficulty",
+      "value": "Dễ"
+    },
+    {
+      "key": "aiQuestionCount",
+      "value": "10"
+    },
+    {
+      "key": "aiAnswerCount",
+      "value": "4"
+    },
+    {
+      "key": "aiTimeLimit",
+      "value": "15"
+    },
+    {
+      "key": "adminTargetUserId",
+      "value": "1"
+    },
+    {
+      "key": "feedbackId",
+      "value": "1"
+    },
+    {
+      "key": "systemFeedbackContent",
+      "value": "Giao diện hệ thống dễ sử dụng nhưng cần thêm chế độ tối."
+    },
+    {
+      "key": "quizFeedbackContent",
+      "value": "Quiz này có một câu hỏi cần kiểm tra lại đáp án đúng."
+    }
+  ]
+}

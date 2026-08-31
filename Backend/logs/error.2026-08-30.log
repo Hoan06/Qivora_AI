@@ -1,0 +1,5 @@
+2026-08-30 09:25:29.290 [http-nio-8080-exec-1] ERROR project_backend.aspect.AppAspect - Phương thức login thất bại sau 1187 ms với lỗi: Username hoặc mật khẩu không chính xác
+2026-08-30 11:11:21.910 [http-nio-8080-exec-6] ERROR project_backend.aspect.AppAspect - Phương thức login thất bại sau 205 ms với lỗi: Username hoặc mật khẩu không chính xác
+2026-08-30 11:12:41.825 [http-nio-8080-exec-4] ERROR project_backend.aspect.AppAspect - Phương thức login thất bại sau 112 ms với lỗi: Username hoặc mật khẩu không chính xác
+2026-08-30 11:12:42.814 [http-nio-8080-exec-10] ERROR project_backend.aspect.AppAspect - Phương thức login thất bại sau 111 ms với lỗi: Username hoặc mật khẩu không chính xác
+2026-08-30 11:12:47.447 [http-nio-8080-exec-2] ERROR project_backend.aspect.AppAspect - Phương thức login thất bại sau 163 ms với lỗi: Username hoặc mật khẩu không chính xác
