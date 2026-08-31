@@ -1,0 +1,6 @@
+2026-08-31 21:19:09.667 [restartedMain] INFO  project_backend.BackendApplication - Starting BackendApplication using Java 17.0.18 with PID 30804 (D:\HOC_LAP_TRINH\AI_Application\2. Project Example Holiday\Example Project Holiday\qivora\Backend\build\classes\java\main started by HUY HOAN in D:\HOC_LAP_TRINH\AI_Application\2. Project Example Holiday\Example Project Holiday\qivora\Backend)
+2026-08-31 21:19:09.671 [restartedMain] INFO  project_backend.BackendApplication - No active profile set, falling back to 1 default profile: "default"
+2026-08-31 21:19:13.722 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-08-31 21:19:14.155 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@553da1cf
+2026-08-31 21:19:14.157 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-08-31 21:19:26.836 [restartedMain] INFO  project_backend.BackendApplication - Started BackendApplication in 17.677 seconds (process running for 18.693)

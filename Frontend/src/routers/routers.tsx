@@ -12,15 +12,20 @@ import Statistical from "../pages/Statistical";
 import TakeQuiz from "../pages/TakeQuiz";
 import TakeQuizWithAI from "../pages/TakeQuizWithAI";
 
+import { useSelector } from "react-redux";
+import { type RootState } from "../store/store";
+
 function HomeRoute() {
-  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+  const isAuthenticated =
+    useSelector((state: RootState) => state.login.isAuthenticated) ||
+    localStorage.getItem("isLoggedIn") === "true";
   const roles = JSON.parse(localStorage.getItem("roles") || "[]") as string[];
 
-  if (isLoggedIn && roles.includes("ADMIN")) {
+  if (isAuthenticated && roles.includes("ADMIN")) {
     return <Statistical />;
   }
 
-  return isLoggedIn ? <HomeConfirmLogin /> : <Home />;
+  return isAuthenticated ? <HomeConfirmLogin /> : <Home />;
 }
 
 export const routers = createBrowserRouter([
