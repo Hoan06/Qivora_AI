@@ -2,7 +2,6 @@ import { createBrowserRouter } from "react-router-dom";
 import AdminFeedbackManager from "../pages/AdminFeedbackManager";
 import AdminQuizManager from "../pages/AdminQuizManager";
 import AdminUserManager from "../pages/AdminUserManager";
-import AuthPage from "../pages/AuthPage";
 import CreateManualQuiz from "../pages/CreateManualQuiz";
 import Home from "../pages/Home";
 import HomeConfirmLogin from "../pages/HomeConfirmLogin";
@@ -31,11 +30,11 @@ export const routers = createBrowserRouter([
   },
   {
     path: "/login",
-    element: <AuthPage initialMode="login" />,
+    element: <Home initialAuthModal="login" />,
   },
   {
     path: "/register",
-    element: <AuthPage initialMode="register" />,
+    element: <Home initialAuthModal="register" />,
   },
   {
     path: "/quiz-inventory",
