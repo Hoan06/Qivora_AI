@@ -56,6 +56,7 @@ export default function AuthModal({
   // Register form state
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
@@ -132,6 +133,7 @@ export default function AuthModal({
       setLoginIdentity(email.trim().split("@")[0] || email.trim());
       setLoginPassword("");
       setConfirmPassword("");
+      setPhone("");
     } catch (err: any) {
       const msg = typeof err === "string" ? err : err?.message || "Đăng ký thất bại.";
       setErrorMessage(msg);
@@ -146,16 +148,16 @@ export default function AuthModal({
   return (
     <div
       onClick={onClose}
-      className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4 transition-opacity duration-300"
+      className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4 py-6 overflow-y-auto no-scrollbar transition-opacity duration-300"
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="w-full max-w-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 shadow-2xl relative transform transition-all duration-300 scale-100"
+        className="w-full max-w-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-7 shadow-2xl relative my-auto max-h-[90vh] overflow-y-auto no-scrollbar transform transition-all duration-300 scale-100"
       >
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 text-slate-400 hover:text-slate-600 dark:hover:text-white transition-colors"
+          className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 dark:hover:text-white transition-colors"
         >
           <i className="fa-solid fa-xmark text-lg"></i>
         </button>
@@ -164,12 +166,12 @@ export default function AuthModal({
         <img
           src={logo}
           alt="Qivora Logo"
-          className="w-12 h-12 rounded-2xl object-cover shadow-lg shadow-purple-500/30 mb-6 mx-auto"
+          className="w-11 h-11 rounded-2xl object-cover shadow-lg shadow-purple-500/30 mb-4 mx-auto"
         />
 
         {/* Error notification banner */}
         {errorMessage && (
-          <div className="mb-4 p-3 rounded-xl bg-red-500/10 border border-red-500/30 text-xs font-semibold text-red-500 text-center">
+          <div className="mb-3 p-2.5 rounded-xl bg-red-500/10 border border-red-500/30 text-xs font-semibold text-red-500 text-center">
             {errorMessage}
           </div>
         )}
@@ -177,10 +179,10 @@ export default function AuthModal({
         {/* LOGIN STATE */}
         {mode === "login" ? (
           <div>
-            <h3 className="text-2xl font-extrabold text-center mb-1 text-slate-900 dark:text-white">
+            <h3 className="text-xl sm:text-2xl font-extrabold text-center mb-1 text-slate-900 dark:text-white">
               Chào Mừng Trở Lại
             </h3>
-            <p className="text-xs text-slate-500 text-center mb-6">
+            <p className="text-xs text-slate-500 text-center mb-5">
               Đăng nhập tài khoản Qivora của bạn
             </p>
 
@@ -188,9 +190,9 @@ export default function AuthModal({
             <button
               type="button"
               onClick={handleGoogleAuth}
-              className="w-full py-3 px-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 hover:bg-slate-100 dark:hover:bg-slate-800/80 text-slate-700 dark:text-slate-200 text-sm font-semibold flex items-center justify-center gap-3 transition-all shadow-sm hover:shadow mb-4"
+              className="w-full py-2.5 px-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 hover:bg-slate-100 dark:hover:bg-slate-800/80 text-slate-700 dark:text-slate-200 text-sm font-semibold flex items-center justify-center gap-3 transition-all shadow-sm hover:shadow mb-3.5"
             >
-              <svg className="w-5 h-5 shrink-0" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24">
                 <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
                 <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
                 <path fill="#FBBC05" d="M5.84 14.1c-.22-.66-.35-1.36-.35-2.1s.13-1.44.35-2.1V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.62z" />
@@ -200,20 +202,20 @@ export default function AuthModal({
             </button>
 
             {/* Divider */}
-            <div className="relative my-4 flex items-center justify-center">
+            <div className="relative my-3.5 flex items-center justify-center">
               <div className="w-full border-t border-slate-200 dark:border-slate-800"></div>
               <span className="absolute bg-white dark:bg-slate-900 px-3 text-[11px] font-bold text-slate-400 uppercase tracking-wider">
                 hoặc email
               </span>
             </div>
 
-            <form onSubmit={handleLoginSubmit} className="space-y-4">
+            <form onSubmit={handleLoginSubmit} className="space-y-3">
               <input
                 type="text"
                 placeholder="Email hoặc Tên đăng nhập"
                 value={loginIdentity}
                 onChange={(e) => setLoginIdentity(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white text-sm font-medium outline-none focus:border-purple-500 transition-colors"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white text-sm font-medium outline-none focus:border-purple-500 transition-colors"
                 required
               />
               <input
@@ -221,21 +223,21 @@ export default function AuthModal({
                 placeholder="Mật khẩu"
                 value={loginPassword}
                 onChange={(e) => setLoginPassword(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white text-sm font-medium outline-none focus:border-purple-500 transition-colors"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white text-sm font-medium outline-none focus:border-purple-500 transition-colors"
                 required
               />
 
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3 rounded-xl bg-gradient-to-r from-purple-600 to-pink-500 text-white font-bold text-sm shadow-md hover:shadow-purple-500/30 hover:opacity-95 transition-all flex items-center justify-center gap-2"
+                className="w-full py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-pink-500 text-white font-bold text-sm shadow-md hover:shadow-purple-500/30 hover:opacity-95 transition-all flex items-center justify-center gap-2 mt-1"
               >
                 {loading && <i className="fa-solid fa-spinner fa-spin"></i>}
                 <span>Đăng nhập</span>
               </button>
             </form>
 
-            <p className="text-xs text-center text-slate-500 mt-6">
+            <p className="text-xs text-center text-slate-500 mt-5">
               Chưa có tài khoản?{" "}
               <button
                 type="button"
@@ -252,10 +254,10 @@ export default function AuthModal({
         ) : (
           /* REGISTER STATE */
           <div>
-            <h3 className="text-2xl font-extrabold text-center mb-1 text-slate-900 dark:text-white">
+            <h3 className="text-xl sm:text-2xl font-extrabold text-center mb-1 text-slate-900 dark:text-white">
               Tạo Tài Khoản
             </h3>
-            <p className="text-xs text-slate-500 text-center mb-6">
+            <p className="text-xs text-slate-500 text-center mb-4">
               Trải nghiệm tạo đề AI miễn phí
             </p>
 
@@ -263,9 +265,9 @@ export default function AuthModal({
             <button
               type="button"
               onClick={handleGoogleAuth}
-              className="w-full py-3 px-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 hover:bg-slate-100 dark:hover:bg-slate-800/80 text-slate-700 dark:text-slate-200 text-sm font-semibold flex items-center justify-center gap-3 transition-all shadow-sm hover:shadow mb-4"
+              className="w-full py-2.5 px-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 hover:bg-slate-100 dark:hover:bg-slate-800/80 text-slate-700 dark:text-slate-200 text-sm font-semibold flex items-center justify-center gap-3 transition-all shadow-sm hover:shadow mb-3"
             >
-              <svg className="w-5 h-5 shrink-0" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24">
                 <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
                 <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
                 <path fill="#FBBC05" d="M5.84 14.1c-.22-.66-.35-1.36-.35-2.1s.13-1.44.35-2.1V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.62z" />
@@ -275,20 +277,20 @@ export default function AuthModal({
             </button>
 
             {/* Divider */}
-            <div className="relative my-4 flex items-center justify-center">
+            <div className="relative my-3 flex items-center justify-center">
               <div className="w-full border-t border-slate-200 dark:border-slate-800"></div>
               <span className="absolute bg-white dark:bg-slate-900 px-3 text-[11px] font-bold text-slate-400 uppercase tracking-wider">
                 hoặc email
               </span>
             </div>
 
-            <form onSubmit={handleRegisterSubmit} className="space-y-3.5">
+            <form onSubmit={handleRegisterSubmit} className="space-y-2.5">
               <input
                 type="text"
                 placeholder="Họ và tên đầy đủ"
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white text-sm font-medium outline-none focus:border-purple-500 transition-colors"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white text-sm font-medium outline-none focus:border-purple-500 transition-colors"
                 required
               />
               <input
@@ -296,8 +298,17 @@ export default function AuthModal({
                 placeholder="Địa chỉ Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white text-sm font-medium outline-none focus:border-purple-500 transition-colors"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white text-sm font-medium outline-none focus:border-purple-500 transition-colors"
                 required
+              />
+
+              {/* Optional Phone Number Input */}
+              <input
+                type="tel"
+                placeholder="Số điện thoại (không bắt buộc)"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white text-sm font-medium outline-none focus:border-purple-500 transition-colors"
               />
 
               {/* Password Input */}
@@ -306,7 +317,7 @@ export default function AuthModal({
                 placeholder="Mật khẩu"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white text-sm font-medium outline-none focus:border-purple-500 transition-colors"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white text-sm font-medium outline-none focus:border-purple-500 transition-colors"
                 required
               />
 
@@ -345,7 +356,7 @@ export default function AuthModal({
                   placeholder="Xác nhận mật khẩu"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  className={`w-full px-4 py-3 rounded-xl border bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white text-sm font-medium outline-none transition-colors ${
+                  className={`w-full px-3.5 py-2.5 rounded-xl border bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white text-sm font-medium outline-none transition-colors ${
                     confirmPassword && confirmPassword !== password
                       ? "border-red-500 focus:border-red-500"
                       : confirmPassword && confirmPassword === password
@@ -364,14 +375,14 @@ export default function AuthModal({
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3 rounded-xl bg-gradient-to-r from-purple-600 to-pink-500 text-white font-bold text-sm shadow-md hover:shadow-purple-500/30 hover:opacity-95 transition-all flex items-center justify-center gap-2"
+                className="w-full py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-pink-500 text-white font-bold text-sm shadow-md hover:shadow-purple-500/30 hover:opacity-95 transition-all flex items-center justify-center gap-2 mt-1"
               >
                 {loading && <i className="fa-solid fa-spinner fa-spin"></i>}
                 <span>Đăng ký tài khoản</span>
               </button>
             </form>
 
-            <p className="text-xs text-center text-slate-500 mt-6">
+            <p className="text-xs text-center text-slate-500 mt-4">
               Đã có tài khoản?{" "}
               <button
                 type="button"
