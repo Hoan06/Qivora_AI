@@ -1,12 +1,50 @@
 <!doctype html>
-<html lang="en">
+<html lang="vi" class="dark">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="/src/assets/logo.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Qivora - Nền tảng làm trắc nghiệm cùng AI</title>
+    <title>Qivora - Nền tảng Tạo & Phân Tích Đề Thi AI Thế Hệ Mới</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <!-- Lottie Web Player -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Plus Jakarta Sans', 'sans-serif'],
+            },
+            colors: {
+              brand: {
+                purple: '#a855f7',
+                cyan: '#06b6d4',
+                pink: '#ec4899',
+                emerald: '#10b981',
+              }
+            },
+            animation: {
+              'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+              'float': 'float 4s ease-in-out infinite',
+            },
+            keyframes: {
+              float: {
+                '0%, 100%': { transform: 'translateY(0px)' },
+                '50%': { transform: 'translateY(-8px)' },
+              }
+            }
+          }
+        }
+      }
+    </script>
   </head>
-  <body>
+  <body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 min-h-screen relative font-sans antialiased selection:bg-purple-500 selection:text-white">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

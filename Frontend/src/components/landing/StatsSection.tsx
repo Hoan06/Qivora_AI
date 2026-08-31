@@ -1,69 +1,79 @@
 import { useEffect, useRef, useState } from "react";
 
-const stats = [
-  { icon: "📝", label: "Quiz đã tạo", suffix: "+", target: 50000 },
-  { icon: "👥", label: "Lượt làm bài", suffix: "+", target: 200000 },
-  { icon: "🏆", label: "Người dùng", suffix: "+", target: 10000 },
-  { icon: "🤖", label: "Độ hài lòng", suffix: "%", target: 99 },
-];
+interface CounterItemProps {
+  target: number;
+  decimals?: number;
+  suffix?: string;
+  useComma?: boolean;
+  label: string;
+}
 
-function AnimatedStat({ icon, label, suffix, target }: (typeof stats)[number]) {
-  const [value, setValue] = useState(0);
-  const cardRef = useRef<HTMLElement | null>(null);
+function CounterItem({ target, decimals = 0, suffix = "", useComma = false, label }: CounterItemProps) {
+  const [val, setVal] = useState(0);
+  const ref = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    const card = cardRef.current;
-    if (!card) return;
+    const el = ref.current;
+    if (!el) return;
 
+    let started = false;
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting) return;
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !started) {
+            started = true;
+            let startTimestamp: number | null = null;
+            const duration = 2000;
 
-        const startedAt = performance.now();
-        const duration = 1300;
+            const step = (timestamp: number) => {
+              if (!startTimestamp) startTimestamp = timestamp;
+              const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+              const easeProgress = 1 - Math.pow(1 - progress, 3);
+              const current = target * easeProgress;
+              setVal(current);
 
-        const tick = (time: number) => {
-          const progress = Math.min((time - startedAt) / duration, 1);
-          const eased = 1 - (1 - progress) ** 3;
-
-          setValue(Math.floor(target * eased));
-
-          if (progress < 1) {
-            window.requestAnimationFrame(tick);
+              if (progress < 1) {
+                window.requestAnimationFrame(step);
+              }
+            };
+            window.requestAnimationFrame(step);
+            observer.unobserve(entry.target);
           }
-        };
-
-        card.classList.add("is-visible");
-        window.requestAnimationFrame(tick);
-        observer.unobserve(card);
+        });
       },
-      { threshold: 0.32 },
+      { threshold: 0.3 }
     );
 
-    observer.observe(card);
-
+    observer.observe(el);
     return () => observer.disconnect();
   }, [target]);
 
+  let formatted = decimals > 0 ? val.toFixed(decimals) : Math.floor(val).toString();
+  if (useComma) {
+    const parts = formatted.split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    formatted = parts.join(".");
+  }
+
   return (
-    <article className="qv-card qv-stat qv-tilt-card qv-reveal" ref={cardRef}>
-      <span>{icon}</span>
-      <strong>
-        {value.toLocaleString("vi-VN")}
+    <div ref={ref}>
+      <div className="text-3xl font-extrabold bg-gradient-to-r from-purple-600 to-cyan-500 bg-clip-text text-transparent">
+        {formatted}
         {suffix}
-      </strong>
-      <p>{label}</p>
-    </article>
+      </div>
+      <div className="text-xs font-semibold text-slate-500 dark:text-slate-400 mt-1">{label}</div>
+    </div>
   );
 }
 
 export default function StatsSection() {
   return (
-    <section className="qv-section" id="stats">
-      <div className="qv-container qv-stats">
-        {stats.map((stat) => (
-          <AnimatedStat key={stat.label} {...stat} />
-        ))}
+    <section className="max-w-5xl mx-auto px-4 sm:px-6 my-16">
+      <div className="reveal-on-scroll is-visible grid grid-cols-2 md:grid-cols-4 gap-6 p-8 rounded-3xl border border-slate-200 dark:border-slate-800 bg-white/60 dark:bg-slate-900/40 backdrop-blur-lg text-center shadow-lg">
+        <CounterItem target={500000} useComma suffix="+" label="Quiz Đã Khởi Tạo" />
+        <CounterItem target={99.8} decimals={1} suffix="%" label="Độ Chính Xác AI" />
+        <CounterItem target={4.9} decimals={1} suffix=" / 5.0" label="Đánh Giá Tuyệt Đối" />
+        <CounterItem target={50000} useComma suffix="+" label="Người Dùng Tin Tưởng" />
       </div>
     </section>
   );

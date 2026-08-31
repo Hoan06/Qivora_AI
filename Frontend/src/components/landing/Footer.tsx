@@ -1,54 +1,24 @@
-const productLinks = ["Tạo quiz AI", "Phòng thi", "Lịch sử điểm", "Bảng xếp hạng"];
-const companyLinks = ["Về Qivora", "Blog", "Liên hệ", "Điều khoản"];
+import logo from "../../assets/logo.png";
 
 export default function Footer() {
   return (
-    <footer className="qv-footer">
-      <div className="qv-container qv-footer-grid">
-        <div>
-          <a className="qv-brand" href="#home">
-            <span>Q</span>ivora
+    <footer className="border-t border-slate-200 dark:border-slate-800 bg-white/40 dark:bg-slate-950/40 py-12">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-6 text-xs text-slate-500 dark:text-slate-400">
+        <div className="flex items-center gap-2">
+          <img src={logo} alt="Qivora Logo" className="h-6 w-auto rounded-lg object-contain" />
+          <span>© 2026 Qivora AI. All rights reserved.</span>
+        </div>
+        <div className="flex items-center gap-6">
+          <a href="#" className="hover:text-slate-800 dark:hover:text-white transition-colors">
+            Điều khoản
           </a>
-          <p>Quiz Master with AI cho học tập, kiểm tra và cạnh tranh kiến thức thông minh.</p>
-          <div className="qv-socials">
-            <span>🌐</span>
-            <span>💬</span>
-            <span>▶</span>
-            <span>📚</span>
-          </div>
+          <a href="#" className="hover:text-slate-800 dark:hover:text-white transition-colors">
+            Bảo mật
+          </a>
+          <a href="#" className="hover:text-slate-800 dark:hover:text-white transition-colors">
+            Liên hệ
+          </a>
         </div>
-
-        <div>
-          <h3>Sản phẩm</h3>
-          {productLinks.map((link) => (
-            <a href="#home" key={link}>
-              {link}
-            </a>
-          ))}
-        </div>
-
-        <div>
-          <h3>Công ty</h3>
-          {companyLinks.map((link) => (
-            <a href="#home" key={link}>
-              {link}
-            </a>
-          ))}
-        </div>
-
-        <div>
-          <h3>Newsletter</h3>
-          <p>Nhận mẹo học tập và cập nhật tính năng mới.</p>
-          <form className="qv-newsletter" onSubmit={(event) => event.preventDefault()}>
-            <input aria-label="Email newsletter" placeholder="Email của bạn" />
-            <button type="submit">→</button>
-          </form>
-        </div>
-      </div>
-
-      <div className="qv-container qv-copyright">
-        <span>© 2026 Qivora. All rights reserved.</span>
-        <span>Made for smarter quizzes.</span>
       </div>
     </footer>
   );

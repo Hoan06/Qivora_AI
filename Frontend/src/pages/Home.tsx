@@ -1,127 +1,78 @@
-import FeedbackFloatingButton from "../components/landing/FeedbackFloatingButton";
-import FinalCtaSection from "../components/landing/FinalCtaSection";
+import { useState } from "react";
+import AuthModal from "../components/landing/AuthModal";
+import BunnyAssistant from "../components/landing/BunnyAssistant";
+import FaqSection from "../components/landing/FaqSection";
+import FeaturesSection from "../components/landing/FeaturesSection";
 import Footer from "../components/landing/Footer";
 import HeroSection from "../components/landing/HeroSection";
-import LandingScrollEffects from "../components/landing/LandingScrollEffects";
-import MiniQuizDemo from "../components/landing/MiniQuizDemo";
 import Navbar from "../components/landing/Navbar";
-import ParticleCanvas from "../components/landing/ParticleCanvas";
-import SplashScreen from "../components/landing/SplashScreen";
+import PlaygroundSection from "../components/landing/PlaygroundSection";
 import StatsSection from "../components/landing/StatsSection";
-import TestimonialsSection from "../components/landing/TestimonialsSection";
-import "../styles/landing.css";
+import Toast from "../components/landing/Toast";
 
-const features = [
-  {
-    icon: "🤖",
-    title: "AI Tạo Đề Tự Động",
-    description: "Nhập chủ đề, AI sinh câu hỏi tức thì với độ khó và số câu tùy chọn.",
-  },
-  {
-    icon: "⚡",
-    title: "Thi Thời Gian Thực",
-    description: "Đếm ngược, tự nộp bài và chấm điểm ngay sau khi hoàn thành.",
-  },
-  {
-    icon: "🔒",
-    title: "Bảo Vệ Đề Thi",
-    description: "Mật khẩu phòng thi, giới hạn thời gian và trạng thái mở đóng rõ ràng.",
-  },
-  {
-    icon: "📊",
-    title: "Phân Tích Kết Quả",
-    description: "Xem điểm, đáp án đúng sai và giải thích chi tiết sau mỗi lần thi.",
-  },
-  {
-    icon: "🌐",
-    title: "Chia Sẻ Dễ Dàng",
-    description: "Gửi link ngắn hoặc QZ-Code để người học tham gia trong vài giây.",
-  },
-  {
-    icon: "👑",
-    title: "Bảng Xếp Hạng",
-    description: "Cạnh tranh lành mạnh theo điểm số, thời gian và tiến bộ học tập.",
-  },
-];
+interface HomeProps {
+  initialAuthModal?: "login" | "register";
+}
 
-const steps = [
-  {
-    number: "1",
-    title: "🔍 Tìm hoặc Tạo Quiz",
-    description: "Nhập mã quiz có sẵn hoặc dùng AI để tạo đề mới.",
-  },
-  {
-    number: "2",
-    title: "🎯 Làm Bài & Cạnh Tranh",
-    description: "Đồng hồ đếm ngược, chọn A/B/C/D và theo dõi tiến độ.",
-  },
-  {
-    number: "3",
-    title: "🏆 Xem Kết Quả",
-    description: "Nhận điểm số, giải thích đáp án và cải thiện sau mỗi lần thi.",
-  },
-];
+export default function Home({ initialAuthModal }: HomeProps) {
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [authModalOpen, setAuthModalOpen] = useState<boolean>(!!initialAuthModal);
+  const [authModalMode, setAuthModalMode] = useState<"login" | "register">(
+    initialAuthModal || "login"
+  );
 
-export default function Home() {
+  const handleOpenAuth = (mode: "login" | "register") => {
+    setAuthModalMode(mode);
+    setAuthModalOpen(true);
+  };
+
+  const handleCloseAuth = () => {
+    setAuthModalOpen(false);
+  };
+
+  const showToast = (msg: string) => {
+    setToastMessage(msg);
+  };
+
   return (
-    <main className="qv-page">
-      <LandingScrollEffects />
-      <SplashScreen />
-      <ParticleCanvas />
+    <div className="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 min-h-screen relative font-sans antialiased selection:bg-purple-500 selection:text-white">
+      {/* Ambient Subtle Background Glow */}
+      <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[600px] bg-gradient-to-b from-purple-500/10 via-cyan-500/5 to-transparent blur-3xl dark:from-purple-600/15 dark:via-cyan-500/10 z-0"></div>
 
-      <div className="qv-aurora" aria-hidden="true">
-        <span className="qv-blob qv-blob-1" />
-        <span className="qv-blob qv-blob-2" />
-        <span className="qv-blob qv-blob-3" />
-      </div>
+      {/* NAVBAR */}
+      <Navbar onOpenAuth={handleOpenAuth} />
 
-      <Navbar />
-      <HeroSection />
+      {/* HERO SECTION */}
+      <HeroSection onShowToast={showToast} />
+
+      {/* STATS BAR */}
       <StatsSection />
-      <FeedbackFloatingButton />
 
-      <section className="qv-section" id="features">
-        <div className="qv-container">
-          <h2 className="qv-title qv-reveal">Tại Sao Chọn Qivora?</h2>
-          <p className="qv-subtitle qv-reveal">
-            Một nền tảng quiz hiện đại cho tạo đề, làm bài, chấm điểm và cải thiện kiến thức nhanh hơn.
-          </p>
+      {/* FEATURES SECTION */}
+      <FeaturesSection />
 
-          <div className="qv-feature-grid">
-            {features.map((feature) => (
-              <article className="qv-card qv-feature qv-tilt-card" key={feature.title}>
-                <div className="qv-feature-icon">{feature.icon}</div>
-                <h3>{feature.title}</h3>
-                <p>{feature.description}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* LIVE DEMO QUIZ PLAYGROUND */}
+      <PlaygroundSection onShowToast={showToast} />
 
-      <section className="qv-section">
-        <div className="qv-container">
-          <h2 className="qv-title qv-reveal">Chỉ 3 Bước Đơn Giản</h2>
-          <p className="qv-subtitle qv-reveal">
-            Từ ý tưởng đến bài thi hoàn chỉnh, mọi thứ được gom trong một quy trình thật gọn.
-          </p>
+      {/* FAQ SECTION */}
+      <FaqSection />
 
-          <div className="qv-steps">
-            {steps.map((step) => (
-              <article className="qv-card qv-step" key={step.number}>
-                <div className="qv-cube">{step.number}</div>
-                <h3>{step.title}</h3>
-                <p>{step.description}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <MiniQuizDemo />
-      <TestimonialsSection />
-      <FinalCtaSection />
+      {/* FOOTER */}
       <Footer />
-    </main>
+
+      {/* LOTTIE BUNNY ASSISTANT WIDGET */}
+      <BunnyAssistant onShowToast={showToast} />
+
+      {/* AUTH MODAL */}
+      <AuthModal
+        isOpen={authModalOpen}
+        initialMode={authModalMode}
+        onClose={handleCloseAuth}
+        onShowToast={showToast}
+      />
+
+      {/* TOAST ALERT CONTAINER */}
+      <Toast message={toastMessage} onClear={() => setToastMessage(null)} />
+    </div>
   );
 }
