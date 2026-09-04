@@ -4,3 +4,63 @@
 2026-08-31 21:19:14.155 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@553da1cf
 2026-08-31 21:19:14.157 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
 2026-08-31 21:19:26.836 [restartedMain] INFO  project_backend.BackendApplication - Started BackendApplication in 17.677 seconds (process running for 18.693)
+2026-08-31 21:20:24.022 [http-nio-8080-exec-2] INFO  project_backend.aspect.AppAspect - User: anonymousUser | Chức năng: register() | Thời gian thực hiện: 377 ms
+2026-08-31 21:20:30.719 [http-nio-8080-exec-3] INFO  project_backend.aspect.AppAspect - User: anonymousUser | Chức năng: login() | Thời gian thực hiện: 772 ms
+2026-08-31 21:21:47.226 [http-nio-8080-exec-5] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 637 ms
+2026-08-31 21:21:47.226 [http-nio-8080-exec-6] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 633 ms
+2026-08-31 21:21:47.226 [http-nio-8080-exec-4] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 637 ms
+2026-08-31 21:21:47.238 [http-nio-8080-exec-4] INFO  project_backend.aspect.AppAspect - User: test1 | Chức năng: getCurrentUser() | Thời gian thực hiện: 3 ms
+2026-08-31 21:21:47.248 [http-nio-8080-exec-8] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 1 ms
+2026-08-31 21:21:47.257 [http-nio-8080-exec-8] INFO  project_backend.aspect.AppAspect - User: test1 | Chức năng: getCurrentUser() | Thời gian thực hiện: 3 ms
+2026-08-31 21:21:47.276 [http-nio-8080-exec-5] INFO  project_backend.aspect.AppAspect - User: test1 | Chức năng: getMyAttemptHistory() | Thời gian thực hiện: 38 ms
+2026-08-31 21:21:47.286 [http-nio-8080-exec-7] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 0 ms
+2026-08-31 21:21:47.287 [http-nio-8080-exec-6] INFO  project_backend.aspect.AppAspect - User: test1 | Chức năng: getTopRankings() | Thời gian thực hiện: 48 ms
+2026-08-31 21:21:47.298 [http-nio-8080-exec-9] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 1 ms
+2026-08-31 21:21:47.299 [http-nio-8080-exec-7] INFO  project_backend.aspect.AppAspect - User: test1 | Chức năng: getMyAttemptHistory() | Thời gian thực hiện: 7 ms
+2026-08-31 21:21:47.310 [http-nio-8080-exec-9] INFO  project_backend.aspect.AppAspect - User: test1 | Chức năng: getTopRankings() | Thời gian thực hiện: 6 ms
+2026-08-31 21:23:03.608 [http-nio-8080-exec-10] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 1 ms
+2026-08-31 21:23:03.620 [http-nio-8080-exec-10] INFO  project_backend.aspect.AppAspect - User: test1 | Chức năng: getCurrentUser() | Thời gian thực hiện: 3 ms
+2026-08-31 21:23:03.630 [http-nio-8080-exec-1] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 1 ms
+2026-08-31 21:23:03.641 [http-nio-8080-exec-1] INFO  project_backend.aspect.AppAspect - User: test1 | Chức năng: getCurrentUser() | Thời gian thực hiện: 3 ms
+2026-08-31 21:23:06.788 [http-nio-8080-exec-2] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 1 ms
+2026-08-31 21:23:10.309 [http-nio-8080-exec-2] INFO  project_backend.aspect.AppAspect - User: test1 | Chức năng: uploadAvatar() | Thời gian thực hiện: 3458 ms
+2026-08-31 21:23:10.321 [http-nio-8080-exec-2] INFO  project_backend.aspect.AppAspect - User: test1 | Chức năng: updateAvatar() | Thời gian thực hiện: 3474 ms
+2026-08-31 21:23:14.829 [http-nio-8080-exec-3] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 1 ms
+2026-08-31 21:23:14.831 [http-nio-8080-exec-8] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 2 ms
+2026-08-31 21:23:14.831 [http-nio-8080-exec-4] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 2 ms
+2026-08-31 21:23:14.840 [http-nio-8080-exec-3] INFO  project_backend.aspect.AppAspect - User: test1 | Chức năng: getCurrentUser() | Thời gian thực hiện: 4 ms
+2026-08-31 21:23:14.842 [http-nio-8080-exec-8] INFO  project_backend.aspect.AppAspect - User: test1 | Chức năng: getTopRankings() | Thời gian thực hiện: 4 ms
+2026-08-31 21:23:14.846 [http-nio-8080-exec-4] INFO  project_backend.aspect.AppAspect - User: test1 | Chức năng: getMyAttemptHistory() | Thời gian thực hiện: 8 ms
+2026-08-31 21:23:14.850 [http-nio-8080-exec-5] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 1 ms
+2026-08-31 21:23:14.854 [http-nio-8080-exec-6] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 1 ms
+2026-08-31 21:23:14.856 [http-nio-8080-exec-7] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 1 ms
+2026-08-31 21:23:14.863 [http-nio-8080-exec-5] INFO  project_backend.aspect.AppAspect - User: test1 | Chức năng: getCurrentUser() | Thời gian thực hiện: 4 ms
+2026-08-31 21:23:14.869 [http-nio-8080-exec-7] INFO  project_backend.aspect.AppAspect - User: test1 | Chức năng: getMyAttemptHistory() | Thời gian thực hiện: 4 ms
+2026-08-31 21:23:14.871 [http-nio-8080-exec-6] INFO  project_backend.aspect.AppAspect - User: test1 | Chức năng: getTopRankings() | Thời gian thực hiện: 7 ms
+2026-08-31 21:23:16.290 [http-nio-8080-exec-9] INFO  project_backend.aspect.AppAspect - User: Anonymous | Chức năng: isCheckBlacklist() | Thời gian thực hiện: 2 ms
+2026-08-31 21:23:16.370 [http-nio-8080-exec-9] INFO  project_backend.aspect.AppAspect - User: test1 | Chức năng: blacklistToken() | Thời gian thực hiện: 27 ms
+2026-08-31 21:23:16.374 [http-nio-8080-exec-9] INFO  project_backend.aspect.AppAspect - User: test1 | Chức năng: blacklistToken() | Thời gian thực hiện: 2 ms
+2026-08-31 21:23:16.375 [http-nio-8080-exec-9] INFO  project_backend.aspect.AppAspect - User: test1 | Chức năng: logout() | Thời gian thực hiện: 63 ms
+2026-08-31 21:25:16.767 [lettuce-nioEventLoop-4-1] INFO  io.lettuce.core.protocol.CommandHandler - null Unexpected exception during request: java.net.SocketException: Connection reset
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:394)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:426)
+	at io.netty.buffer.AdaptivePoolingAllocator$AdaptiveByteBuf.setBytes(AdaptivePoolingAllocator.java:2018)
+	at io.netty.buffer.AbstractByteBuf.writeBytes(AbstractByteBuf.java:1139)
+	at io.netty.channel.socket.nio.NioSocketChannel.doReadBytes(NioSocketChannel.java:350)
+	at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:161)
+	at io.netty.channel.nio.AbstractNioChannel$AbstractNioUnsafe.handle(AbstractNioChannel.java:445)
+	at io.netty.channel.nio.NioIoHandler$DefaultNioRegistration.handle(NioIoHandler.java:388)
+	at io.netty.channel.nio.NioIoHandler.processSelectedKey(NioIoHandler.java:596)
+	at io.netty.channel.nio.NioIoHandler.processSelectedKeysOptimized(NioIoHandler.java:571)
+	at io.netty.channel.nio.NioIoHandler.processSelectedKeys(NioIoHandler.java:512)
+	at io.netty.channel.nio.NioIoHandler.run(NioIoHandler.java:484)
+	at io.netty.channel.SingleThreadIoEventLoop.runIo(SingleThreadIoEventLoop.java:225)
+	at io.netty.channel.SingleThreadIoEventLoop.run(SingleThreadIoEventLoop.java:196)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$5.run(SingleThreadEventExecutor.java:1195)
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+2026-08-31 21:25:16.849 [lettuce-eventExecutorLoop-1-1] INFO  io.lettuce.core.protocol.ConnectionWatchdog - Reconnecting, last destination was /127.0.0.1:6379
+2026-08-31 21:25:18.664 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-08-31 21:25:18.667 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.

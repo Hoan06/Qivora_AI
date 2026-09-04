@@ -67,7 +67,6 @@ export default function AuthModal({
 
   const [mode, setMode] = useState<"login" | "register">(initialMode);
   const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
 
   // Login form state
   const [loginIdentity, setLoginIdentity] = useState("");
@@ -82,7 +81,6 @@ export default function AuthModal({
 
   useEffect(() => {
     setMode(initialMode);
-    setErrorMessage("");
   }, [initialMode, isOpen]);
 
   if (!isOpen) return null;
@@ -97,7 +95,6 @@ export default function AuthModal({
 
   const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setErrorMessage("");
     setLoading(true);
 
     try {
@@ -116,8 +113,7 @@ export default function AuthModal({
         navigate("/");
       }
     } catch (err: any) {
-      const msg = extractErrorMessage(err, "Đăng nhập thất bại.");
-      setErrorMessage(msg);
+      const msg = extractErrorMessage(err, "Username hoặc mật khẩu không chính xác.");
       onShowToast(msg);
     } finally {
       setLoading(false);
@@ -126,11 +122,9 @@ export default function AuthModal({
 
   const handleRegisterSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setErrorMessage("");
 
     if (password !== confirmPassword) {
       const msg = "Mật khẩu xác nhận không khớp. Vui lòng kiểm tra lại!";
-      setErrorMessage(msg);
       onShowToast(msg);
       return;
     }
@@ -158,7 +152,6 @@ export default function AuthModal({
       setPhone("");
     } catch (err: any) {
       const msg = extractErrorMessage(err, "Đăng ký thất bại.");
-      setErrorMessage(msg);
       onShowToast(msg);
     } finally {
       setLoading(false);
@@ -192,13 +185,6 @@ export default function AuthModal({
           alt="Qivora Logo"
           className="w-10 h-10 rounded-2xl object-cover shadow-lg shadow-purple-500/30 mb-2.5 mx-auto"
         />
-
-        {/* Error notification banner */}
-        {errorMessage && (
-          <div className="mb-2.5 p-2 rounded-xl bg-red-500/10 border border-red-500/30 text-xs font-semibold text-red-500 text-center">
-            {errorMessage}
-          </div>
-        )}
 
         {/* LOGIN STATE */}
         {mode === "login" ? (
@@ -265,10 +251,7 @@ export default function AuthModal({
               Chưa có tài khoản?{" "}
               <button
                 type="button"
-                onClick={() => {
-                  setMode("register");
-                  setErrorMessage("");
-                }}
+                onClick={() => setMode("register")}
                 className="text-purple-600 dark:text-purple-400 font-bold hover:underline"
               >
                 Đăng ký ngay
@@ -410,10 +393,7 @@ export default function AuthModal({
               Đã có tài khoản?{" "}
               <button
                 type="button"
-                onClick={() => {
-                  setMode("login");
-                  setErrorMessage("");
-                }}
+                onClick={() => setMode("login")}
                 className="text-purple-600 dark:text-purple-400 font-bold hover:underline"
               >
                 Đăng nhập

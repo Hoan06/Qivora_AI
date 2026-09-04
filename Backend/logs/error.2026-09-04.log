@@ -1,0 +1,8 @@
+2026-09-04 10:50:15.061 [http-nio-8080-exec-8] ERROR project_backend.aspect.AppAspect - Phương thức changePassword thất bại sau 166 ms với lỗi: Mật khẩu cũ không chính xác
+2026-09-04 10:50:19.862 [http-nio-8080-exec-3] ERROR project_backend.aspect.AppAspect - Phương thức changePassword thất bại sau 142 ms với lỗi: Mật khẩu cũ không chính xác
+2026-09-04 10:51:11.565 [http-nio-8080-exec-6] ERROR project_backend.aspect.AppAspect - Phương thức changePassword thất bại sau 172 ms với lỗi: Mật khẩu cũ không chính xác
+2026-09-04 10:51:15.696 [http-nio-8080-exec-7] ERROR project_backend.aspect.AppAspect - Phương thức changePassword thất bại sau 137 ms với lỗi: Mật khẩu cũ không chính xác
+2026-09-04 10:51:21.647 [http-nio-8080-exec-9] ERROR project_backend.aspect.AppAspect - Phương thức changePassword thất bại sau 285 ms với lỗi: Mật khẩu mới không được trùng với mật khẩu cũ
+2026-09-04 10:51:38.285 [http-nio-8080-exec-1] ERROR project_backend.aspect.AppAspect - Phương thức login thất bại sau 221 ms với lỗi: Username hoặc mật khẩu không chính xác
+2026-09-04 10:51:56.942 [http-nio-8080-exec-9] ERROR project_backend.aspect.AppAspect - Phương thức login thất bại sau 195 ms với lỗi: Username hoặc mật khẩu không chính xác
+2026-09-04 10:55:42.181 [http-nio-8080-exec-10] ERROR project_backend.aspect.AppAspect - Phương thức login thất bại sau 371 ms với lỗi: Username hoặc mật khẩu không chính xác
