@@ -1,0 +1,12 @@
+2026-09-10 13:51:31.596 [http-nio-8080-exec-7] ERROR project_backend.aspect.AppAspect - Phương thức login thất bại sau 688 ms với lỗi: Username hoặc mật khẩu không chính xác
+2026-09-10 13:51:34.779 [http-nio-8080-exec-8] ERROR project_backend.aspect.AppAspect - Phương thức login thất bại sau 170 ms với lỗi: Username hoặc mật khẩu không chính xác
+2026-09-10 13:51:37.179 [http-nio-8080-exec-9] ERROR project_backend.aspect.AppAspect - Phương thức login thất bại sau 178 ms với lỗi: Username hoặc mật khẩu không chính xác
+2026-09-10 13:51:37.893 [http-nio-8080-exec-10] ERROR project_backend.aspect.AppAspect - Phương thức login thất bại sau 148 ms với lỗi: Username hoặc mật khẩu không chính xác
+2026-09-10 13:51:38.357 [http-nio-8080-exec-3] ERROR project_backend.aspect.AppAspect - Phương thức login thất bại sau 190 ms với lỗi: Username hoặc mật khẩu không chính xác
+2026-09-10 13:51:38.557 [http-nio-8080-exec-2] ERROR project_backend.aspect.AppAspect - Phương thức login thất bại sau 166 ms với lỗi: Username hoặc mật khẩu không chính xác
+2026-09-10 13:51:39.005 [http-nio-8080-exec-1] ERROR project_backend.aspect.AppAspect - Phương thức login thất bại sau 190 ms với lỗi: Username hoặc mật khẩu không chính xác
+2026-09-10 13:51:39.205 [http-nio-8080-exec-4] ERROR project_backend.aspect.AppAspect - Phương thức login thất bại sau 154 ms với lỗi: Username hoặc mật khẩu không chính xác
+2026-09-10 13:51:39.464 [http-nio-8080-exec-5] ERROR project_backend.aspect.AppAspect - Phương thức login thất bại sau 199 ms với lỗi: Username hoặc mật khẩu không chính xác
+2026-09-10 13:51:59.281 [http-nio-8080-exec-6] ERROR project_backend.aspect.AppAspect - Phương thức login thất bại sau 143 ms với lỗi: Username hoặc mật khẩu không chính xác
+2026-09-10 13:52:00.216 [http-nio-8080-exec-7] ERROR project_backend.aspect.AppAspect - Phương thức login thất bại sau 122 ms với lỗi: Username hoặc mật khẩu không chính xác
+2026-09-10 13:52:10.140 [http-nio-8080-exec-8] ERROR project_backend.aspect.AppAspect - Phương thức login thất bại sau 147 ms với lỗi: Username hoặc mật khẩu không chính xác
