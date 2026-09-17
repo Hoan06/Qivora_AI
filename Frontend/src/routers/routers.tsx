@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import AdminFeedbackManager from "../pages/AdminFeedbackManager";
 import AdminQuizManager from "../pages/AdminQuizManager";
 import AdminUserManager from "../pages/AdminUserManager";
@@ -6,7 +6,6 @@ import CreateManualQuiz from "../pages/CreateManualQuiz";
 import Home from "../pages/Home";
 import HomeConfirmLogin from "../pages/HomeConfirmLogin";
 import Profile from "../pages/Profile";
-import QuizInventory from "../pages/QuizInventory";
 import QuizManagerClient from "../pages/QuizManagerClient";
 import Statistical from "../pages/Statistical";
 import TakeQuiz from "../pages/TakeQuiz";
@@ -43,7 +42,7 @@ export const routers = createBrowserRouter([
   },
   {
     path: "/quiz-inventory",
-    element: <QuizInventory />,
+    element: <Navigate to="/quiz-manager" replace />,
   },
   {
     path: "/quiz-create",

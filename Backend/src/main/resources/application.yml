@@ -1,0 +1,40 @@
+cloudinary:
+    api-key: ${CLOUDINARY_API_KEY}
+    api-secret: ${CLOUDINARY_API_SECRET}
+    cloud-name: dll6mpwhk
+jwt-expired: 600000
+jwt-refresh-expired: 15552000000
+jwt-refresh-secret: ${JWT_REFRESH_SECRET}
+jwt-reset-secret: ${JWT_RESET_SECRET}
+jwt-secret: ${JWT_SECRET}
+spring:
+    ai:
+        google:
+            genai:
+                api-key: ${GOOGLE_GENAI_API_KEY}
+                chat:
+                    model: gemini-2.5-flash
+    data:
+        redis:
+            host: ${REDIS_HOST}
+            port: ${REDIS_PORT}
+    datasource:
+        driver-class-name: org.postgresql.Driver
+        password: ${DB_PASSWORD}
+        url: jdbc:postgresql://localhost:5432/qivora?createDatabaseIfNotExist=true
+        username: ${DB_USERNAME}
+    jpa:
+        hibernate:
+            ddl-auto: update
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.PostgreSQLDialect
+                format_sql: true
+        show-sql: true
+    servlet:
+        multipart:
+            max-file-size: 15MB
+            max-request-size: 15MB
+﻿spring:
+    application:
+        name: Backend

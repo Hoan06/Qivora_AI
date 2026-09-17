@@ -28,13 +28,29 @@ export default function Toast({ message, duration = 3000, onClear }: ToastProps)
 
   if (!currentMsg && !visible) return null;
 
+  const lowerMsg = (currentMsg || "").toLowerCase();
+  const isError =
+    lowerMsg.includes("thất bại") ||
+    lowerMsg.includes("không chính xác") ||
+    lowerMsg.includes("lỗi") ||
+    lowerMsg.includes("sai") ||
+    lowerMsg.includes("từ chối") ||
+    lowerMsg.includes("error") ||
+    lowerMsg.includes("fail") ||
+    lowerMsg.includes("không khớp") ||
+    lowerMsg.includes("chưa");
+
   return (
     <div
-      className={`fixed bottom-5 right-5 z-50 px-5 py-3 rounded-2xl bg-slate-900 text-white border border-emerald-500/40 shadow-2xl flex items-center gap-3 text-xs font-semibold transition-all duration-300 pointer-events-none ${
-        visible ? "translate-y-0 opacity-100" : "translate-y-20 opacity-0"
-      }`}
+      className={`fixed bottom-5 right-5 z-50 px-5 py-3 rounded-2xl bg-slate-900 text-white border shadow-2xl flex items-center gap-3 text-xs font-semibold transition-all duration-300 pointer-events-none ${
+        isError ? "border-rose-500/60" : "border-emerald-500/40"
+      } ${visible ? "translate-y-0 opacity-100" : "translate-y-20 opacity-0"}`}
     >
-      <i className="fa-solid fa-circle-check text-emerald-400 text-base"></i>
+      <i
+        className={`fa-solid ${
+          isError ? "fa-circle-xmark text-rose-500" : "fa-circle-check text-emerald-400"
+        } text-base`}
+      ></i>
       <span>{currentMsg}</span>
     </div>
   );
