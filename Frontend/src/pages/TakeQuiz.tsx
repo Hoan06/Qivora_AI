@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   clearTakeQuizError,
   fetchQuizSummary,
@@ -9,82 +9,24 @@ import {
   submitQuizAttempt,
 } from "../api/takeQuizSlice";
 import { type AppDispatch, type RootState } from "../store/store";
-import "../styles/dashboard.css";
+import "../styles/takeQuiz.css";
 
-type Particle = {
-  c: string;
-  r: number;
-  vx: number;
-  vy: number;
-  x: number;
-  y: number;
-  z: number;
-};
+const BUNNY_TAKING_MESSAGES = [
+  "🐰 cố lên bạn iu",
+  "✨ Bạn làm tốt lắm, tập trung nhé!",
+  "🔥 Tự tin lên, sắp hoàn thành rồi!",
+  "🎯 Đọc kỹ đề bài trước khi chọn nhé!",
+  "💪 Cố lên bạn iu, bạn nhất định làm được!",
+];
 
-type SelectedAnswer = {
-  answerId: number;
-  questionId: number;
-};
+const BUNNY_RESULT_MESSAGES = [
+  "🎉 Bạn đã làm rất tốt! 🐰",
+  "🌟 Chúc mừng bạn đã hoàn thành bài thi!",
+  "🏆 Xuất sắc quá đi!",
+  "✨ Hãy kiểm tra lại bài làm của mình nhé!",
+];
 
-function DashboardIcon({ name }: { name: "ai" | "book" | "home" | "manage" | "profile" }) {
-  const props = {
-    fill: "none",
-    stroke: "currentColor",
-    strokeLinecap: "round" as const,
-    strokeLinejoin: "round" as const,
-    strokeWidth: 2,
-    viewBox: "0 0 24 24",
-  };
-
-  if (name === "home") {
-    return (
-      <svg {...props}>
-        <path d="M3 11l9-8 9 8" />
-        <path d="M5 10v10h14V10" />
-        <path d="M9 20v-6h6v6" />
-      </svg>
-    );
-  }
-
-  if (name === "book") {
-    return (
-      <svg {...props}>
-        <path d="M4 19.5V5a2 2 0 0 1 2-2h13v18H6a2 2 0 0 1-2-1.5z" />
-        <path d="M8 7h7" />
-        <path d="M8 11h8" />
-      </svg>
-    );
-  }
-
-  if (name === "ai") {
-    return (
-      <svg {...props}>
-        <path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z" />
-        <path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z" />
-      </svg>
-    );
-  }
-
-  if (name === "manage") {
-    return (
-      <svg {...props}>
-        <path d="M4 6h16" />
-        <path d="M4 12h16" />
-        <path d="M4 18h16" />
-        <path d="M8 6v12" />
-      </svg>
-    );
-  }
-
-  return (
-    <svg {...props}>
-      <path d="M20 21a8 8 0 0 0-16 0" />
-      <circle cx="12" cy="7" r="4" />
-    </svg>
-  );
-}
-
-function getErrorMessage(error: unknown) {
+function getErrorMessage(error: unknown): string {
   if (!error) return "";
   if (typeof error === "string") return error;
   if (typeof error === "object" && "message" in error && typeof error.message === "string") {
@@ -93,52 +35,78 @@ function getErrorMessage(error: unknown) {
   return "Có lỗi xảy ra, kiểm tra lại backend hoặc mã quiz.";
 }
 
-function formatTime(secondsValue: number) {
+function formatSeconds(secondsValue: number): string {
   const safeSeconds = Math.max(secondsValue, 0);
   const minutes = Math.floor(safeSeconds / 60);
   const seconds = safeSeconds % 60;
   return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
 }
 
+function formatDate(dateStr?: string): string {
+  const d = dateStr ? new Date(dateStr) : new Date();
+  if (isNaN(d.getTime())) return new Date().toLocaleString("vi-VN");
+  const hours = String(d.getHours()).padStart(2, "0");
+  const mins = String(d.getMinutes()).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const year = d.getFullYear();
+  return `${hours}:${mins} ${day}/${month}/${year}`;
+}
+
 export default function TakeQuiz() {
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const autoStartedRef = useRef(false);
-  const submitTriggeredRef = useRef(false);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const { quizKey = "" } = useParams();
+
   const { attemptId, error, quiz, result, startStatus, submitStatus, summary, summaryStatus } = useSelector(
     (state: RootState) => state.takeQuiz,
   );
+
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+  const autoStartedRef = useRef(false);
+  const submitTriggeredRef = useRef(false);
+  const bunnyLottieRef = useRef<HTMLDivElement | null>(null);
+
+  // Form State for Gate
   const [guestName, setGuestName] = useState("");
   const [password, setPassword] = useState("");
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [locked, setLocked] = useState(false);
-  const [answers, setAnswers] = useState<SelectedAnswer[]>([]);
+
+  // Theme State
+  const [theme, setTheme] = useState<"dark" | "light">(() => {
+    return (localStorage.getItem("theme") as "dark" | "light") || "dark";
+  });
+
+  // Quiz Taking State
+  const [currentQIndex, setCurrentQIndex] = useState(0);
+  const [selectedAnswers, setSelectedAnswers] = useState<Record<number, number>>({});
+  const [flaggedQuestions, setFlaggedQuestions] = useState<Record<number, boolean>>({});
   const [remainingSeconds, setRemainingSeconds] = useState(0);
+  const [showSubmitModal, setShowSubmitModal] = useState(false);
+  const [bunnyMsgIndex, setBunnyMsgIndex] = useState(0);
 
-  const currentQuestion = quiz?.questions[currentIndex];
-  const quizTitle = result?.quizTitle || quiz?.title || summary?.title || "Làm quiz";
-  const totalQuestions = quiz?.questions.length || summary?.totalQuestions || 0;
-  const needsGate = !quiz && summary && (!isLoggedIn || summary.hasPassword);
-  const canStart = isLoggedIn || guestName.trim().length > 0;
-  const canPassPassword = !summary?.hasPassword || password.trim().length > 0;
-  const selectedForCurrent = currentQuestion
-    ? answers.find((answer) => answer.questionId === currentQuestion.id)
-    : undefined;
+  // Quiz Result Review State
+  const [reviewQIndex, setReviewQIndex] = useState(0);
 
-  const scoreText = useMemo(() => {
-    if (!result) return "0/0";
-    return `${Number(result.score || 0)}/${result.questions.reduce((sum, question) => sum + question.score, 0)}`;
-  }, [result]);
+  // Sync Theme with Body class
+  useEffect(() => {
+    if (theme === "light") {
+      document.body.classList.add("light");
+    } else {
+      document.body.classList.remove("light");
+    }
+    localStorage.setItem("theme", theme);
+  }, [theme]);
 
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === "light" ? "dark" : "light"));
+  };
+
+  // Fetch summary on load
   useEffect(() => {
     if (!quizKey.trim()) {
       navigate("/");
       return;
     }
-
     dispatch(resetTakeQuizState());
     void dispatch(fetchQuizSummary(quizKey));
 
@@ -147,6 +115,7 @@ export default function TakeQuiz() {
     };
   }, [dispatch, navigate, quizKey]);
 
+  // Auto-start attempt if logged in and no password required
   useEffect(() => {
     if (!summary || quiz || result || autoStartedRef.current) return;
     if (!isLoggedIn || summary.hasPassword) return;
@@ -155,119 +124,61 @@ export default function TakeQuiz() {
     void dispatch(startQuizAttempt({ quizKey, data: {} }));
   }, [dispatch, isLoggedIn, quiz, quizKey, result, summary]);
 
+  // Timer Initialization
   useEffect(() => {
     if (!quiz) return;
     setRemainingSeconds(Math.max(quiz.timeLimit, 1) * 60);
   }, [quiz]);
 
+  // Timer Countdown Effect
   useEffect(() => {
     if (!quiz || result) return;
 
     const intervalId = window.setInterval(() => {
-      setRemainingSeconds((value) => {
-        if (value <= 1) {
+      setRemainingSeconds((val) => {
+        if (val <= 1) {
           window.clearInterval(intervalId);
           if (!submitTriggeredRef.current) {
             submitTriggeredRef.current = true;
-            void handleSubmitQuiz();
+            void handleProcessSubmit();
           }
           return 0;
         }
-
-        return value - 1;
+        return val - 1;
       });
     }, 1000);
 
     return () => window.clearInterval(intervalId);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [quiz, result, answers, attemptId]);
+  }, [quiz, result, attemptId, selectedAnswers]);
 
+  // Lottie Mascot Initialization
   useEffect(() => {
-    const canvas = canvasRef.current;
-    const context = canvas?.getContext("2d");
-    if (!canvas || !context) return;
+    const container = bunnyLottieRef.current;
+    if (!container) return;
 
-    const colors = ["#6c63ff", "#ff6584", "#ffbd59", "#4de2ff"];
-    let animationFrame = 0;
-    let pointer = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
-    let particles: Particle[] = [];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const windowLottie = (window as any).lottie;
+    if (!windowLottie) return;
 
-    const resizeCanvas = () => {
-      canvas.width = window.innerWidth * window.devicePixelRatio;
-      canvas.height = window.innerHeight * window.devicePixelRatio;
-      context.setTransform(window.devicePixelRatio, 0, 0, window.devicePixelRatio, 0, 0);
-
-      particles = Array.from({ length: window.innerWidth < 700 ? 42 : 68 }, (_, index) => ({
-        x: Math.random() * window.innerWidth,
-        y: Math.random() * window.innerHeight,
-        r: Math.random() * 2 + 0.7,
-        vx: (Math.random() - 0.5) * 0.34,
-        vy: (Math.random() - 0.5) * 0.34,
-        z: Math.random() * 1.4 + 0.5,
-        c: colors[index % colors.length],
-      }));
-    };
-
-    const draw = () => {
-      context.clearRect(0, 0, window.innerWidth, window.innerHeight);
-
-      particles.forEach((particle, index) => {
-        const px = (pointer.x - window.innerWidth / 2) * 0.004 * particle.z;
-        const py = (pointer.y - window.innerHeight / 2) * 0.004 * particle.z;
-
-        particle.x += particle.vx;
-        particle.y += particle.vy;
-
-        if (particle.x < -20) particle.x = window.innerWidth + 20;
-        if (particle.x > window.innerWidth + 20) particle.x = -20;
-        if (particle.y < -20) particle.y = window.innerHeight + 20;
-        if (particle.y > window.innerHeight + 20) particle.y = -20;
-
-        context.beginPath();
-        context.arc(particle.x + px, particle.y + py, particle.r * particle.z, 0, Math.PI * 2);
-        context.fillStyle = particle.c;
-        context.shadowBlur = 16;
-        context.shadowColor = particle.c;
-        context.fill();
-
-        for (let nextIndex = index + 1; nextIndex < particles.length; nextIndex += 1) {
-          const next = particles[nextIndex];
-          const distance = Math.hypot(particle.x - next.x, particle.y - next.y);
-
-          if (distance < 115) {
-            context.beginPath();
-            context.moveTo(particle.x + px, particle.y + py);
-            context.lineTo(next.x, next.y);
-            context.strokeStyle = `rgba(255,255,255,${(1 - distance / 115) * 0.1})`;
-            context.lineWidth = 1;
-            context.shadowBlur = 0;
-            context.stroke();
-          }
-        }
-      });
-
-      animationFrame = window.requestAnimationFrame(draw);
-    };
-
-    const handlePointerMove = (event: MouseEvent) => {
-      pointer = { x: event.clientX, y: event.clientY };
-    };
-
-    resizeCanvas();
-    draw();
-    window.addEventListener("resize", resizeCanvas);
-    window.addEventListener("mousemove", handlePointerMove);
+    const anim = windowLottie.loadAnimation({
+      container,
+      renderer: "svg",
+      loop: true,
+      autoplay: true,
+      path: "/bunny.json",
+    });
 
     return () => {
-      window.cancelAnimationFrame(animationFrame);
-      window.removeEventListener("resize", resizeCanvas);
-      window.removeEventListener("mousemove", handlePointerMove);
+      anim?.destroy?.();
     };
-  }, []);
+  }, [quiz, result]);
 
-  const handleStart = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (!summary || !canStart || !canPassPassword) return;
+  // Gate Start Handler
+  const handleStartGate = async (e: FormEvent) => {
+    e.preventDefault();
+    if (!summary) return;
 
     dispatch(clearTakeQuizError());
     await dispatch(
@@ -281,259 +192,585 @@ export default function TakeQuiz() {
     );
   };
 
-  const handleChooseAnswer = (answerId: number) => {
-    if (!currentQuestion || locked || selectedForCurrent) return;
-
-    setLocked(true);
-    setAnswers((current) => [
-      ...current,
-      {
-        questionId: currentQuestion.id,
-        answerId,
-      },
-    ]);
-
-    if (currentIndex < (quiz?.questions.length || 0) - 1) {
-      window.setTimeout(() => {
-        setCurrentIndex((value) => value + 1);
-        setLocked(false);
-      }, 620);
-      return;
-    }
-
-    window.setTimeout(() => setLocked(false), 300);
+  // Option selection
+  const handleSelectOption = (questionId: number, answerId: number) => {
+    setSelectedAnswers((prev) => ({
+      ...prev,
+      [questionId]: answerId,
+    }));
   };
 
-  const handleSubmitQuiz = async () => {
+  // Flag toggle
+  const handleToggleFlag = (questionId: number) => {
+    setFlaggedQuestions((prev) => ({
+      ...prev,
+      [questionId]: !prev[questionId],
+    }));
+  };
+
+  // Rotate Bunny Speech Message
+  const handleRotateBunnyMessage = () => {
+    const messagesList = result ? BUNNY_RESULT_MESSAGES : BUNNY_TAKING_MESSAGES;
+    setBunnyMsgIndex((prev) => (prev + 1) % messagesList.length);
+  };
+
+  // Submit Handler
+  const handleProcessSubmit = async () => {
+    setShowSubmitModal(false);
     if (!attemptId || submitStatus === "pending") return;
+
     submitTriggeredRef.current = true;
-    await dispatch(submitQuizAttempt({ attemptId, answers }));
+
+    const formattedAnswers = Object.entries(selectedAnswers).map(([qId, aId]) => ({
+      questionId: Number(qId),
+      answerId: Number(aId),
+    }));
+
+    await dispatch(submitQuizAttempt({ attemptId, answers: formattedAnswers }));
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  // Restart Quiz Attempt
+  const handleReattempt = () => {
+    autoStartedRef.current = false;
+    submitTriggeredRef.current = false;
+    setSelectedAnswers({});
+    setFlaggedQuestions({});
+    setCurrentQIndex(0);
+    setReviewQIndex(0);
+    dispatch(resetTakeQuizState());
+    void dispatch(fetchQuizSummary(quizKey));
+  };
+
+  const needsGate = !quiz && summary && (!isLoggedIn || summary.hasPassword);
+  const canStartGate = (isLoggedIn || guestName.trim().length > 0) && (!summary?.hasPassword || password.trim().length > 0);
+
+  const totalQCount = quiz?.questions.length || summary?.totalQuestions || 0;
+  const answeredCount = Object.keys(selectedAnswers).length;
+  const progressPct = totalQCount > 0 ? Math.round((answeredCount / totalQCount) * 100) : 0;
+
+  // Active question in taking mode
+  const currentQuestion = quiz?.questions[currentQIndex];
+
+  // Active question in result mode
+  const currentReviewQuestion = result?.questions[reviewQIndex];
+
   return (
-    <main className={`qvh-page qtake-page ${result ? "qtake-result-mode" : ""}`}>
-      <canvas ref={canvasRef} className="qvh-particles" />
-
-      <header className="qtake-header">
-        <div className="qtake-brand">
-          <div className="qvh-brand-mark">Q</div>
-          <div>
-            <strong>{quizTitle}</strong>
-            <span>{result ? "Kết quả bài làm của bạn" : "Không thể quay lại câu trước sau khi đã chọn đáp án"}</span>
+    <div className={`take-quiz-page-root ${result ? "result-mode" : ""}`}>
+      {/* ============================================================== */}
+      {/* 1. HEADER BAR                                                 */}
+      {/* ============================================================== */}
+      <header className="tq-header-bar">
+        <Link to="/" className="tq-logo-group">
+          <img src="/logo.png" alt="Qivora Logo" className="tq-logo-img" />
+          <div className="tq-quiz-title-badge">
+            <span className="tq-quiz-head-title">
+              {result?.quizTitle || quiz?.title || summary?.title || "Làm bài Quiz"}
+            </span>
+            <span className="tq-quiz-head-subtitle">
+              {result ? "Kết quả làm bài quiz" : `Trắc nghiệm • ${totalQCount} Câu hỏi`}
+            </span>
           </div>
-        </div>
+        </Link>
 
-        {!result && quiz ? (
-          <div className={remainingSeconds <= 60 ? "qtake-timer danger" : "qtake-timer"}>
-            <i />
-            <strong>{formatTime(remainingSeconds)}</strong>
+        {/* Timer Box (Only visible during active quiz taking) */}
+        {quiz && !result ? (
+          <div className={`tq-timer-container ${remainingSeconds <= 120 ? "warning" : ""}`}>
+            <i className="fa-solid fa-clock tq-timer-icon" />
+            <span className="tq-timer-text">{formatSeconds(remainingSeconds)}</span>
           </div>
         ) : null}
-      </header>
 
-      <div className={result ? "qvh-app qtake-result-layout" : "qtake-taking-layout"}>
-        {result ? (
-          <aside className="qvh-sidebar">
-            <div className="qvh-brand">
-              <div className="qvh-brand-mark">Q</div>
-              <span>Qivora</span>
-            </div>
-
-            <nav className="qvh-nav">
-              <button onClick={() => navigate("/")} type="button">
-                <span className="qvh-nav-icon"><DashboardIcon name="home" /></span>
-                Trang chủ
-              </button>
-              <button className="active" onClick={() => navigate("/quiz-inventory")} type="button">
-                <span className="qvh-nav-icon"><DashboardIcon name="book" /></span>
-                Kho quiz
-              </button>
-              <button onClick={() => navigate("/quiz-ai")} type="button">
-                <span className="qvh-nav-icon"><DashboardIcon name="ai" /></span>
-                Tạo bằng AI
-              </button>
-              <button onClick={() => navigate("/quiz-manager")} type="button">
-                <span className="qvh-nav-icon"><DashboardIcon name="manage" /></span>
-                Quản lí quiz cá nhân
-              </button>
-              <button onClick={() => navigate("/profile")} type="button">
-                <span className="qvh-nav-icon"><DashboardIcon name="profile" /></span>
-                Hồ sơ
-              </button>
-            </nav>
-
-            <div className="qvh-side-card">
-              <strong>Kết quả đã lưu</strong>
-              <p>Bạn có thể xem lại điểm số, đáp án đã chọn và quay về kho quiz sau khi nộp bài.</p>
-            </div>
-          </aside>
-        ) : null}
-
-        <section className={result ? "qvh-main" : "qtake-main"}>
-          {summaryStatus === "pending" ? (
-            <section className="qtake-center-card">
-              <div className="qvh-eyebrow">Đang tải quiz</div>
-              <h1>Chờ một chút...</h1>
-              <p>Qivora đang lấy dữ liệu quiz thật từ backend.</p>
-            </section>
-          ) : null}
-
-          {summaryStatus === "rejected" ? (
-            <section className="qtake-center-card">
-              <div className="qvh-eyebrow">Không tìm thấy quiz</div>
-              <h1>Mã quiz chưa đúng</h1>
-              <p>{getErrorMessage(error)}</p>
-              <button className="qvh-primary-btn" onClick={() => navigate("/")} type="button">Về trang chủ</button>
-            </section>
-          ) : null}
-
-          {needsGate ? (
-            <section className="qtake-center-card">
-              <div className="qvh-eyebrow">{summary.hasPassword ? "Quiz có mật khẩu" : "Vào làm với tên khách"}</div>
-              <h1>{summary.title}</h1>
-              <p>
-                {!isLoggedIn ? "Nhập tên khách để hệ thống ghi nhận bài làm." : "Nhập mật khẩu quiz để bắt đầu làm bài."}
-              </p>
-
-              <form className="qtake-gate-form" onSubmit={handleStart}>
-                {!isLoggedIn ? (
-                  <input
-                    onChange={(event) => setGuestName(event.target.value)}
-                    placeholder="Tên khách của bạn"
-                    type="text"
-                    value={guestName}
-                  />
-                ) : null}
-                {summary.hasPassword ? (
-                  <input
-                    onChange={(event) => setPassword(event.target.value)}
-                    placeholder="Mật khẩu quiz"
-                    type="password"
-                    value={password}
-                  />
-                ) : null}
-                {error ? <span className="qtake-error">{getErrorMessage(error)}</span> : null}
-                <button className="qvh-primary-btn" disabled={!canStart || !canPassPassword || startStatus === "pending"} type="submit">
-                  {startStatus === "pending" ? "Đang vào quiz..." : "Vào làm quiz"}
-                </button>
-              </form>
-            </section>
-          ) : null}
-
-          {quiz && currentQuestion && !result ? (
-            <section className="qtake-stage">
-              <article className="qtake-question-card">
-                <div className="qtake-question-inner">
-                  <div className="qtake-progress-row">
-                    <span>Câu {currentIndex + 1} / {quiz.questions.length}</span>
-                    <div>
-                      <i style={{ width: `${((currentIndex + 1) / quiz.questions.length) * 100}%` }} />
-                    </div>
-                  </div>
-
-                  <div className="qtake-question-content">
-                    <div className="qvh-eyebrow">{currentQuestion.score} điểm</div>
-                    <h1>{currentQuestion.content}</h1>
-                    <div className="qtake-answers">
-                      {currentQuestion.answers.map((answer, answerIndex) => (
-                        <button
-                          className={selectedForCurrent?.answerId === answer.id ? "selected" : ""}
-                          disabled={Boolean(selectedForCurrent) || locked}
-                          key={answer.id}
-                          onClick={() => handleChooseAnswer(answer.id)}
-                          type="button"
-                        >
-                          <span>{String.fromCharCode(65 + answerIndex)}</span>
-                          <strong>{answer.content}</strong>
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="qtake-question-footer">
-                    <span>Đã chọn là tự chuyển câu tiếp theo</span>
-                    <span>{selectedForCurrent ? "Đã lưu đáp án" : "Sẵn sàng"}</span>
-                  </div>
-                </div>
-              </article>
-
-              <aside className="qtake-side">
-                <div className="qtake-mini-panel">
-                  <strong>Tiến độ bài làm</strong>
-                  <p>Mỗi câu chỉ được chọn một lần. Hệ thống tự lưu đáp án và chuyển sang câu kế tiếp.</p>
-                </div>
-                <div className="qtake-stat-grid">
-                  <div><strong>{answers.length}</strong><span>Đã làm</span></div>
-                  <div><strong>{Math.max(totalQuestions - answers.length, 0)}</strong><span>Còn lại</span></div>
-                </div>
-                <div className="qtake-mini-panel">
-                  <strong>Lưu ý</strong>
-                  <p>Nút nộp bài chỉ xuất hiện ở câu cuối để tránh nộp nhầm khi chưa hoàn tất.</p>
-                </div>
-              </aside>
-
-              {currentIndex === quiz.questions.length - 1 ? (
-                <button className="qtake-submit" disabled={submitStatus === "pending"} onClick={handleSubmitQuiz} type="button">
-                  {submitStatus === "pending" ? "Đang nộp..." : "Nộp bài"}
-                </button>
-              ) : null}
-            </section>
-          ) : null}
+        {/* Header Actions */}
+        <div className="tq-header-actions">
+          <button
+            className="tq-btn-theme-toggle"
+            onClick={toggleTheme}
+            type="button"
+            title="Chuyển chế độ Sáng / Tối"
+          >
+            <i className={`fa-solid ${theme === "light" ? "fa-sun" : "fa-moon"}`} />
+          </button>
 
           {result ? (
-            <section className="qtake-result">
-              <article className="qtake-result-hero">
-                <div>
-                  <div className="qvh-eyebrow">Đã nộp bài thành công</div>
-                  <h1>Kết quả <span>quiz</span></h1>
-                  <p>Bài làm của bạn đã được ghi nhận. Xem tổng quan điểm số và trạng thái từng câu bên dưới.</p>
-                  <div className="qtake-result-actions">
-                    <button className="qvh-primary-btn" onClick={() => navigate("/quiz-inventory")} type="button">Về kho quiz</button>
-                    <button className="qvh-ghost-btn" onClick={() => navigate("/")} type="button">Trang chủ</button>
-                  </div>
-                </div>
+            <>
+              <Link to="/quiz-manager" className="tq-btn-action-secondary">
+                <i className="fa-solid fa-list-check" /> Quản lý quiz
+              </Link>
+              <Link to="/" className="tq-btn-action-primary">
+                <i className="fa-solid fa-house" /> Trang chủ
+              </Link>
+            </>
+          ) : quiz ? (
+            <button
+              className="tq-btn-submit-quiz"
+              onClick={() => setShowSubmitModal(true)}
+              type="button"
+            >
+              <i className="fa-solid fa-paper-plane" /> Nộp bài
+            </button>
+          ) : null}
+        </div>
+      </header>
 
-                <div className="qtake-score-orb">
-                  <div>
-                    <strong>{scoreText}</strong>
-                    <span>Điểm số</span>
-                  </div>
-                </div>
-              </article>
+      {/* ============================================================== */}
+      {/* 2. LOADING / ERROR / GATE STATES                                */}
+      {/* ============================================================== */}
+      {summaryStatus === "pending" ? (
+        <div className="tq-gate-card">
+          <i className="fa-solid fa-spinner fa-spin" style={{ fontSize: "2.5rem", color: "#3b82f6" }} />
+          <h1>Đang tải bài thi...</h1>
+          <p>Hệ thống đang lấy thông tin dữ liệu quiz từ máy chủ Qivora.</p>
+        </div>
+      ) : null}
 
-              <div className="qtake-result-grid">
-                <article><span>Số câu đúng</span><strong>{result.correctQuestions}</strong></article>
-                <article><span>Số câu đã làm</span><strong>{result.totalAnswered}</strong></article>
-                <article><span>Tổng câu hỏi</span><strong>{result.totalQuestions}</strong></article>
-                <article><span>Thời gian còn lại</span><strong>{formatTime(remainingSeconds)}</strong></article>
+      {summaryStatus === "rejected" ? (
+        <div className="tq-gate-card">
+          <i className="fa-solid fa-circle-exclamation" style={{ fontSize: "2.5rem", color: "#ef4444" }} />
+          <h1>Không thể tải quiz</h1>
+          <p>{getErrorMessage(error)}</p>
+          <button className="tq-btn-action-primary" onClick={() => navigate("/")} type="button">
+            Quay về trang chủ
+          </button>
+        </div>
+      ) : null}
+
+      {needsGate ? (
+        <div className="tq-gate-card">
+          <i className="fa-solid fa-shield-halved" style={{ fontSize: "2.5rem", color: "#60a5fa" }} />
+          <h1>{summary?.title}</h1>
+          <p>
+            {!isLoggedIn
+              ? "Vui lòng nhập tên khách của bạn để bắt đầu làm bài thi."
+              : "Bài thi này yêu cầu mật khẩu để truy cập."}
+          </p>
+
+          <form className="tq-gate-form" onSubmit={handleStartGate}>
+            {!isLoggedIn ? (
+              <input
+                className="tq-gate-input"
+                onChange={(e) => setGuestName(e.target.value)}
+                placeholder="Tên khách của bạn..."
+                type="text"
+                value={guestName}
+              />
+            ) : null}
+
+            {summary?.hasPassword ? (
+              <input
+                className="tq-gate-input"
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Nhập mật khẩu quiz..."
+                type="password"
+                value={password}
+              />
+            ) : null}
+
+            {error ? <div className="tq-error-message">{getErrorMessage(error)}</div> : null}
+
+            <button
+              className="tq-btn-action-primary"
+              disabled={!canStartGate || startStatus === "pending"}
+              style={{ justifyContent: "center", width: "100%", marginTop: "0.5rem" }}
+              type="submit"
+            >
+              {startStatus === "pending" ? (
+                <>
+                  <i className="fa-solid fa-spinner fa-spin" /> Đang vào làm bài...
+                </>
+              ) : (
+                <>
+                  <i className="fa-solid fa-right-to-bracket" /> Bắt đầu làm bài thi
+                </>
+              )}
+            </button>
+          </form>
+        </div>
+      ) : null}
+
+      {/* ============================================================== */}
+      {/* 3. ACTIVE QUIZ TAKING LAYOUT                                   */}
+      {/* ============================================================== */}
+      {quiz && currentQuestion && !result ? (
+        <main className="tq-main-layout">
+          {/* LEFT: QUESTION CARD */}
+          <div className="tq-question-card">
+            <div>
+              <div className="tq-question-meta">
+                <span className="tq-question-number-badge">
+                  Câu hỏi {currentQIndex + 1} / {quiz.questions.length}
+                </span>
+                <div className="tq-question-actions-top">
+                  <button
+                    className={`tq-btn-flag-review ${flaggedQuestions[currentQuestion.id] ? "active" : ""}`}
+                    onClick={() => handleToggleFlag(currentQuestion.id)}
+                    type="button"
+                  >
+                    <i className={`fa-${flaggedQuestions[currentQuestion.id] ? "solid" : "regular"} fa-bookmark`} />
+                    {flaggedQuestions[currentQuestion.id] ? "Đã đánh dấu" : "Đánh dấu xem lại"}
+                  </button>
+                </div>
               </div>
 
-              <section className="qtake-review">
-                <div className="qtake-review-head">
-                  <h2>Chi tiết bài làm</h2>
-                  <span>Danh sách câu đã trả lời</span>
+              {/* Question Content */}
+              <h2 className="tq-question-content">{currentQuestion.content}</h2>
+
+              {/* Answers Grid */}
+              <div className="tq-answers-grid">
+                {currentQuestion.answers.map((ans, idx) => {
+                  const prefixes = ["A", "B", "C", "D", "E", "F"];
+                  const isSelected = selectedAnswers[currentQuestion.id] === ans.id;
+
+                  return (
+                    <button
+                      className={`tq-option-item ${isSelected ? "selected" : ""}`}
+                      key={ans.id}
+                      onClick={() => handleSelectOption(currentQuestion.id, ans.id)}
+                      type="button"
+                    >
+                      <div className="tq-option-prefix">{prefixes[idx] || idx + 1}</div>
+                      <div className="tq-option-text">{ans.content}</div>
+                      <i className="fa-solid fa-circle-check tq-option-check" />
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Question Nav Footer */}
+            <div className="tq-question-footer-nav">
+              <button
+                className="tq-btn-nav-q"
+                disabled={currentQIndex === 0}
+                onClick={() => setCurrentQIndex((prev) => Math.max(prev - 1, 0))}
+                type="button"
+              >
+                <i className="fa-solid fa-chevron-left" /> Câu trước
+              </button>
+
+              <span style={{ fontSize: "0.85rem", color: "var(--text-secondary)", fontWeight: 600 }}>
+                {currentQIndex + 1} của {quiz.questions.length} câu
+              </span>
+
+              <button
+                className="tq-btn-nav-q"
+                disabled={currentQIndex === quiz.questions.length - 1}
+                onClick={() => setCurrentQIndex((prev) => Math.min(prev + 1, quiz.questions.length - 1))}
+                type="button"
+              >
+                Câu tiếp <i className="fa-solid fa-chevron-right" />
+              </button>
+            </div>
+          </div>
+
+          {/* RIGHT: SIDEBAR PALETTE PANEL */}
+          <aside className="tq-sidebar-panel">
+            <h3 className="tq-sidebar-panel-title">
+              <i className="fa-solid fa-list-check" style={{ color: "#3b82f6" }} /> Danh sách câu hỏi
+            </h3>
+
+            {/* Progress Bar Stat */}
+            <div className="tq-progress-stat-box">
+              <div className="tq-progress-stat-header">
+                <span>Đã làm</span>
+                <span>
+                  {answeredCount} / {totalQCount} câu
+                </span>
+              </div>
+              <div className="tq-progress-stat-bar">
+                <div className="tq-progress-stat-fill" style={{ width: `${progressPct}%` }} />
+              </div>
+            </div>
+
+            {/* Question Palette Buttons */}
+            <div className="tq-q-palette-grid">
+              {quiz.questions.map((q, idx) => {
+                const isCurrent = idx === currentQIndex;
+                const isAnswered = selectedAnswers[q.id] !== undefined;
+                const isFlagged = Boolean(flaggedQuestions[q.id]);
+
+                return (
+                  <button
+                    className={`tq-q-palette-btn ${isCurrent ? "current" : ""} ${isAnswered ? "answered" : ""} ${isFlagged ? "flagged" : ""}`}
+                    key={q.id}
+                    onClick={() => setCurrentQIndex(idx)}
+                    type="button"
+                  >
+                    {idx + 1}
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Legend */}
+            <div className="tq-palette-legend">
+              <div className="tq-legend-item">
+                <div className="tq-legend-color-dot" style={{ backgroundColor: "var(--bg-sub)", border: "1px solid var(--border-color)" }} />
+                <span>Chưa trả lời</span>
+              </div>
+              <div className="tq-legend-item">
+                <div className="tq-legend-color-dot" style={{ backgroundColor: "rgba(59, 130, 246, 0.4)", border: "1px solid #3b82f6" }} />
+                <span>Đã chọn đáp án</span>
+              </div>
+              <div className="tq-legend-item">
+                <div className="tq-legend-color-dot" style={{ backgroundColor: "#f59e0b" }} />
+                <span>Đánh dấu xem lại</span>
+              </div>
+            </div>
+
+            {/* Submit Quiz Button */}
+            <button
+              className="tq-btn-submit-quiz"
+              onClick={() => setShowSubmitModal(true)}
+              style={{ width: "100%", justifyContent: "center", marginTop: "0.5rem" }}
+              type="button"
+            >
+              <i className="fa-solid fa-check-double" /> Hoàn tất & Nộp bài
+            </button>
+          </aside>
+        </main>
+      ) : null}
+
+      {/* ============================================================== */}
+      {/* 4. QUIZ RESULT SUCCESS LAYOUT                                  */}
+      {/* ============================================================== */}
+      {result ? (
+        <main className="tq-main-wrapper">
+          {/* RESULT HERO CARD */}
+          <section className="tq-result-hero-card">
+            <span className="tq-badge-success">
+              <i className="fa-solid fa-circle-check" /> Đã nộp bài thành công
+            </span>
+
+            <h1 className="tq-result-hero-title">
+              Kết quả <span>bài làm quiz</span>
+            </h1>
+
+            <p className="tq-result-hero-desc">
+              Bài thi của bạn đã được ghi nhận thành công trên hệ thống. Dưới đây là danh sách câu hỏi và các đáp án bạn đã lựa chọn trong quá trình làm bài.
+            </p>
+
+            {/* Metrics Overview Grid */}
+            <div className="tq-metrics-grid">
+              <div className="tq-metric-card">
+                <span className="tq-metric-label">
+                  <i className="fa-solid fa-file-circle-question" /> Tổng số câu hỏi
+                </span>
+                <span className="tq-metric-value">{result.totalQuestions} câu</span>
+              </div>
+
+              <div className="tq-metric-card">
+                <span className="tq-metric-label">
+                  <i className="fa-solid fa-pen-to-square" /> Số câu đã trả lời
+                </span>
+                <span className="tq-metric-value" style={{ color: "#34d399" }}>
+                  {result.totalAnswered} / {result.totalQuestions} câu
+                </span>
+              </div>
+
+              <div className="tq-metric-card">
+                <span className="tq-metric-label">
+                  <i className="fa-solid fa-trophy" /> Điểm số bài làm
+                </span>
+                <span className="tq-metric-value" style={{ color: "#60a5fa" }}>
+                  {result.score} điểm ({result.correctQuestions}/{result.totalQuestions} đúng)
+                </span>
+              </div>
+
+              <div className="tq-metric-card">
+                <span className="tq-metric-label">
+                  <i className="fa-solid fa-calendar-check" /> Ngày nộp bài
+                </span>
+                <span className="tq-metric-value" style={{ fontSize: "1.05rem" }}>
+                  {formatDate(result.completedAt)}
+                </span>
+              </div>
+            </div>
+          </section>
+
+          {/* NOTICE INFO BOX */}
+          <div className="tq-notice-info-box">
+            <i className="fa-solid fa-shield-halved tq-notice-icon" />
+            <div>
+              <strong>Lưu ý về quy định hiển thị:</strong> Hệ thống hiển thị chi tiết câu hỏi và các lựa chọn đáp án bạn đã chọn trong quá trình làm bài thi.
+            </div>
+          </div>
+
+          {/* QUESTIONS REVIEW SECTION */}
+          <section>
+            <h2 className="tq-review-section-title">
+              <i className="fa-solid fa-clipboard-check" style={{ color: "#3b82f6" }} /> Xem lại câu hỏi & Đáp án bạn đã chọn
+            </h2>
+
+            {/* QUESTION SELECTOR BAR */}
+            <div className="tq-question-selector-bar">
+              <div className="tq-select-label-group">
+                <label htmlFor="questionSelect" className="tq-select-label">
+                  <i className="fa-solid fa-list-ol" style={{ color: "#3b82f6" }} /> Chọn câu hỏi:
+                </label>
+                <select
+                  id="questionSelect"
+                  className="tq-question-select-dropdown"
+                  onChange={(e) => setReviewQIndex(Number(e.target.value))}
+                  value={reviewQIndex}
+                >
+                  {result.questions.map((q, idx) => (
+                    <option key={q.questionId} value={idx}>
+                      Câu {idx + 1}: {q.content.length > 50 ? `${q.content.substring(0, 50)}...` : q.content}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="tq-select-nav-buttons">
+                <button
+                  className="tq-btn-select-nav"
+                  disabled={reviewQIndex === 0}
+                  onClick={() => setReviewQIndex((prev) => Math.max(prev - 1, 0))}
+                  type="button"
+                >
+                  <i className="fa-solid fa-chevron-left" /> Câu trước
+                </button>
+                <span className="tq-select-counter">
+                  {reviewQIndex + 1} / {result.questions.length}
+                </span>
+                <button
+                  className="tq-btn-select-nav"
+                  disabled={reviewQIndex === result.questions.length - 1}
+                  onClick={() => setReviewQIndex((prev) => Math.min(prev + 1, result.questions.length - 1))}
+                  type="button"
+                >
+                  Câu sau <i className="fa-solid fa-chevron-right" />
+                </button>
+              </div>
+            </div>
+
+            {/* DYNAMIC QUESTION REVIEW CARD */}
+            {currentReviewQuestion ? (
+              <div className="tq-question-review-card">
+                <div className="tq-q-review-header">
+                  <span className="tq-q-review-num">
+                    Câu {reviewQIndex + 1} / {result.questions.length}
+                  </span>
+                  <h3 className="tq-q-review-title">{currentReviewQuestion.content}</h3>
                 </div>
-                <div className="qtake-review-list">
-                  {result.questions.map((question, index) => {
-                    const selectedAnswer = question.answers.find((answer) => answer.isSelected);
+
+                <div className="tq-answers-review-grid">
+                  {currentReviewQuestion.answers.map((ans, idx) => {
+                    const prefixes = ["A", "B", "C", "D", "E", "F"];
                     return (
-                      <article className="qtake-review-item" key={question.questionId}>
-                        <div>{index + 1}</div>
-                        <section>
-                          <strong>{question.content}</strong>
-                          <span>Đáp án của bạn: {selectedAnswer?.content || "Chưa trả lời"}</span>
-                        </section>
-                        <p className={question.isCorrect ? "correct" : "wrong"}>{question.isCorrect ? "Đúng" : "Sai"}</p>
-                      </article>
+                      <div
+                        className={`tq-ans-review-item ${ans.isSelected ? "user-selected" : ""}`}
+                        key={ans.answerId}
+                      >
+                        <div className="tq-ans-left-group">
+                          <div className="tq-ans-prefix">{prefixes[idx] || idx + 1}</div>
+                          <span className="tq-ans-text">{ans.content}</span>
+                        </div>
+
+                        {ans.isSelected ? (
+                          <span className="tq-badge-user-choice">
+                            <i className="fa-solid fa-circle-check" /> Đã chọn
+                          </span>
+                        ) : null}
+                      </div>
                     );
                   })}
+
+                  {!currentReviewQuestion.answers.some((a) => a.isSelected) ? (
+                    <div style={{ marginTop: "0.5rem" }}>
+                      <span className="tq-unanswered-tag">
+                        <i className="fa-solid fa-triangle-exclamation" /> Bạn không chọn đáp án cho câu hỏi này
+                      </span>
+                    </div>
+                  ) : null}
                 </div>
-              </section>
-            </section>
-          ) : null}
-        </section>
+              </div>
+            ) : null}
+          </section>
+
+          {/* BOTTOM ACTION BAR */}
+          <div className="tq-bottom-action-bar">
+            <button className="tq-btn-action-secondary" onClick={handleReattempt} type="button">
+              <i className="fa-solid fa-rotate-right" /> Làm lại bài thi
+            </button>
+            <Link to="/quiz-manager" className="tq-btn-action-primary">
+              <i className="fa-solid fa-list-check" /> Về trang quản lý Quiz
+            </Link>
+          </div>
+        </main>
+      ) : null}
+
+      {/* ============================================================== */}
+      {/* 5. FLOATING BUNNY MASCOT WIDGET                                */}
+      {/* ============================================================== */}
+      <div className="tq-bunny-widget-wrapper">
+        <div className="tq-bunny-speech-bubble" onClick={handleRotateBunnyMessage}>
+          <span>
+            {result
+              ? BUNNY_RESULT_MESSAGES[bunnyMsgIndex % BUNNY_RESULT_MESSAGES.length]
+              : BUNNY_TAKING_MESSAGES[bunnyMsgIndex % BUNNY_TAKING_MESSAGES.length]}
+          </span>
+        </div>
+        <div
+          ref={bunnyLottieRef}
+          className="tq-bunny-lottie-container"
+          onClick={handleRotateBunnyMessage}
+          title="Bấm để Bunny cổ vũ!"
+        />
       </div>
-    </main>
+
+      {/* ============================================================== */}
+      {/* 6. SUBMIT CONFIRMATION MODAL                                   */}
+      {/* ============================================================== */}
+      <div className={`tq-modal-overlay ${showSubmitModal ? "active" : ""}`}>
+        <div className="tq-modal-box">
+          <div
+            style={{
+              width: "60px",
+              height: "60px",
+              borderRadius: "50%",
+              background: "rgba(59, 130, 246, 0.15)",
+              color: "#60a5fa",
+              fontSize: "1.8rem",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              margin: "0 auto 1.25rem auto",
+            }}
+          >
+            <i className="fa-solid fa-circle-question" />
+          </div>
+
+          <h3 style={{ fontSize: "1.4rem", fontWeight: 800, color: "white", marginBottom: "0.5rem" }}>
+            Xác nhận nộp bài?
+          </h3>
+
+          <p style={{ fontSize: "0.95rem", color: "var(--text-secondary)", lineHeight: 1.5, marginBottom: "1.5rem" }}>
+            Bạn đã hoàn thành {answeredCount} / {totalQCount} câu hỏi. Bạn có chắc chắn muốn nộp bài ngay bây giờ?
+          </p>
+
+          <div style={{ display: "flex", gap: "0.75rem", justifyContent: "center" }}>
+            <button className="tq-btn-nav-q" onClick={() => setShowSubmitModal(false)} type="button">
+              Xem lại bài
+            </button>
+            <button
+              className="tq-btn-submit-quiz"
+              disabled={submitStatus === "pending"}
+              onClick={handleProcessSubmit}
+              type="button"
+            >
+              {submitStatus === "pending" ? (
+                <>
+                  <i className="fa-solid fa-spinner fa-spin" /> Đang nộp...
+                </>
+              ) : (
+                "Xác nhận Nộp"
+              )}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }

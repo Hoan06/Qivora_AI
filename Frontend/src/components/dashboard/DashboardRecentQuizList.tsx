@@ -31,7 +31,7 @@ export default function DashboardRecentQuizList({
       <div className="flex items-center justify-between">
         <h3 className="text-base font-bold text-slate-800 dark:text-slate-100">Tiếp tục học</h3>
         <Link
-          to="/quiz-inventory"
+          to="/quiz-manager"
           className="text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:underline"
         >
           Xem tất cả
@@ -101,7 +101,7 @@ export default function DashboardRecentQuizList({
               </div>
             </div>
             <Link
-              to="/quiz-inventory"
+              to="/quiz-manager"
               className="w-9 h-9 rounded-xl bg-indigo-600 text-white flex items-center justify-center hover:bg-indigo-500 transition-colors shrink-0 shadow-sm"
             >
               <i className="fa-solid fa-arrow-right text-xs"></i>

@@ -13,3 +13,35 @@
 2026-09-10 13:51:59.286 [http-nio-8080-exec-6] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [project_backend.exception.BadLoginException: Username hoặc mật khẩu không chính xác]
 2026-09-10 13:52:00.221 [http-nio-8080-exec-7] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [project_backend.exception.BadLoginException: Username hoặc mật khẩu không chính xác]
 2026-09-10 13:52:10.147 [http-nio-8080-exec-8] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [project_backend.exception.BadLoginException: Username hoặc mật khẩu không chính xác]
+2026-09-10 14:25:41.437 [lettuce-nioEventLoop-4-2] WARN  io.lettuce.core.protocol.ConnectionWatchdog - Cannot reconnect to [127.0.0.1/<unresolved>:6379]: Connection refused: getsockopt: /127.0.0.1:6379
+2026-09-10 14:25:50.498 [lettuce-nioEventLoop-4-14] WARN  io.lettuce.core.protocol.ConnectionWatchdog - Cannot reconnect to [127.0.0.1/<unresolved>:6379]: Connection refused: getsockopt: /127.0.0.1:6379
+2026-09-10 14:25:58.810 [lettuce-nioEventLoop-4-15] WARN  io.lettuce.core.protocol.ConnectionWatchdog - Cannot reconnect to [127.0.0.1/<unresolved>:6379]: Connection refused: getsockopt: /127.0.0.1:6379
+2026-09-10 14:26:15.307 [lettuce-nioEventLoop-4-16] WARN  io.lettuce.core.protocol.ConnectionWatchdog - Cannot reconnect to [127.0.0.1/<unresolved>:6379]: Connection refused: getsockopt: /127.0.0.1:6379
+2026-09-10 14:26:45.401 [lettuce-nioEventLoop-4-1] WARN  io.lettuce.core.protocol.ConnectionWatchdog - Cannot reconnect to [127.0.0.1/<unresolved>:6379]: Connection refused: getsockopt: /127.0.0.1:6379
+2026-09-10 14:27:15.499 [lettuce-nioEventLoop-4-2] WARN  io.lettuce.core.protocol.ConnectionWatchdog - Cannot reconnect to [127.0.0.1/<unresolved>:6379]: Connection refused: getsockopt: /127.0.0.1:6379
+2026-09-10 14:27:45.594 [lettuce-nioEventLoop-4-3] WARN  io.lettuce.core.protocol.ConnectionWatchdog - Cannot reconnect to [127.0.0.1/<unresolved>:6379]: Connection refused: getsockopt: /127.0.0.1:6379
+2026-09-10 14:28:15.690 [lettuce-nioEventLoop-4-4] WARN  io.lettuce.core.protocol.ConnectionWatchdog - Cannot reconnect to [127.0.0.1/<unresolved>:6379]: Connection refused: getsockopt: /127.0.0.1:6379
+2026-09-10 14:28:45.793 [lettuce-nioEventLoop-4-5] WARN  io.lettuce.core.protocol.ConnectionWatchdog - Cannot reconnect to [127.0.0.1/<unresolved>:6379]: Connection refused: getsockopt: /127.0.0.1:6379
+2026-09-10 14:29:15.885 [lettuce-nioEventLoop-4-6] WARN  io.lettuce.core.protocol.ConnectionWatchdog - Cannot reconnect to [127.0.0.1/<unresolved>:6379]: Connection refused: getsockopt: /127.0.0.1:6379
+2026-09-10 14:29:45.987 [lettuce-nioEventLoop-4-7] WARN  io.lettuce.core.protocol.ConnectionWatchdog - Cannot reconnect to [127.0.0.1/<unresolved>:6379]: Connection refused: getsockopt: /127.0.0.1:6379
+2026-09-10 14:30:16.086 [lettuce-nioEventLoop-4-8] WARN  io.lettuce.core.protocol.ConnectionWatchdog - Cannot reconnect to [127.0.0.1/<unresolved>:6379]: Connection refused: getsockopt: /127.0.0.1:6379
+2026-09-10 14:30:46.186 [lettuce-nioEventLoop-4-9] WARN  io.lettuce.core.protocol.ConnectionWatchdog - Cannot reconnect to [127.0.0.1/<unresolved>:6379]: Connection refused: getsockopt: /127.0.0.1:6379
+2026-09-10 14:31:16.291 [lettuce-nioEventLoop-4-10] WARN  io.lettuce.core.protocol.ConnectionWatchdog - Cannot reconnect to [127.0.0.1/<unresolved>:6379]: Connection refused: getsockopt: /127.0.0.1:6379
+2026-09-10 14:31:46.392 [lettuce-nioEventLoop-4-11] WARN  io.lettuce.core.protocol.ConnectionWatchdog - Cannot reconnect to [127.0.0.1/<unresolved>:6379]: Connection refused: getsockopt: /127.0.0.1:6379
+2026-09-10 14:32:16.503 [lettuce-nioEventLoop-4-12] WARN  io.lettuce.core.protocol.ConnectionWatchdog - Cannot reconnect to [127.0.0.1/<unresolved>:6379]: Connection refused: getsockopt: /127.0.0.1:6379
+2026-09-10 14:32:46.599 [lettuce-nioEventLoop-4-13] WARN  io.lettuce.core.protocol.ConnectionWatchdog - Cannot reconnect to [127.0.0.1/<unresolved>:6379]: Connection refused: getsockopt: /127.0.0.1:6379
+2026-09-10 14:33:16.686 [lettuce-nioEventLoop-4-14] WARN  io.lettuce.core.protocol.ConnectionWatchdog - Cannot reconnect to [127.0.0.1/<unresolved>:6379]: Connection refused: getsockopt: /127.0.0.1:6379
+2026-09-10 14:33:46.788 [lettuce-nioEventLoop-4-15] WARN  io.lettuce.core.protocol.ConnectionWatchdog - Cannot reconnect to [127.0.0.1/<unresolved>:6379]: Connection refused: getsockopt: /127.0.0.1:6379
+2026-09-10 14:34:16.889 [lettuce-nioEventLoop-4-16] WARN  io.lettuce.core.protocol.ConnectionWatchdog - Cannot reconnect to [127.0.0.1/<unresolved>:6379]: Connection refused: getsockopt: /127.0.0.1:6379
+2026-09-10 14:34:46.998 [lettuce-eventExecutorLoop-1-14] WARN  io.lettuce.core.protocol.ConnectionWatchdog - Cannot reconnect to [127.0.0.1/<unresolved>:6379]: Connection refused: getsockopt: /127.0.0.1:6379
+2026-09-10 14:35:17.098 [lettuce-nioEventLoop-4-2] WARN  io.lettuce.core.protocol.ConnectionWatchdog - Cannot reconnect to [127.0.0.1/<unresolved>:6379]: Connection refused: getsockopt: /127.0.0.1:6379
+2026-09-10 14:35:47.194 [lettuce-nioEventLoop-4-3] WARN  io.lettuce.core.protocol.ConnectionWatchdog - Cannot reconnect to [127.0.0.1/<unresolved>:6379]: Connection refused: getsockopt: /127.0.0.1:6379
+2026-09-10 14:36:17.288 [lettuce-nioEventLoop-4-4] WARN  io.lettuce.core.protocol.ConnectionWatchdog - Cannot reconnect to [127.0.0.1/<unresolved>:6379]: Connection refused: getsockopt: /127.0.0.1:6379
+2026-09-10 14:36:47.391 [lettuce-nioEventLoop-4-5] WARN  io.lettuce.core.protocol.ConnectionWatchdog - Cannot reconnect to [127.0.0.1/<unresolved>:6379]: Connection refused: getsockopt: /127.0.0.1:6379
+2026-09-10 14:37:17.500 [lettuce-nioEventLoop-4-6] WARN  io.lettuce.core.protocol.ConnectionWatchdog - Cannot reconnect to [127.0.0.1/<unresolved>:6379]: Connection refused: getsockopt: /127.0.0.1:6379
+2026-09-10 14:37:47.591 [lettuce-nioEventLoop-4-7] WARN  io.lettuce.core.protocol.ConnectionWatchdog - Cannot reconnect to [127.0.0.1/<unresolved>:6379]: Connection refused: getsockopt: /127.0.0.1:6379
+2026-09-10 14:38:17.689 [lettuce-nioEventLoop-4-8] WARN  io.lettuce.core.protocol.ConnectionWatchdog - Cannot reconnect to [127.0.0.1/<unresolved>:6379]: Connection refused: getsockopt: /127.0.0.1:6379
+2026-09-10 14:38:47.793 [lettuce-nioEventLoop-4-9] WARN  io.lettuce.core.protocol.ConnectionWatchdog - Cannot reconnect to [127.0.0.1/<unresolved>:6379]: Connection refused: getsockopt: /127.0.0.1:6379
+2026-09-10 14:39:17.893 [lettuce-nioEventLoop-4-10] WARN  io.lettuce.core.protocol.ConnectionWatchdog - Cannot reconnect to [127.0.0.1/<unresolved>:6379]: Connection refused: getsockopt: /127.0.0.1:6379
+2026-09-10 14:39:48.002 [lettuce-nioEventLoop-4-11] WARN  io.lettuce.core.protocol.ConnectionWatchdog - Cannot reconnect to [127.0.0.1/<unresolved>:6379]: Connection refused: getsockopt: /127.0.0.1:6379
+2026-09-10 14:40:18.088 [lettuce-nioEventLoop-4-12] WARN  io.lettuce.core.protocol.ConnectionWatchdog - Cannot reconnect to [127.0.0.1/<unresolved>:6379]: Connection refused: getsockopt: /127.0.0.1:6379

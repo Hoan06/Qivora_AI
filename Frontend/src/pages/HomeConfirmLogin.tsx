@@ -100,7 +100,7 @@ export default function HomeConfirmLogin() {
             if (firstRecent) {
               navigate(`/take-quiz/${firstRecent.quizCode || firstRecent.quizId}`);
             } else {
-              navigate("/quiz-inventory");
+              navigate("/quiz-manager");
             }
           }}
         />
