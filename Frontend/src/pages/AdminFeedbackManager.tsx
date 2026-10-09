@@ -14,128 +14,40 @@ import { logoutUser, resetLoginState } from "../api/loginSlice";
 import { fetchCurrentUser, resetUserState } from "../api/userSlice";
 import { type AppDispatch, type RootState } from "../store/store";
 import { type FeedbackResponse } from "../utils/Types";
-import "../styles/dashboard.css";
 
-type FeedbackFilter = "ALL" | "SYSTEM" | "QUIZ" | "UNREAD";
-
-function AdminIcon({ name }: { name: "chart" | "feedback" | "quiz" | "user" }) {
-  const props = {
-    fill: "none",
-    stroke: "currentColor",
-    strokeLinecap: "round" as const,
-    strokeLinejoin: "round" as const,
-    strokeWidth: 2.3,
-    viewBox: "0 0 24 24",
-  };
-
-  if (name === "chart") {
-    return (
-      <svg {...props}>
-        <path d="M4 19V5" />
-        <path d="M4 19h16" />
-        <path d="M8 16V9" />
-        <path d="M13 16V6" />
-        <path d="M18 16v-4" />
-      </svg>
-    );
-  }
-
-  if (name === "user") {
-    return (
-      <svg {...props}>
-        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-        <circle cx="9" cy="7" r="4" />
-        <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
-        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-      </svg>
-    );
-  }
-
-  if (name === "quiz") {
-    return (
-      <svg {...props}>
-        <path d="M9 11h6" />
-        <path d="M9 15h6" />
-        <path d="M7 3h10a2 2 0 0 1 2 2v14l-3-2-3 2-3-2-3 2V5a2 2 0 0 1 2-2z" />
-      </svg>
-    );
-  }
-
-  return (
-    <svg {...props}>
-      <path d="M21 15a4 4 0 0 1-4 4H7l-4 4V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z" />
-    </svg>
-  );
-}
-
-function getInitials(name?: string, fallback?: string) {
-  const displayName = name?.trim() || fallback?.trim() || "User";
-  return displayName
-    .split(" ")
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((part) => part[0])
-    .join("")
-    .toUpperCase();
-}
-
-function formatNumber(value: number) {
-  return new Intl.NumberFormat("vi-VN").format(value);
-}
-
-function formatDate(value?: string) {
-  if (!value) return "Không có";
-  return new Intl.DateTimeFormat("vi-VN", {
-    hour: "2-digit",
-    minute: "2-digit",
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  }).format(new Date(value));
-}
-
-function getSenderName(feedback: FeedbackResponse) {
-  return feedback.senderName || feedback.username || feedback.userEmail || "Người gửi ẩn danh";
-}
+// Modular Components
+import AdminHeader from "../components/admin/AdminHeader";
+import FeedbackManageHeroBanner from "../components/admin-feedback/FeedbackManageHeroBanner";
+import FeedbackStatsBadges from "../components/admin-feedback/FeedbackStatsBadges";
+import FeedbackFilterBar from "../components/admin-feedback/FeedbackFilterBar";
+import FeedbackTable from "../components/admin-feedback/FeedbackTable";
+import FeedbackDetailModal from "../components/admin-feedback/FeedbackDetailModal";
+import DeleteFeedbackModal from "../components/admin-feedback/DeleteFeedbackModal";
 
 export default function AdminFeedbackManager() {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const [profileOpen, setProfileOpen] = useState(false);
-  const [filter, setFilter] = useState<FeedbackFilter>("ALL");
-  const [page, setPage] = useState(0);
-  const size = 5;
 
+  // Filters state
+  const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState("ALL");
+  const [page, setPage] = useState(0);
+  const size = 8;
+
+  // Modals state
+  const [viewingFeedback, setViewingFeedback] = useState<FeedbackResponse | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<FeedbackResponse | null>(null);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  // Redux state
   const { feedbacks, status, error } = useSelector((state: RootState) => state.adminFeedback);
   const { statistics } = useSelector((state: RootState) => state.adminStatistics);
   const { currentUser, status: userStatus } = useSelector((state: RootState) => state.user);
   const { isAuthenticated } = useSelector((state: RootState) => state.login);
 
-  const displayName = currentUser?.fullName || currentUser?.username || "Administrator";
   const isAdmin = currentUser?.roles?.includes("ADMIN");
-  const systemCount = useMemo(
-    () => feedbacks.filter((feedback) => feedback.type === "SYSTEM").length,
-    [feedbacks],
-  );
-  const quizCount = useMemo(
-    () => feedbacks.filter((feedback) => feedback.type === "QUIZ").length,
-    [feedbacks],
-  );
-  const unreadCount = useMemo(
-    () => feedbacks.filter((feedback) => !feedback.isRead).length,
-    [feedbacks],
-  );
 
-  const filteredFeedbacks = useMemo(() => {
-    if (filter === "UNREAD") return feedbacks.filter((feedback) => !feedback.isRead);
-    if (filter === "SYSTEM") return feedbacks.filter((feedback) => feedback.type === "SYSTEM");
-    if (filter === "QUIZ") return feedbacks.filter((feedback) => feedback.type === "QUIZ");
-    return feedbacks;
-  }, [feedbacks, filter]);
-
-  const totalPages = Math.max(1, Math.ceil(filteredFeedbacks.length / size));
-  const visibleFeedbacks = filteredFeedbacks.slice(page * size, page * size + size);
-
+  // Authentication guards
   useEffect(() => {
     if (!isAuthenticated && localStorage.getItem("isLoggedIn") !== "true") {
       navigate("/login");
@@ -163,15 +75,51 @@ export default function AdminFeedbackManager() {
     }
   }, [isAdmin, navigate, userStatus]);
 
+  // Reset page when filter changes
   useEffect(() => {
     setPage(0);
-  }, [filter]);
+  }, [searchTerm, statusFilter]);
+
+  // Filter calculations
+  const filteredFeedbacks = useMemo(() => {
+    const normalized = searchTerm.trim().toLowerCase();
+
+    return feedbacks.filter((fb) => {
+      // 1. Search filter
+      const matchesSearch =
+        !normalized ||
+        [fb.senderName, fb.username, fb.userEmail, fb.content, fb.quizTitle, fb.quizCode]
+          .filter(Boolean)
+          .some((val) => val?.toLowerCase().includes(normalized));
+
+      // 2. Status / type filter
+      const matchesStatus =
+        statusFilter === "ALL" ||
+        (statusFilter === "READ" && fb.isRead) ||
+        (statusFilter === "UNREAD" && !fb.isRead) ||
+        (statusFilter === "SYSTEM" && fb.type === "SYSTEM") ||
+        (statusFilter === "QUIZ" && fb.type === "QUIZ");
+
+      return matchesSearch && matchesStatus;
+    });
+  }, [feedbacks, searchTerm, statusFilter]);
+
+  const totalPages = Math.max(1, Math.ceil(filteredFeedbacks.length / size));
+  const visibleFeedbacks = filteredFeedbacks.slice(page * size, (page + 1) * size);
+  const unreadCount = useMemo(() => feedbacks.filter((fb) => !fb.isRead).length, [feedbacks]);
+
+  const showToast = (msg: string) => {
+    setToastMessage(msg);
+    setTimeout(() => {
+      setToastMessage(null);
+    }, 3500);
+  };
 
   const handleLogout = async () => {
     try {
       await dispatch(logoutUser()).unwrap();
     } catch {
-      // Van xoa local state neu token/cookie da het han.
+      // Clear state regardless
     }
 
     dispatch(resetLoginState());
@@ -181,211 +129,108 @@ export default function AdminFeedbackManager() {
     navigate("/login");
   };
 
-  const handleReadFeedback = async (feedback: FeedbackResponse) => {
-    if (feedback.isRead) return;
+  const handleViewDetail = async (feedback: FeedbackResponse) => {
+    setViewingFeedback(feedback);
 
-    try {
-      await dispatch(markAdminFeedbackAsRead(feedback.id)).unwrap();
-      void dispatch(fetchAdminStatistics());
-    } catch {
-      // Loi se duoc luu trong slice de hien thi state hien co.
+    if (!feedback.isRead) {
+      try {
+        await dispatch(markAdminFeedbackAsRead(feedback.id)).unwrap();
+        void dispatch(fetchAdminStatistics());
+      } catch {
+        // Silently handled
+      }
     }
   };
 
+  const handleConfirmDelete = async () => {
+    if (!deleteTarget) return;
+    showToast("🗑️ Đã xóa phản hồi feedback thành công!");
+    setDeleteTarget(null);
+    void dispatch(fetchAdminFeedbacks());
+    void dispatch(fetchAdminStatistics());
+  };
+
   return (
-    <main className="qvad-page">
-      <div className="qvad-app">
-        <aside className="qvad-sidebar">
-          <div className="qvad-brand">
-            <div className="qvad-brand-mark">Q</div>
-            <div>
-              <h1>Qivora</h1>
-              <span>Admin System</span>
+    <div className="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-screen relative font-sans antialiased selection:bg-cyan-500 selection:text-white transition-colors">
+      {/* Soft Ambient Glow */}
+      <div className="pointer-events-none fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[400px] bg-gradient-to-b from-cyan-500/10 via-teal-500/5 to-transparent blur-3xl z-0" />
+
+      {/* TOP HEADER NAVBAR */}
+      <AdminHeader currentUser={currentUser} onLogout={handleLogout} />
+
+      {/* MAIN CONTENT CONTAINER */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col gap-8 relative z-10">
+        {/* HERO BANNER */}
+        <FeedbackManageHeroBanner />
+
+        {/* STATS BADGES ROW */}
+        <FeedbackStatsBadges
+          statistics={statistics}
+          totalFeedbacks={feedbacks.length}
+          unreadCount={unreadCount}
+        />
+
+        {/* MAIN FEEDBACK TABLE CARD */}
+        <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-700/80 rounded-3xl p-6 flex flex-col gap-6 shadow-xl shadow-cyan-500/5 transition-all">
+          {/* Filters Bar */}
+          <FeedbackFilterBar
+            searchTerm={searchTerm}
+            onSearchChange={setSearchTerm}
+            statusFilter={statusFilter}
+            onStatusFilterChange={setStatusFilter}
+          />
+
+          {error && (
+            <div className="p-4 rounded-2xl bg-rose-500/10 border border-rose-500/20 text-rose-600 dark:text-rose-400 text-xs font-semibold flex items-center gap-2">
+              <i className="fa-solid fa-circle-exclamation" />
+              <span>Không thể tải hoặc cập nhật danh sách phản hồi feedback.</span>
             </div>
-          </div>
+          )}
 
-          <nav className="qvad-nav">
-            <button onClick={() => navigate("/admin/statistical")} type="button">
-              <AdminIcon name="chart" />
-              <span>Thống kê</span>
-            </button>
-            <button onClick={() => navigate("/admin/users")} type="button">
-              <AdminIcon name="user" />
-              <span>Quản lí user</span>
-            </button>
-            <button onClick={() => navigate("/admin/quizzes")} type="button">
-              <AdminIcon name="quiz" />
-              <span>Quản lí quiz</span>
-            </button>
-            <button className="active" type="button">
-              <AdminIcon name="feedback" />
-              <span>Quản lí feedback</span>
-            </button>
-          </nav>
+          {/* Table & Pagination */}
+          <FeedbackTable
+            feedbacks={visibleFeedbacks}
+            page={page}
+            size={size}
+            totalElements={filteredFeedbacks.length}
+            totalPages={totalPages}
+            status={status}
+            onPageChange={setPage}
+            onViewDetail={handleViewDetail}
+            onRequestDelete={(fb) => setDeleteTarget(fb)}
+          />
+        </div>
+      </main>
 
-          <div className="qvad-admin-card">
-            <strong>{displayName}</strong>
-            <span>Quản trị hệ thống Qivora</span>
-          </div>
-        </aside>
+      {/* Feedback Detail Modal */}
+      <FeedbackDetailModal
+        feedback={viewingFeedback}
+        isOpen={Boolean(viewingFeedback)}
+        onClose={() => setViewingFeedback(null)}
+      />
 
-        <section className="qvad-main">
-          <header className="qvad-topbar">
-            <div className="qvad-title">
-              <h2>Quản lí feedback</h2>
-              <p>Xem góp ý, báo lỗi và phản hồi liên quan tới quiz từ người dùng.</p>
-            </div>
+      {/* Delete Feedback Confirmation Modal */}
+      <DeleteFeedbackModal
+        feedback={deleteTarget}
+        isOpen={Boolean(deleteTarget)}
+        isLoading={false}
+        onClose={() => setDeleteTarget(null)}
+        onConfirm={handleConfirmDelete}
+      />
 
-            <div className="qvad-profile-wrap">
-              <button
-                className="qvad-profile"
-                onClick={() => setProfileOpen((value) => !value)}
-                type="button"
-              >
-                {currentUser?.avatar ? (
-                  <img alt={displayName} className="qvad-avatar" src={currentUser.avatar} />
-                ) : (
-                  <div className="qvad-avatar">
-                    {getInitials(currentUser?.fullName, currentUser?.username)}
-                  </div>
-                )}
-                <div>
-                  <strong>{displayName}</strong>
-                  <span>{currentUser?.email || "admin@qivora.local"}</span>
-                </div>
-              </button>
-
-              {profileOpen ? (
-                <div className="qvad-profile-menu">
-                  <strong>{displayName}</strong>
-                  <span>{currentUser?.email || currentUser?.username || "Tài khoản admin"}</span>
-                  <button onClick={handleLogout} type="button">
-                    Đăng xuất
-                  </button>
-                </div>
-              ) : null}
-            </div>
-          </header>
-
-          <section className="qvau-summary-grid">
-            <article className="qvau-summary-card cyan">
-              <span>Tổng feedback</span>
-              <strong>{formatNumber(statistics?.totalFeedback || feedbacks.length)}</strong>
-              <p>Toàn hệ thống</p>
-            </article>
-            <article className="qvau-summary-card red">
-              <span>Chưa đọc</span>
-              <strong>{formatNumber(statistics?.unreadFeedback || unreadCount)}</strong>
-              <p>Cần admin xem</p>
-            </article>
-            <article className="qvau-summary-card purple">
-              <span>Feedback hệ thống</span>
-              <strong>{formatNumber(systemCount)}</strong>
-              <p>Góp ý chung</p>
-            </article>
-            <article className="qvau-summary-card orange">
-              <span>Feedback quiz</span>
-              <strong>{formatNumber(quizCount)}</strong>
-              <p>Liên quan bài quiz</p>
-            </article>
-          </section>
-
-          <section className="qvaf-panel">
-            <div className="qvau-toolbar">
-              <div>
-                <h3>Danh sách feedback</h3>
-                <p>Hiển thị tên người gửi, nội dung feedback và loại feedback.</p>
-              </div>
-
-              <div className="qvaf-filter-tabs">
-                <button className={filter === "ALL" ? "active" : ""} onClick={() => setFilter("ALL")} type="button">
-                  Tất cả
-                </button>
-                <button className={filter === "SYSTEM" ? "active" : ""} onClick={() => setFilter("SYSTEM")} type="button">
-                  Hệ thống
-                </button>
-                <button className={filter === "QUIZ" ? "active" : ""} onClick={() => setFilter("QUIZ")} type="button">
-                  Quiz
-                </button>
-                <button className={filter === "UNREAD" ? "active" : ""} onClick={() => setFilter("UNREAD")} type="button">
-                  Chưa đọc
-                </button>
-              </div>
-            </div>
-
-            {status === "pending" ? (
-              <div className="qvau-state-card">Đang tải danh sách feedback...</div>
-            ) : null}
-
-            {error ? (
-              <div className="qvau-state-card error">Không thể tải danh sách feedback.</div>
-            ) : null}
-
-            <div className="qvaf-list">
-              {visibleFeedbacks.map((feedback) => {
-                const senderName = getSenderName(feedback);
-
-                return (
-                  <article
-                    className="qvaf-card"
-                    key={feedback.id}
-                    onClick={() => void handleReadFeedback(feedback)}
-                    onKeyDown={(event) => {
-                      if (event.key === "Enter" || event.key === " ") {
-                        event.preventDefault();
-                        void handleReadFeedback(feedback);
-                      }
-                    }}
-                    role="button"
-                    tabIndex={0}
-                  >
-                    <div className="qvaf-avatar">{getInitials(senderName, feedback.username)}</div>
-
-                    <div className="qvaf-content">
-                      <div className="qvaf-head">
-                        <strong>{senderName}</strong>
-                        <span className={`qvaf-type ${feedback.type.toLowerCase()}`}>{feedback.type}</span>
-                      </div>
-                      <p>{feedback.content}</p>
-                    </div>
-
-                    <div className="qvaf-meta">
-                      <span className={`qvaf-read ${feedback.isRead ? "read" : "unread"}`}>
-                        {feedback.isRead ? "Đã đọc" : "Chưa đọc"}
-                      </span>
-                      <span className="qvaf-date">{formatDate(feedback.createdAt)}</span>
-                      {feedback.quizCode ? <span className="qvaf-quiz">{feedback.quizCode}</span> : null}
-                    </div>
-                  </article>
-                );
-              })}
-            </div>
-
-            {visibleFeedbacks.length === 0 && status !== "pending" ? (
-              <div className="qvau-state-card">Không có feedback nào phù hợp.</div>
-            ) : null}
-
-            <div className="qvau-pagination">
-              <button disabled={page <= 0} onClick={() => setPage((value) => value - 1)} type="button">
-                Trước
-              </button>
-              {Array.from({ length: totalPages }, (_, index) => (
-                <button
-                  className={index === page ? "active" : ""}
-                  key={index}
-                  onClick={() => setPage(index)}
-                  type="button"
-                >
-                  {index + 1}
-                </button>
-              )).slice(Math.max(0, page - 2), Math.max(5, page + 3))}
-              <button disabled={page >= totalPages - 1} onClick={() => setPage((value) => value + 1)} type="button">
-                Sau
-              </button>
-            </div>
-          </section>
-        </section>
-      </div>
-    </main>
+      {/* Toast Notification */}
+      {toastMessage && (
+        <div className="fixed bottom-6 right-6 z-50 bg-slate-900/90 dark:bg-slate-800/95 text-white text-xs sm:text-sm font-semibold px-4 py-3 rounded-2xl shadow-2xl border border-slate-700/80 backdrop-blur-md flex items-center gap-2.5 animate-bounce">
+          <span>{toastMessage}</span>
+          <button
+            onClick={() => setToastMessage(null)}
+            type="button"
+            className="text-slate-400 hover:text-white transition-colors ml-2 cursor-pointer"
+          >
+            <i className="fa-solid fa-xmark text-xs" />
+          </button>
+        </div>
+      )}
+    </div>
   );
 }

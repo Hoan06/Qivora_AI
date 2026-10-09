@@ -8,12 +8,24 @@ jwt-refresh-secret: ${JWT_REFRESH_SECRET}
 jwt-reset-secret: ${JWT_RESET_SECRET}
 jwt-secret: ${JWT_SECRET}
 spring:
+    application:
+        name: Backend
     ai:
         google:
             genai:
                 api-key: ${GOOGLE_GENAI_API_KEY}
                 chat:
                     model: gemini-2.5-flash
+                    temperature: 0.3
+                embedding:
+                    options:
+                        model: gemini-embedding-001
+        vectorstore:
+            pgvector:
+                initialize-schema: true
+                dimensions: 768
+                index-type: hnsw
+                distance-type: cosine_distance
     data:
         redis:
             host: ${REDIS_HOST}
@@ -21,7 +33,7 @@ spring:
     datasource:
         driver-class-name: org.postgresql.Driver
         password: ${DB_PASSWORD}
-        url: jdbc:postgresql://localhost:5432/qivora?createDatabaseIfNotExist=true
+        url: jdbc:postgresql://localhost:5433/qivora?createDatabaseIfNotExist=true
         username: ${DB_USERNAME}
     jpa:
         hibernate:
@@ -35,6 +47,4 @@ spring:
         multipart:
             max-file-size: 15MB
             max-request-size: 15MB
-﻿spring:
-    application:
-        name: Backend
+

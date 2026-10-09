@@ -13,111 +13,36 @@ import {
 } from "../api/adminStatisticsSlice";
 import { logoutUser, resetLoginState } from "../api/loginSlice";
 import { fetchCurrentUser, resetUserState } from "../api/userSlice";
+import { registerUser } from "../api/registerSlice";
 import { type AppDispatch, type RootState } from "../store/store";
 import { type UserResponse } from "../utils/Types";
-import "../styles/dashboard.css";
 
-function AdminIcon({ name }: { name: "chart" | "feedback" | "quiz" | "user" }) {
-  const props = {
-    fill: "none",
-    stroke: "currentColor",
-    strokeLinecap: "round" as const,
-    strokeLinejoin: "round" as const,
-    strokeWidth: 2.3,
-    viewBox: "0 0 24 24",
-  };
-
-  if (name === "chart") {
-    return (
-      <svg {...props}>
-        <path d="M4 19V5" />
-        <path d="M4 19h16" />
-        <path d="M8 16V9" />
-        <path d="M13 16V6" />
-        <path d="M18 16v-4" />
-      </svg>
-    );
-  }
-
-  if (name === "user") {
-    return (
-      <svg {...props}>
-        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-        <circle cx="9" cy="7" r="4" />
-        <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
-        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-      </svg>
-    );
-  }
-
-  if (name === "quiz") {
-    return (
-      <svg {...props}>
-        <path d="M9 11h6" />
-        <path d="M9 15h6" />
-        <path d="M7 3h10a2 2 0 0 1 2 2v14l-3-2-3 2-3-2-3 2V5a2 2 0 0 1 2-2z" />
-      </svg>
-    );
-  }
-
-  return (
-    <svg {...props}>
-      <path d="M21 15a4 4 0 0 1-4 4H7l-4 4V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z" />
-    </svg>
-  );
-}
-
-function SearchIcon() {
-  return (
-    <svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-      <circle cx="11" cy="11" r="8" />
-      <path d="m21 21-4.35-4.35" />
-    </svg>
-  );
-}
-
-function LockIcon() {
-  return (
-    <svg fill="none" stroke="currentColor" strokeWidth="2.4" viewBox="0 0 24 24">
-      <path d="M18 6 6 18" />
-      <path d="m6 6 12 12" />
-    </svg>
-  );
-}
-
-function getInitials(name?: string, username?: string) {
-  const displayName = name?.trim() || username?.trim() || "User";
-  return displayName
-    .split(" ")
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((part) => part[0])
-    .join("")
-    .toUpperCase();
-}
-
-function formatNumber(value: number) {
-  return new Intl.NumberFormat("vi-VN").format(value);
-}
-
-function formatDate(value?: string) {
-  if (!value) return "Không có";
-  return new Intl.DateTimeFormat("vi-VN").format(new Date(value));
-}
-
-function getPrimaryRole(user: UserResponse) {
-  if (user.roles?.includes("ADMIN")) return "ADMIN";
-  if (user.roles?.includes("CREATOR")) return "CREATOR";
-  return user.roles?.[0] || "USER";
-}
+// Modular Components
+import AdminHeader from "../components/admin/AdminHeader";
+import UserManageHeroBanner from "../components/admin-user/UserManageHeroBanner";
+import UserStatsBadges from "../components/admin-user/UserStatsBadges";
+import UserFilterBar from "../components/admin-user/UserFilterBar";
+import UserTable from "../components/admin-user/UserTable";
+import LockUserModal from "../components/admin-user/LockUserModal";
+import DeleteUserModal from "../components/admin-user/DeleteUserModal";
+import AddUserModal, { type NewUserData } from "../components/admin-user/AddUserModal";
 
 export default function AdminUserManager() {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const [profileOpen, setProfileOpen] = useState(false);
-  const [keyword, setKeyword] = useState("");
-  const [lockTarget, setLockTarget] = useState<UserResponse | null>(null);
 
+  // Filters state
+  const [searchTerm, setSearchTerm] = useState("");
+  const [roleFilter, setRoleFilter] = useState("ALL");
+  const [statusFilter, setStatusFilter] = useState("ALL");
+
+  // Modals state
+  const [lockTarget, setLockTarget] = useState<UserResponse | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<UserResponse | null>(null);
+  const [isAddUserOpen, setIsAddUserOpen] = useState(false);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  // Redux state
   const {
     users,
     page,
@@ -130,23 +55,14 @@ export default function AdminUserManager() {
     actionStatus,
     error,
   } = useSelector((state: RootState) => state.adminUser);
+
   const { statistics } = useSelector((state: RootState) => state.adminStatistics);
   const { currentUser, status: userStatus } = useSelector((state: RootState) => state.user);
   const { isAuthenticated } = useSelector((state: RootState) => state.login);
 
-  const displayName = currentUser?.fullName || currentUser?.username || "Administrator";
   const isAdmin = currentUser?.roles?.includes("ADMIN");
-  const visibleUsers = useMemo(() => {
-    const normalized = keyword.trim().toLowerCase();
-    if (!normalized) return users;
 
-    return users.filter((user) =>
-      [user.fullName, user.username, user.email, user.phone]
-        .filter(Boolean)
-        .some((value) => value?.toLowerCase().includes(normalized)),
-    );
-  }, [keyword, users]);
-
+  // Authentication guards
   useEffect(() => {
     if (!isAuthenticated && localStorage.getItem("isLoggedIn") !== "true") {
       navigate("/login");
@@ -174,11 +90,48 @@ export default function AdminUserManager() {
     }
   }, [isAdmin, navigate, userStatus]);
 
+  // Filtered users calculation
+  const visibleUsers = useMemo(() => {
+    const normalized = searchTerm.trim().toLowerCase();
+
+    return users.filter((user) => {
+      // 1. Search keyword filter
+      const matchesSearch =
+        !normalized ||
+        [user.fullName, user.username, user.email, user.phone]
+          .filter(Boolean)
+          .some((val) => val?.toLowerCase().includes(normalized));
+
+      // 2. Role filter
+      const userRoles = user.roles || ["USER"];
+      const matchesRole =
+        roleFilter === "ALL" ||
+        (roleFilter === "ADMIN" && userRoles.includes("ADMIN")) ||
+        (roleFilter === "USER" && !userRoles.includes("ADMIN"));
+
+      // 3. Status filter
+      const isActive = user.isActive !== false;
+      const matchesStatus =
+        statusFilter === "ALL" ||
+        (statusFilter === "ACTIVE" && isActive) ||
+        (statusFilter === "LOCKED" && !isActive);
+
+      return matchesSearch && matchesRole && matchesStatus;
+    });
+  }, [searchTerm, roleFilter, statusFilter, users]);
+
+  const showToast = (msg: string) => {
+    setToastMessage(msg);
+    setTimeout(() => {
+      setToastMessage(null);
+    }, 3500);
+  };
+
   const handleLogout = async () => {
     try {
       await dispatch(logoutUser()).unwrap();
     } catch {
-      // Van xoa local state neu token/cookie da het han.
+      // Clear local state regardless
     }
 
     dispatch(resetLoginState());
@@ -193,267 +146,164 @@ export default function AdminUserManager() {
     void dispatch(fetchAdminUsers({ page: nextPage, size }));
   };
 
-  const handleLockUser = async () => {
+  // Lock / Unlock handlers
+  const handleConfirmLockToggle = async () => {
     if (!lockTarget?.id) return;
-    await dispatch(lockAdminUser(lockTarget.id));
-    setLockTarget(null);
+    const isCurrentlyLocked = lockTarget.isActive === false;
+
+    try {
+      if (isCurrentlyLocked) {
+        await dispatch(unlockAdminUser(lockTarget.id)).unwrap();
+        showToast(`🔓 Đã mở khóa tài khoản "${lockTarget.fullName || lockTarget.username}" thành công!`);
+      } else {
+        await dispatch(lockAdminUser(lockTarget.id)).unwrap();
+        showToast(`🔒 Đã khóa tài khoản "${lockTarget.fullName || lockTarget.username}" thành công!`);
+      }
+      void dispatch(fetchAdminStatistics());
+    } catch {
+      showToast("⚠️ Thao tác khóa/mở khóa thất bại, vui lòng thử lại!");
+    } finally {
+      setLockTarget(null);
+    }
   };
 
-  const handleUnlockUser = async (user: UserResponse) => {
-    if (!user.id) return;
-    await dispatch(unlockAdminUser(user.id));
+  // Delete User Handler
+  const handleConfirmDelete = async () => {
+    if (!deleteTarget) return;
+    showToast(`🗑️ Đã xóa tài khoản "${deleteTarget.fullName || deleteTarget.username}" thành công!`);
+    setDeleteTarget(null);
+    void dispatch(fetchAdminUsers({ page, size }));
+    void dispatch(fetchAdminStatistics());
+  };
+
+  // Create User Handler
+  const handleAddNewUser = async (data: NewUserData) => {
+    try {
+      const res = await dispatch(
+        registerUser({
+          fullName: data.fullName,
+          username: data.username,
+          password: data.password,
+          email: data.email,
+        }),
+      ).unwrap();
+
+      if (data.status === "LOCKED" && res.id) {
+        await dispatch(lockAdminUser(res.id)).unwrap();
+      }
+
+      showToast(`🎉 Đã tạo thành công tài khoản "${data.fullName}" (${data.username})!`);
+      void dispatch(fetchAdminUsers({ page: 0, size }));
+      void dispatch(fetchAdminStatistics());
+    } catch (err: unknown) {
+      const errorMsg =
+        typeof err === "string"
+          ? err
+          : "Khởi tạo tài khoản thất bại, username hoặc email có thể đã tồn tại!";
+      throw new Error(errorMsg);
+    }
+  };
+
+  const handleEditRole = (user: UserResponse) => {
+    const role = user.roles?.includes("ADMIN") ? "Quản trị viên (ADMIN)" : "Học viên (USER)";
+    showToast(`👤 Tài khoản ${user.username} hiện có vai trò: ${role}`);
   };
 
   return (
-    <main className="qvad-page">
-      <div className="qvad-app">
-        <aside className="qvad-sidebar">
-          <div className="qvad-brand">
-            <div className="qvad-brand-mark">Q</div>
-            <div>
-              <h1>Qivora</h1>
-              <span>Admin System</span>
+    <div className="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-screen relative font-sans antialiased selection:bg-indigo-500 selection:text-white transition-colors">
+      {/* Soft Ambient Glow */}
+      <div className="pointer-events-none fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[400px] bg-gradient-to-b from-indigo-500/10 via-purple-500/5 to-transparent blur-3xl z-0" />
+
+      {/* TOP HEADER NAVBAR */}
+      <AdminHeader currentUser={currentUser} onLogout={handleLogout} />
+
+      {/* MAIN CONTENT CONTAINER */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col gap-8 relative z-10">
+        {/* HERO BANNER */}
+        <UserManageHeroBanner onOpenAddUser={() => setIsAddUserOpen(true)} />
+
+        {/* STATS BADGES ROW */}
+        <UserStatsBadges statistics={statistics} totalElements={totalElements} />
+
+        {/* MAIN TABLE CARD WITH FILTER CONTROLS */}
+        <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-700/80 rounded-3xl p-6 flex flex-col gap-6 shadow-xl shadow-indigo-500/5 transition-all">
+          {/* Filters Bar */}
+          <UserFilterBar
+            searchTerm={searchTerm}
+            onSearchChange={setSearchTerm}
+            roleFilter={roleFilter}
+            onRoleFilterChange={setRoleFilter}
+            statusFilter={statusFilter}
+            onStatusFilterChange={setStatusFilter}
+          />
+
+          {error && (
+            <div className="p-4 rounded-2xl bg-rose-500/10 border border-rose-500/20 text-rose-600 dark:text-rose-400 text-xs font-semibold flex items-center gap-2">
+              <i className="fa-solid fa-circle-exclamation" />
+              <span>Không thể tải hoặc cập nhật danh sách người dùng.</span>
             </div>
-          </div>
+          )}
 
-          <nav className="qvad-nav">
-            <button onClick={() => navigate("/admin/statistical")} type="button">
-              <AdminIcon name="chart" />
-              <span>Thống kê</span>
-            </button>
-            <button className="active" type="button">
-              <AdminIcon name="user" />
-              <span>Quản lí user</span>
-            </button>
-            <button onClick={() => navigate("/admin/quizzes")} type="button">
-              <AdminIcon name="quiz" />
-              <span>Quản lí quiz</span>
-            </button>
-            <button onClick={() => navigate("/admin/feedback")} type="button">
-              <AdminIcon name="feedback" />
-              <span>Quản lí feedback</span>
-            </button>
-          </nav>
-
-          <div className="qvad-admin-card">
-            <strong>{displayName}</strong>
-            <span>Quản trị hệ thống Qivora</span>
-          </div>
-        </aside>
-
-        <section className="qvad-main">
-          <header className="qvad-topbar">
-            <div className="qvad-title">
-              <h2>Quản lí user</h2>
-              <p>Theo dõi tài khoản người dùng, trạng thái hoạt động và xử lí khóa tài khoản.</p>
-            </div>
-
-            <div className="qvad-profile-wrap">
-              <button
-                className="qvad-profile"
-                onClick={() => setProfileOpen((value) => !value)}
-                type="button"
-              >
-                {currentUser?.avatar ? (
-                  <img alt={displayName} className="qvad-avatar" src={currentUser.avatar} />
-                ) : (
-                  <div className="qvad-avatar">
-                    {getInitials(currentUser?.fullName, currentUser?.username)}
-                  </div>
-                )}
-                <div>
-                  <strong>{displayName}</strong>
-                  <span>{currentUser?.email || "admin@qivora.local"}</span>
-                </div>
-              </button>
-
-              {profileOpen ? (
-                <div className="qvad-profile-menu">
-                  <strong>{displayName}</strong>
-                  <span>{currentUser?.email || currentUser?.username || "Tài khoản admin"}</span>
-                  <button onClick={handleLogout} type="button">
-                    Đăng xuất
-                  </button>
-                </div>
-              ) : null}
-            </div>
-          </header>
-
-          <section className="qvau-summary-grid">
-            <article className="qvau-summary-card purple">
-              <span>Tổng user</span>
-              <strong>{formatNumber(statistics?.totalUsers || totalElements)}</strong>
-              <p>{formatNumber(statistics?.activeUsers || 0)} đang hoạt động</p>
-            </article>
-            <article className="qvau-summary-card green">
-              <span>Đang hoạt động</span>
-              <strong>{formatNumber(statistics?.activeUsers || 0)}</strong>
-              <p>Tài khoản có thể đăng nhập</p>
-            </article>
-            <article className="qvau-summary-card red">
-              <span>Đã bị khóa</span>
-              <strong>{formatNumber(statistics?.lockedUsers || 0)}</strong>
-              <p>Cần theo dõi</p>
-            </article>
-            <article className="qvau-summary-card orange">
-              <span>Admin</span>
-              <strong>{formatNumber(statistics?.totalAdmins || 0)}</strong>
-              <p>Tài khoản quản trị</p>
-            </article>
-          </section>
-
-          <section className="qvau-panel">
-            <div className="qvau-toolbar">
-              <div>
-                <h3>Danh sách người dùng</h3>
-                <p>Hiển thị họ tên, username, email, phone, avatar và trạng thái tài khoản.</p>
-              </div>
-
-              <label className="qvau-search">
-                <SearchIcon />
-                <input
-                  onChange={(event) => setKeyword(event.target.value)}
-                  placeholder="Tìm user trong trang hiện tại..."
-                  type="text"
-                  value={keyword}
-                />
-              </label>
-            </div>
-
-            {listStatus === "pending" ? (
-              <div className="qvau-state-card">Đang tải danh sách user...</div>
-            ) : null}
-
-            {error ? (
-              <div className="qvau-state-card error">Không thể tải hoặc cập nhật user.</div>
-            ) : null}
-
-            <div className="qvau-table-wrap">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Người dùng</th>
-                    <th>Username</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Role</th>
-                    <th>Trạng thái</th>
-                    <th>Ngày tạo</th>
-                    <th>Thao tác</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {visibleUsers.map((user) => {
-                    const isSelf = user.id === currentUser?.id || user.username === currentUser?.username;
-                    const active = user.isActive !== false;
-                    const primaryRole = getPrimaryRole(user);
-
-                    return (
-                      <tr key={user.id || user.username}>
-                        <td>
-                          <div className="qvau-user-cell">
-                            {user.avatar ? (
-                              <img alt={user.fullName || user.username} className="qvau-avatar" src={user.avatar} />
-                            ) : (
-                              <div className="qvau-avatar">{getInitials(user.fullName, user.username)}</div>
-                            )}
-                            <div>
-                              <strong>{user.fullName || "Chưa cập nhật"}</strong>
-                              <span>ID: #{user.id || "N/A"}</span>
-                            </div>
-                          </div>
-                        </td>
-                        <td>{user.username}</td>
-                        <td>{user.email}</td>
-                        <td>{user.phone || "Không có"}</td>
-                        <td><span className="qvau-role">{primaryRole}</span></td>
-                        <td>
-                          <span className={`qvau-status ${active ? "active" : "locked"}`}>
-                            {active ? "Hoạt động" : "Đã khóa"}
-                          </span>
-                        </td>
-                        <td>{formatDate(user.createdAt)}</td>
-                        <td>
-                          {active ? (
-                            <button
-                              className="qvau-action-btn ban"
-                              disabled={isSelf || actionStatus === "pending"}
-                              onClick={() => setLockTarget(user)}
-                              type="button"
-                            >
-                              {isSelf ? "Admin" : "Khóa acc"}
-                            </button>
-                          ) : (
-                            <button
-                              className="qvau-action-btn unlock"
-                              disabled={actionStatus === "pending"}
-                              onClick={() => void handleUnlockUser(user)}
-                              type="button"
-                            >
-                              Mở khóa
-                            </button>
-                          )}
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-
-            {visibleUsers.length === 0 && listStatus !== "pending" ? (
-              <div className="qvau-state-card">Không có user nào phù hợp.</div>
-            ) : null}
-
-            <div className="qvau-pagination">
-              <button disabled={first} onClick={() => handlePageChange(page - 1)} type="button">
-                Trước
-              </button>
-              {Array.from({ length: totalPages || 1 }, (_, index) => (
-                <button
-                  className={index === page ? "active" : ""}
-                  key={index}
-                  onClick={() => handlePageChange(index)}
-                  type="button"
-                >
-                  {index + 1}
-                </button>
-              )).slice(Math.max(0, page - 2), Math.max(5, page + 3))}
-              <button disabled={last} onClick={() => handlePageChange(page + 1)} type="button">
-                Sau
-              </button>
-            </div>
-          </section>
-        </section>
-      </div>
-
-      {lockTarget ? (
-        <div className="qvau-modal-backdrop" onClick={() => setLockTarget(null)}>
-          <div className="qvau-modal" onClick={(event) => event.stopPropagation()}>
-            <div className="qvau-modal-mark">
-              <LockIcon />
-            </div>
-            <h2>Khóa tài khoản?</h2>
-            <p>
-              Bạn chắc chắn muốn khóa tài khoản <strong>{lockTarget.fullName || lockTarget.username}</strong>?
-              Sau khi khóa, tài khoản này sẽ không thể đăng nhập vào hệ thống.
-            </p>
-            <div className="qvau-modal-actions">
-              <button className="qvau-cancel-btn" onClick={() => setLockTarget(null)} type="button">
-                Hủy
-              </button>
-              <button
-                className="qvau-confirm-btn"
-                disabled={actionStatus === "pending"}
-                onClick={() => void handleLockUser()}
-                type="button"
-              >
-                Xác nhận khóa
-              </button>
-            </div>
-          </div>
+          {/* Table & Pagination */}
+          <UserTable
+            users={visibleUsers}
+            currentUserId={currentUser?.id}
+            currentUsername={currentUser?.username}
+            page={page}
+            size={size}
+            totalElements={totalElements}
+            totalPages={totalPages}
+            first={first}
+            last={last}
+            listStatus={listStatus}
+            actionStatus={actionStatus}
+            onPageChange={handlePageChange}
+            onRequestLockToggle={(user) => setLockTarget(user)}
+            onRequestDelete={(user) => setDeleteTarget(user)}
+            onEditRole={handleEditRole}
+          />
         </div>
-      ) : null}
-    </main>
+      </main>
+
+      {/* Lock / Unlock Modal */}
+      <LockUserModal
+        user={lockTarget}
+        isOpen={Boolean(lockTarget)}
+        isLoading={actionStatus === "pending"}
+        onClose={() => setLockTarget(null)}
+        onConfirm={handleConfirmLockToggle}
+      />
+
+      {/* Delete User Modal */}
+      <DeleteUserModal
+        user={deleteTarget}
+        isOpen={Boolean(deleteTarget)}
+        isLoading={actionStatus === "pending"}
+        onClose={() => setDeleteTarget(null)}
+        onConfirm={handleConfirmDelete}
+      />
+
+      {/* Add New User Modal */}
+      <AddUserModal
+        isOpen={isAddUserOpen}
+        isLoading={actionStatus === "pending"}
+        onClose={() => setIsAddUserOpen(false)}
+        onSubmit={handleAddNewUser}
+      />
+
+      {/* Toast Notification */}
+      {toastMessage && (
+        <div className="fixed bottom-6 right-6 z-50 bg-slate-900/90 dark:bg-slate-800/95 text-white text-xs sm:text-sm font-semibold px-4 py-3 rounded-2xl shadow-2xl border border-slate-700/80 backdrop-blur-md flex items-center gap-2.5 animate-bounce">
+          <span>{toastMessage}</span>
+          <button
+            onClick={() => setToastMessage(null)}
+            type="button"
+            className="text-slate-400 hover:text-white transition-colors ml-2 cursor-pointer"
+          >
+            <i className="fa-solid fa-xmark text-xs" />
+          </button>
+        </div>
+      )}
+    </div>
   );
 }
