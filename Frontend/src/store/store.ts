@@ -1,4 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
+import adminDocumentReducer from "../api/adminDocumentSlice";
 import adminFeedbackReducer from "../api/adminFeedbackSlice";
 import adminQuizReducer from "../api/adminQuizSlice";
 import adminStatisticsReducer from "../api/adminStatisticsSlice";
@@ -14,9 +15,11 @@ import registerReducer from "../api/registerSlice";
 import systemQuizReducer from "../api/systemQuizSlice";
 import takeQuizReducer from "../api/takeQuizSlice";
 import userReducer from "../api/userSlice";
+import chatReducer from "../api/chatSlice";
 
 export const store = configureStore({
   reducer: {
+    adminDocument: adminDocumentReducer,
     adminFeedback: adminFeedbackReducer,
     adminQuiz: adminQuizReducer,
     adminStatistics: adminStatisticsReducer,
@@ -32,6 +35,7 @@ export const store = configureStore({
     systemQuiz: systemQuizReducer,
     takeQuiz: takeQuizReducer,
     user: userReducer,
+    chat: chatReducer,
   },
 });
 

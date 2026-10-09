@@ -277,3 +277,31 @@ export interface QuizAttemptDetailResponse {
   correctQuestions: number;
   questions: QuizAttemptQuestionResultResponse[];
 }
+
+export type DocumentStatus = "PROCESSING" | "COMPLETED" | "FAILED" | "PENDING";
+
+export interface DocumentResponse {
+  id: number;
+  name: string;
+  fileType: string;
+  fileSize: number;
+  status: DocumentStatus;
+  chunkCount: number;
+  isActive?: boolean;
+  createdAt: string;
+  linkDocument?: string;
+  uploaderId?: number;
+  uploaderUsername?: string;
+  sampleContent?: string;
+}
+
+export interface ChatRequest {
+  message: string;
+  conversationId: string;
+}
+
+export interface ChatResponse {
+  reply: string;
+  conversationId: string;
+}
+

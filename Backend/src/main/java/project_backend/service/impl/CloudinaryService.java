@@ -15,21 +15,22 @@ public class CloudinaryService {
 
     private final Cloudinary cloudinary;
 
-    public String uploadPdf(MultipartFile file) throws IOException {
-        Map uploadResult = cloudinary.uploader().upload(file.getBytes(),
-                ObjectUtils.asMap(
-                        "resource_type", "auto",
-                        "folder", "candidate_cvs"
-                ));
-
-        return uploadResult.get("secure_url").toString();
-    }
 
     public String uploadAvatar(MultipartFile file) throws IOException {
         Map uploadResult = cloudinary.uploader().upload(file.getBytes(),
                 ObjectUtils.asMap(
                         "resource_type", "image",
                         "folder", "qivora_avatars"
+                ));
+
+        return uploadResult.get("secure_url").toString();
+    }
+
+    public String uploadDocument(MultipartFile file) throws IOException {
+        Map uploadResult = cloudinary.uploader().upload(file.getBytes(),
+                ObjectUtils.asMap(
+                   "resource_type","auto",
+                   "folder", "qivora_documents_ingest"
                 ));
 
         return uploadResult.get("secure_url").toString();

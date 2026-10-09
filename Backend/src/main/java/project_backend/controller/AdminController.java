@@ -1,25 +1,21 @@
 package project_backend.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import project_backend.model.dto.request.SoftDeleteViolationQuizRequest;
-import project_backend.model.dto.response.AdminStatisticsResponse;
-import project_backend.model.dto.response.ApiDataResponse;
-import project_backend.model.dto.response.FeedbackResponse;
-import project_backend.model.dto.response.PageResponse;
-import project_backend.model.dto.response.UserResponse;
+import project_backend.model.dto.response.*;
+import project_backend.model.entity.Document;
 import project_backend.service.AdminService;
+import project_backend.service.DocumentService;
 import project_backend.service.FeedbackService;
+import project_backend.service.impl.IngestService;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -28,6 +24,8 @@ import java.util.List;
 public class AdminController {
     private final AdminService adminService;
     private final FeedbackService feedbackService;
+    private final IngestService ingestService;
+    private final DocumentService documentService;
 
     @GetMapping("/statistics")
     public ResponseEntity<ApiDataResponse<AdminStatisticsResponse>> getStatistics() {
@@ -120,4 +118,30 @@ public class AdminController {
                 HttpStatus.OK
         ));
     }
+
+    @PostMapping("/ingest")
+    public ResponseEntity<ApiDataResponse<String>> ingestDocument(@RequestParam("file") MultipartFile file) throws IOException {
+        return new ResponseEntity<>(new ApiDataResponse<>(
+                true,
+                "Đã đẩy tài liệu lên thành công.",
+                ingestService.ingestDocument(file),
+                null,
+                HttpStatus.CREATED
+        ) , HttpStatus.CREATED);
+    }
+
+    @GetMapping("/documents")
+    public ResponseEntity<ApiDataResponse<PageResponse<DocumentResponse>>> getDocuments(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size
+    ) {
+        return ResponseEntity.ok(new ApiDataResponse<>(
+                true,
+                "Lấy danh sách kiến thức hệ thống thành công.",
+                documentService.getDocuments(page, size),
+                null,
+                HttpStatus.OK
+        ));
+    }
+
 }

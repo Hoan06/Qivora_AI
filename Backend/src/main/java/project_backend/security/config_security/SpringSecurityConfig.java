@@ -50,6 +50,7 @@ public class SpringSecurityConfig {
                         .requestMatchers("/api/v1/quizzes/code/*/start").permitAll()
                         .requestMatchers("/api/v1/attempts/*/submit").permitAll()
                         .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/v1/chat/**").hasAnyRole("USER", "ADMIN")
                         .anyRequest().authenticated())
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(jwtAuthenticationEntryPoint())

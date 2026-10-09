@@ -1,4 +1,5 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
+import AdminDocumentManager from "../pages/AdminDocumentManager";
 import AdminFeedbackManager from "../pages/AdminFeedbackManager";
 import AdminQuizManager from "../pages/AdminQuizManager";
 import AdminUserManager from "../pages/AdminUserManager";
@@ -84,4 +85,9 @@ export const routers = createBrowserRouter([
     path: "/admin/feedback",
     element: <AdminFeedbackManager />,
   },
+  {
+    path: "/admin/documents",
+    element: <AdminDocumentManager />,
+  },
 ]);
+
